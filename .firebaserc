@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "miscs-randd"
+  },
+  "targets": {
+    "miscs-randd": {
+      "hosting": {
+        "bibliotheca-site": [
+          "bibliotheca"
+        ]
+      }
+    }
+  }
+}

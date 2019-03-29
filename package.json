@@ -32,7 +32,8 @@
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
-    "eject": "react-app-rewired eject"
+    "eject": "react-app-rewired eject",
+    "deploy-site": "firebase deploy --only hosting:bibliotheca-site"
   },
   "browserslist": [
     ">0.2%",
