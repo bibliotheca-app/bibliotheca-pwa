@@ -3,6 +3,7 @@ import { GlobalActions } from 'src/features/global/interface';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import { Button } from './Button';
+import { Link } from './Link';
 
 const Header = styled.div`
   display: flex;
@@ -33,6 +34,7 @@ export const Dashboard = (props: DashboardProps) => {
     <>
       <Header>
         <AppName>Starter</AppName>
+        <Link href="/book-list">書籍一覧</Link>
         <Button onClick={logout}>logout</Button>
       </Header>
       <Main>{children}</Main>

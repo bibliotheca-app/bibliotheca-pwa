@@ -11,3 +11,8 @@ export interface RouteConfig {
 export interface User {
   firebaseAuth: FirebaseUser;
 }
+
+export interface Book {
+  isbn: number;
+  title: string;
+}
