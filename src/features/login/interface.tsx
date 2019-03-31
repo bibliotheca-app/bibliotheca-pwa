@@ -1,6 +1,5 @@
 import React from 'react';
 import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { FormState } from 'src/form';
 import { RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
@@ -8,11 +7,7 @@ import { createActions } from 'typeless';
 export const MODULE = 'login';
 
 // --- Actions ---
-export const LoginActions = createActions(MODULE, {
-  $mounted: null,
-  setLoading: (isLoading: boolean) => ({ payload: { isLoading } }),
-  setError: (error: string) => ({ payload: { error } }),
-});
+export const LoginActions = createActions(MODULE, { auth: null });
 
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
@@ -31,20 +26,11 @@ export const routeConfig: RouteConfig = {
 };
 
 // --- Types ---
-
-export interface LoginFormValues {
-  username: string;
-  password: string;
-}
-
-export interface LoginState {
-  isLoading: boolean;
-  error: string;
-}
+// tslint:disable-next-line:no-empty-interface
+export interface LoginState {}
 
 declare module 'typeless/types' {
   export interface DefaultState {
-    login: LoginState;
-    loginForm: FormState<LoginFormValues>;
+    ['login']: LoginState;
   }
 }

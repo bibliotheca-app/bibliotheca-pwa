@@ -44,5 +44,8 @@
   "prettier": {
     "singleQuote": true,
     "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "firebase": "^5.9.2"
   }
 }

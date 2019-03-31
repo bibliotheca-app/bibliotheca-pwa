@@ -1,9 +1,11 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import * as R from 'remeda';
+import { authService } from 'src';
+import { GlobalActions } from 'src/features/global/interface';
 import { useGlobalModule } from 'src/features/global/module';
 import { useRouterModule } from 'src/features/router/module';
 import { createGlobalStyle } from 'styled-components';
-import { useMappedState } from 'typeless';
+import { useActions, useMappedState } from 'typeless';
 import { RouteResolver } from './RouteResolver';
 
 const GlobalStyle = createGlobalStyle`
@@ -29,6 +31,8 @@ const GlobalStyle = createGlobalStyle`
 export const App = () => {
   useRouterModule();
   useGlobalModule();
+  const { loggedIn } = useActions(GlobalActions);
+  useEffect(() => authService.subscribe(user => loggedIn(user)));
   const { isLoaded } = useMappedState(state =>
     R.pick(state.global, ['isLoaded'])
   );

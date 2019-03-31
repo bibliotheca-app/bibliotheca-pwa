@@ -1,3 +1,4 @@
+import { User as FirebaseUser } from 'firebase/app';
 import { User } from 'src/types';
 import { createActions } from 'typeless';
 
@@ -8,7 +9,7 @@ export const MODULE = 'global';
 export const GlobalActions = createActions(MODULE, {
   $mounted: null,
   logout: null,
-  loggedIn: (user: User | null) => ({ payload: { user } }),
+  loggedIn: (user: FirebaseUser | null) => ({ payload: { user } }),
 });
 
 // --- Types ---

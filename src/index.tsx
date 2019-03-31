@@ -8,6 +8,10 @@ import {
   RootReducer,
   TypelessProvider,
 } from 'typeless';
+import { AuthService } from './services/AuthService';
+import { firebase } from './services/firebase';
+
+export const authService = new AuthService(firebase.auth());
 
 const MOUNT_NODE = document.getElementById('app');
 

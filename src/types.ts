@@ -1,3 +1,5 @@
+import { User as FirebaseUser } from 'firebase/app';
+
 export interface RouteConfig {
   type: 'route';
   path: string;
@@ -7,6 +9,5 @@ export interface RouteConfig {
 }
 
 export interface User {
-  id: string;
-  username: string;
+  firebaseAuth: FirebaseUser;
 }
