@@ -54,10 +54,9 @@ Check for tslint errors.
 
 
 ## Blueprints
-Install [plop](https://www.npmjs.com/package/plop) `npm i -g plop`.  
 
 Following blueprints are available:
-- `feature` - create a blueprint for a new feature. Includes: interface, module, example component.
+- `feature` (run: `yarn g -- [new_feature]`) - create a blueprint for a new feature. Includes: interface, module, example component.
 
 
 ## Licence
