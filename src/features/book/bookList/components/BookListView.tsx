@@ -2,6 +2,7 @@ import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
 import { useMappedState } from 'typeless';
+import { BookBorrowForm, BookReturnForm } from 'src/components/Firestore';
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
@@ -13,6 +14,8 @@ export const BookListView = () => {
         </div>
       ))}
       <br />
+      <BookBorrowForm />
+      <BookReturnForm />
       <Link href="/sample2">
         <button>登録</button>
       </Link>
