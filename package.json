@@ -26,10 +26,14 @@
     "typescript": "^3.3.3333"
   },
   "scripts": {
-    "prettier": "prettier --write 'src/**/*.{ts,tsx}'",
+    "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
+    "prettier-format": "yarn _prettier --write",
+    "prettier-check": "yarn _prettier --list-different",
+    "lint": "tslint -p . -e quagga.d.ts",
+    "lint-fix": "yarn tslint --fix",
+    "format-check": "yarn prettier-check && yarn lint",
     "tsc": "tsc",
     "watch-tsc":"tsc -w",
-    "lint": "tslint 'src/**/*.{ts,tsx}'",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",

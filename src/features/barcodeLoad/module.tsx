@@ -32,7 +32,11 @@ export const reducer = createReducer(initialState)
   })
   .on(BarcodeLoadActions.detectBarcode, (state, { data }) => {
     state.isCameraEnabled = false;
-    state.targetBook = { title: 'kari', isbn: +data.codeResult.code };
+    state.targetBook = {
+      id: 'hoge',
+      title: 'kari',
+      isbn: data.codeResult.code,
+    };
   });
 
 // --- Module ---

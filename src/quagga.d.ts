@@ -8,7 +8,6 @@ declare module 'quagga' {
 }
 
 interface QuaggaJSStatic {
-
   ResultCollector: QuaggaJSResultCollector;
 
   /**
@@ -121,21 +120,21 @@ type QuaggaJSResultCallbackFunction = (data: QuaggaJSResultObject) => void;
  * typical values 0, 1, 'x', 'y'
  */
 type QuaggaJSDebugDrawPath = (
-    path: any[],
-    def: QuaggaJSxyDef,
-    ctx: CanvasRenderingContext2D,
-    style: QuaggaJSStyle
-  ) => void;
+  path: any[],
+  def: QuaggaJSxyDef,
+  ctx: CanvasRenderingContext2D,
+  style: QuaggaJSStyle
+) => void;
 
 /**
  * Called to draw debugging Rectangle
  */
 type QuaggaJSDebugDrawRect = (
-    pos: any[],
-    size: QuaggaJSRectSize,
-    ctx: CanvasRenderingContext2D,
-    style: QuaggaJSStyle
-  ) => void;
+  pos: any[],
+  size: QuaggaJSRectSize,
+  ctx: CanvasRenderingContext2D,
+  style: QuaggaJSStyle
+) => void;
 
 /**
  * an object with an x and a y value, the x and y specify which element in
@@ -224,7 +223,9 @@ interface QuaggaJSCodeResult {
 /**
  * Called to filter which Results to collect in ResultCollector
  */
-type QuaggaJSResultCollectorFilterFunction = (data: QuaggaJSCodeResult) => boolean;
+type QuaggaJSResultCollectorFilterFunction = (
+  data: QuaggaJSCodeResult
+) => boolean;
 
 /**
  * The callbacks passed into onProcessed, onDetected and decodeSingle receive a
