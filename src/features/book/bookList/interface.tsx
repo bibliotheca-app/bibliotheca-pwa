@@ -9,9 +9,15 @@ export const MODULE = 'bookList';
 // --- Actions ---
 export const BookListActions = createActions(MODULE, {
   fetchBookList: null,
-  fetchBookListFullfilled: (books: Book[]) => ({ payload: { books } }),
-  borrowBook: (isbn: string) => ({ payload: { isbn } }),
-  returnBook: (isbn: string) => ({ payload: { isbn } }),
+  fetchBookListFulfilled: (books: Book[]) => ({ payload: { books } }),
+  borrowBookById: (bookId: string) => ({ payload: { bookId } }),
+  borrowBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
+  borrowBookByIsbn: (isbn: string) => ({ payload: { isbn } }),
+  borrowBookByIsbnFulfilled: (book: Book) => ({ payload: { book } }),
+  returnBookById: (bookId: string) => ({ payload: { bookId } }),
+  returnBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
+  returnBookByIsbn: (isbn: string) => ({ payload: { isbn } }),
+  returnBookByIsbnFulfilled: (book: Book) => ({ payload: { book } }),
   $mounted: null,
 });
 

@@ -10,7 +10,7 @@ export const epic = createEpic(MODULE)
   .on(BookListActions.$mounted, () => Rx.of(BookListActions.fetchBookList()))
   .on(BookListActions.fetchBookList, () =>
     Rx.fromPromise(bookRepository.findAllBooks()).pipe(
-      Rx.map(BookListActions.fetchBookListFullfilled)
+      Rx.map(BookListActions.fetchBookListFulfilled)
     )
   );
 
@@ -20,7 +20,7 @@ const initialState: BookListState = {
 };
 
 export const reducer = createReducer(initialState).on(
-  BookListActions.fetchBookListFullfilled,
+  BookListActions.fetchBookListFulfilled,
   (state, { books }) => {
     state.books = books;
   }

@@ -23,7 +23,39 @@ export class BookRepository {
     return querySnapshot.docs.map(bookFromDoc);
   };
 
-  borrowBook = async (isbn: number, userId: string) => {
+  borrowBookById = async (id: string, userId: string) => {
+    const ref = this.mkBookRefById(id);
+
+    this.db.runTransaction(async tx => {
+      const borrowableBook = await tx.get(ref).then(bookFromDoc);
+
+      if (!!borrowableBook.borrowedBy) {
+        throw new Error(`id(${id})は貸し出せません`);
+      }
+
+      tx.update(ref, { borrowedBy: userId });
+    });
+
+    return ref.get().then(bookFromDoc);
+  };
+
+  returnBookById = async (id: string, userId: string) => {
+    const ref = this.mkBookRefById(id);
+
+    this.db.runTransaction(async tx => {
+      const borrowedBook = await tx.get(ref).then(bookFromDoc);
+
+      if (borrowedBook.borrowedBy !== userId) {
+        throw new Error(`id(${id})は貸し出していないので返せません`);
+      }
+
+      tx.update(ref, { borrowedBy: userId });
+    });
+
+    return ref.get().then(bookFromDoc);
+  };
+
+  borrowBookByIsbn = async (isbn: number, userId: string) => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books =>
       books.map(book => book.id)
     );
@@ -54,7 +86,7 @@ export class BookRepository {
     return bookRef.get().then(bookFromDoc);
   };
 
-  returnBook = async (isbn: number, userId: string) => {
+  returnBookByIsbn = async (isbn: number, userId: string) => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books =>
       books.map(book => book.id)
     );

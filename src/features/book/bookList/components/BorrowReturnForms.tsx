@@ -1,24 +1,14 @@
 import React, { useState } from 'react';
-import { bookRepository } from 'src/services/ServiceContainer';
-import { useMappedState } from 'typeless';
+import { useActions } from 'typeless';
+import { BookListActions } from '../interface';
 
 export const BookBorrowForm = () => {
-  const { user } = useMappedState(state => state.global);
   const [isbn, setIsbn] = useState('');
+  const { borrowBookByIsbn } = useActions(BookListActions);
+
   const handleSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
-
-    try {
-      const book = await bookRepository.borrowBookByIsbn(
-        parseInt(isbn, 10),
-        user!.firebaseAuth.email!
-      );
-      if (!!book) {
-        console.log(book);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    borrowBookByIsbn(isbn);
   };
   const isFormValid = isbn.length > 0;
 
@@ -41,22 +31,12 @@ export const BookBorrowForm = () => {
 };
 
 export const BookReturnForm = () => {
-  const { user } = useMappedState(state => state.global);
   const [isbn, setIsbn] = useState('');
+  const { returnBookByIsbn } = useActions(BookListActions);
+
   const handleSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
-
-    try {
-      const book = await bookRepository.returnBookByIsbn(
-        parseInt(isbn, 10),
-        user!.firebaseAuth.email!
-      );
-      if (!!book) {
-        console.log(book);
-      }
-    } catch (e) {
-      console.error(e);
-    }
+    returnBookByIsbn(isbn);
   };
   const isFormValid = isbn.length > 0;
 
