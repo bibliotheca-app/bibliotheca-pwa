@@ -1,6 +1,7 @@
 import React from 'react';
-import { authService } from 'src/index';
 import * as Rx from 'src/rx';
+
+import { authService } from 'src/services/ServiceContainer';
 import { createEpic, createReducer, useModule } from 'typeless';
 import { LoginView } from './components/LoginView';
 import { LoginActions, LoginState, MODULE } from './interface';

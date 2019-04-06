@@ -1,18 +1,34 @@
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
-import { useMappedState } from 'typeless';
+import { BookActions } from 'src/features/book/interface';
+import { useActions, useMappedState } from 'typeless';
+import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
+import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
+  const userId = useMappedState(
+    state => state.global.user!.firebaseAuth!.email!
+  );
+  const { borrowBookById, returnBookById } = useActions(BookActions);
+
   return (
     <Dashboard>
-      {books.map(({ title, isbn }, i) => (
-        <div key={`books_${i}`}>
-          {title}isbn: {isbn}
+      {books.map(book => (
+        <div key={book.id}>
+          {book.title}isbn: {book.isbn}
+          <BookBorrowAndReturnButton
+            book={book}
+            userId={userId}
+            onBorrow={borrowBookById}
+            onReturn={returnBookById}
+          />
         </div>
       ))}
       <br />
+      <BookBorrowForm />
+      <BookReturnForm />
       <Link href="/sample2">
         <button>登録</button>
       </Link>
