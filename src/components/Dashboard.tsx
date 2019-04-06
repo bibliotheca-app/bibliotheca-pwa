@@ -35,6 +35,7 @@ export const Dashboard = (props: DashboardProps) => {
       <Header>
         <AppName>Starter</AppName>
         <Link href="/book-list">書籍一覧</Link>
+        <Link href="/barcode-load">かめら</Link>
         <Button onClick={logout}>logout</Button>
       </Header>
       <Main>{children}</Main>
