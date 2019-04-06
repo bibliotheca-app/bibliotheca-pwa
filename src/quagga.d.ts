@@ -8,6 +8,32 @@ declare module 'quagga' {
 }
 
 interface QuaggaJSStatic {
+
+  ResultCollector: QuaggaJSResultCollector;
+
+  /**
+   * Constructs used for debugging purposes
+   */
+  ImageDebug: {
+    drawPath: QuaggaJSDebugDrawPath;
+    drawRect: QuaggaJSDebugDrawRect;
+  };
+  ImageWrapper: any;
+
+  /**
+   * an object Quagga uses for drawing and processing, useful for calling code
+   * when debugging
+   */
+  canvas: {
+    ctx: {
+      image: CanvasRenderingContext2D;
+      overlay: CanvasRenderingContext2D;
+    };
+    dom: {
+      image: HTMLCanvasElement;
+      overlay: HTMLCanvasElement;
+    };
+  };
   /**
    * This method initializes the library for a given
    * configuration config (see below) and invokes the callback when Quagga is
@@ -68,8 +94,6 @@ interface QuaggaJSStatic {
    * Removes a callback that was previously registered with @see onDetected
    */
   offDetected(callback: QuaggaJSResultCallbackFunction): void;
-
-  ResultCollector: QuaggaJSResultCollector;
   registerResultCollector(resultCollector: QuaggaJSResultCollector): void;
   setReaders(readers: any): void;
 
@@ -83,38 +107,12 @@ interface QuaggaJSStatic {
     config: QuaggaJSConfigObject,
     resultCallback: QuaggaJSResultCallbackFunction
   ): void;
-
-  /**
-   * Constructs used for debugging purposes
-   */
-  ImageDebug: {
-    drawPath: QuaggaJSDebugDrawPath;
-    drawRect: QuaggaJSDebugDrawRect;
-  };
-  ImageWrapper: any;
-
-  /**
-   * an object Quagga uses for drawing and processing, useful for calling code
-   * when debugging
-   */
-  canvas: {
-    ctx: {
-      image: CanvasRenderingContext2D;
-      overlay: CanvasRenderingContext2D;
-    };
-    dom: {
-      image: HTMLCanvasElement;
-      overlay: HTMLCanvasElement;
-    };
-  };
 }
 
 /**
  * Called whenever an item is detected or a process step has been completed.
  */
-interface QuaggaJSResultCallbackFunction {
-  (data: QuaggaJSResultObject): void;
-}
+type QuaggaJSResultCallbackFunction = (data: QuaggaJSResultObject) => void;
 
 /**
  * Called to draw debugging path. The path is an array of array of 2 numbers.
@@ -122,26 +120,22 @@ interface QuaggaJSResultCallbackFunction {
  * defines the y.
  * typical values 0, 1, 'x', 'y'
  */
-interface QuaggaJSDebugDrawPath {
-  (
+type QuaggaJSDebugDrawPath = (
     path: any[],
     def: QuaggaJSxyDef,
     ctx: CanvasRenderingContext2D,
     style: QuaggaJSStyle
-  ): void;
-}
+  ) => void;
 
 /**
  * Called to draw debugging Rectangle
  */
-interface QuaggaJSDebugDrawRect {
-  (
+type QuaggaJSDebugDrawRect = (
     pos: any[],
     size: QuaggaJSRectSize,
     ctx: CanvasRenderingContext2D,
     style: QuaggaJSStyle
-  ): void;
-}
+  ) => void;
 
 /**
  * an object with an x and a y value, the x and y specify which element in
@@ -230,9 +224,7 @@ interface QuaggaJSCodeResult {
 /**
  * Called to filter which Results to collect in ResultCollector
  */
-interface QuaggaJSResultCollectorFilterFunction {
-  (data: QuaggaJSCodeResult): boolean;
-}
+type QuaggaJSResultCollectorFilterFunction = (data: QuaggaJSCodeResult) => boolean;
 
 /**
  * The callbacks passed into onProcessed, onDetected and decodeSingle receive a
@@ -242,10 +234,10 @@ interface QuaggaJSResultCollectorFilterFunction {
  */
 interface QuaggaJSResultObject {
   codeResult: QuaggaJSResultObject_CodeResult;
-  line: {
+  line: Array<{
     x: number;
     y: number;
-  }[];
+  }>;
   angle: number;
   pattern: number[];
   box: number[][];
@@ -263,12 +255,12 @@ interface QuaggaJSResultObject_CodeResult {
     start: number;
     end: number;
   };
-  decodedCodes: {
+  decodedCodes: Array<{
     error?: number;
     code: number;
     start: number;
     end: number;
-  }[];
+  }>;
 
   endInfo: {
     error: number;

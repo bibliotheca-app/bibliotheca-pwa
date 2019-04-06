@@ -64,7 +64,7 @@ export class BookRepository {
       async tx => {
         const bookPromises = bookIds
           .map(this.mkBookRefById)
-          .map(ref => tx.get(ref))
+          .map(_ => tx.get(_))
           .map(doc => doc.then(bookFromDoc));
         const books = await Promise.all(bookPromises);
 
@@ -95,7 +95,7 @@ export class BookRepository {
       async tx => {
         const bookPromises = bookIds
           .map(this.mkBookRefById)
-          .map(ref => tx.get(ref))
+          .map(_ => tx.get(_))
           .map(doc => doc.then(bookFromDoc));
         const books = await Promise.all(bookPromises);
 
@@ -107,9 +107,9 @@ export class BookRepository {
           throw new Error(`isbn(${isbn})は貸し出していないので返せません`);
         }
 
-        const bookRef = this.mkBookRefById(borrowedBook.id);
-        tx.update(bookRef, { borrowedBy: null });
-        return bookRef;
+        const ref = this.mkBookRefById(borrowedBook.id);
+        tx.update(ref, { borrowedBy: null });
+        return ref;
       }
     );
 
