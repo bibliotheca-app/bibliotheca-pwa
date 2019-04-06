@@ -2,9 +2,8 @@
 // http://serratus.github.io/quaggaJS/ Definitions by: Cam Birch, Peter
 // Horwood aka Madman Pierre
 
-declare var Quagga: QuaggaJSStatic;
-
 declare module 'quagga' {
+  declare var Quagga: QuaggaJSStatic;
   export default Quagga;
 }
 

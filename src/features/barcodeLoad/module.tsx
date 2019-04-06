@@ -19,6 +19,7 @@ export const epic = createEpic(MODULE).on(BarcodeLoadActions.enableCamera, () =>
 const initialState: BarcodeLoadState = {
   isCameraSupported: false,
   isCameraEnabled: cameraRepository.isCameraPermissionGranted(),
+  targetBook: undefined,
 };
 
 export const reducer = createReducer(initialState)
@@ -28,6 +29,10 @@ export const reducer = createReducer(initialState)
   })
   .on(BarcodeLoadActions.enableCamera, state => {
     state.isCameraEnabled = true;
+  })
+  .on(BarcodeLoadActions.detectBarcode, (state, { data }) => {
+    state.isCameraEnabled = false;
+    state.targetBook = { title: 'kari', isbn: +data.codeResult.code };
   });
 
 // --- Module ---

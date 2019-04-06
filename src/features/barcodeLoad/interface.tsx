@@ -1,6 +1,6 @@
 import React from 'react';
 import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { RouteConfig } from 'src/types';
+import { Book, RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -10,6 +10,7 @@ export const MODULE = 'barcodeLoad';
 export const BarcodeLoadActions = createActions(MODULE, {
   $mounted: null,
   enableCamera: null,
+  detectBarcode: (data: QuaggaJSResultObject) => ({ payload: { data } }),
 });
 
 // --- Routing ---
@@ -32,6 +33,7 @@ export const routeConfig: RouteConfig = {
 export interface BarcodeLoadState {
   isCameraSupported: boolean;
   isCameraEnabled: boolean;
+  targetBook: undefined | Book;
 }
 
 declare module 'typeless/types' {

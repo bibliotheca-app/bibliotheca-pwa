@@ -1,11 +1,12 @@
 import React, { Suspense } from 'react';
-import { ArrowDown, Camera, Video } from 'react-feather';
+import { ArrowDown, Camera } from 'react-feather';
 import { Dashboard } from 'src/components/Dashboard';
 import { useActions, useMappedState } from 'typeless';
 import { BarcodeLoadActions } from '../interface';
+import { Video } from './Video';
 
 export const BarcodeLoadView = () => {
-  const { isCameraEnabled, isCameraSupported } = useMappedState(
+  const { isCameraEnabled, isCameraSupported, targetBook } = useMappedState(
     state => state.barcodeLoad
   );
   const { enableCamera } = useActions(BarcodeLoadActions);
@@ -16,9 +17,11 @@ export const BarcodeLoadView = () => {
 
   if (isCameraEnabled) {
     return (
-      <Suspense fallback={<div>Loading...</div>}>
-        <Video />
-      </Suspense>
+      <Dashboard>
+        <Suspense fallback={<div>Loading...</div>}>
+          <Video />
+        </Suspense>
+      </Dashboard>
     );
   }
 
@@ -38,6 +41,14 @@ export const BarcodeLoadView = () => {
       >
         <Camera />
       </button>
+
+      <div>
+        {targetBook === undefined ? null : (
+          <div>
+            book title: {targetBook.title}, isbn: {targetBook.isbn}
+          </div>
+        )}
+      </div>
     </Dashboard>
   );
 };
