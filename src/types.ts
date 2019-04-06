@@ -14,7 +14,7 @@ export interface User {
 
 export interface Book {
   id: string;
-  isbn?: number;
+  isbn?: string;
   title: string;
   borrowedBy?: string;
 }
