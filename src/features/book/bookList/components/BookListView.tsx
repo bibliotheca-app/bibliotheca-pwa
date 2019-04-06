@@ -1,8 +1,8 @@
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
+import { BookActions } from 'src/features/book/interface';
 import { useActions, useMappedState } from 'typeless';
-import { BookListActions } from '../interface';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
 import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
 
@@ -11,7 +11,7 @@ export const BookListView = () => {
   const userId = useMappedState(
     state => state.global.user!.firebaseAuth!.email!
   );
-  const { borrowBookById, returnBookById } = useActions(BookListActions);
+  const { borrowBookById, returnBookById } = useActions(BookActions);
 
   return (
     <Dashboard>

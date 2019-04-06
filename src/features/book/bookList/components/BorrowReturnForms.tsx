@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
+import { BookActions } from 'src/features/book/interface';
 import { useActions } from 'typeless';
-import { BookListActions } from '../interface';
 
 export const BookBorrowForm = () => {
   const [isbn, setIsbn] = useState('');
-  const { borrowBookByIsbn } = useActions(BookListActions);
+  const { borrowBookByIsbn } = useActions(BookActions);
 
   const handleSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
@@ -32,7 +32,7 @@ export const BookBorrowForm = () => {
 
 export const BookReturnForm = () => {
   const [isbn, setIsbn] = useState('');
-  const { returnBookByIsbn } = useActions(BookListActions);
+  const { returnBookByIsbn } = useActions(BookActions);
 
   const handleSubmit: React.FormEventHandler = async e => {
     e.preventDefault();
