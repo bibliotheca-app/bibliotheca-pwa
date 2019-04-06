@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import * as R from 'remeda';
+import { getDefaultRoute } from 'src/features/router/helper';
 import { RouterActions, RouterLocation } from 'src/features/router/interface';
 import { usePrevious } from 'src/hooks/usePrevious';
 import { RouteConfig } from 'src/types';
@@ -53,7 +54,7 @@ export const RouteResolver = () => {
     }
     // not found route
     // you can display 404 or redirect to default routes
-    push(user ? '/' : '/login');
+    push(user ? getDefaultRoute() : '/login');
   }, [location, user]);
 
   return component;
