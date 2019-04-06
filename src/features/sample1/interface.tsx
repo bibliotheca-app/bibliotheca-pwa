@@ -1,22 +1,15 @@
 import React from 'react';
-import { DashboardSuspense } from 'src/components/DashboardSuspense';
 import { RouteConfig } from 'src/types';
-import { createActions } from 'typeless';
-
-// --- Constants ---
-export const MODULE = 'sample1';
-
-// --- Actions ---
-export const Sample1Actions = createActions(MODULE, {});
+import { useActions } from 'typeless';
+import { getDefaultRoute } from '../router/helper';
+import { RouterActions } from '../router/interface';
 
 // --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const Sample1Route = () => (
-  <DashboardSuspense>
-    <ModuleLoader />
-  </DashboardSuspense>
-);
+const Sample1Route = () => {
+  const { replace } = useActions(RouterActions);
+  replace(getDefaultRoute());
+  return <></>;
+};
 
 export const routeConfig: RouteConfig = {
   type: 'route',
@@ -24,14 +17,3 @@ export const routeConfig: RouteConfig = {
   path: '/',
   component: <Sample1Route />,
 };
-
-// --- Types ---
-export interface Sample1State {
-  foo: string;
-}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    sample1: Sample1State;
-  }
-}
