@@ -2,15 +2,14 @@ import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
 import { BookActions } from 'src/features/book/interface';
+import { userIdQuery } from 'src/features/global/query';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
 import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
-  const userId = useMappedState(
-    state => state.global.user!.firebaseAuth!.email!
-  );
+  const userId = useMappedState(s => userIdQuery(s.global));
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
   return (
