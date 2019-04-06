@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import { bookRepository } from 'src/services/ServiceContainer';
 import { useMappedState } from 'typeless';
 
@@ -10,7 +9,7 @@ export const BookBorrowForm = () => {
     e.preventDefault();
 
     try {
-      const book = await bookRepository.borrowBook(
+      const book = await bookRepository.borrowBookByIsbn(
         parseInt(isbn, 10),
         user!.firebaseAuth.email!
       );
@@ -48,7 +47,7 @@ export const BookReturnForm = () => {
     e.preventDefault();
 
     try {
-      const book = await bookRepository.returnBook(
+      const book = await bookRepository.returnBookByIsbn(
         parseInt(isbn, 10),
         user!.firebaseAuth.email!
       );
