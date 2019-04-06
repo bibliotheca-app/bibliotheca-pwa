@@ -3,8 +3,8 @@ import { BookRepository } from './BookRepository';
 import { firebase } from './firebase';
 
 class ServiceContainer {
-  public authService = new AuthService(firebase.auth());
-  public bookRepository = new BookRepository(firebase.firestore());
+  authService = new AuthService(firebase.auth());
+  bookRepository = new BookRepository(firebase.firestore());
 }
 
 export const container = new ServiceContainer();

@@ -1,10 +1,10 @@
 class CameraRepository {
   private key = 'CAM_PERMISSION';
-  public grantCameraPermission() {
+  grantCameraPermission() {
     localStorage.setItem(this.key, 'true');
   }
 
-  public isCameraPermissionGranted() {
+  isCameraPermissionGranted() {
     return localStorage.getItem(this.key) !== null;
   }
 }
