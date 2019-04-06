@@ -17,7 +17,7 @@ export class BookRepository {
     return querySnapshot.docs.map(bookFromDoc);
   };
 
-  findBooksByIsbn = async (isbn: number): Promise<Book[]> => {
+  findBooksByIsbn = async (isbn: string): Promise<Book[]> => {
     const querySnapshot = await this.collection.where('isbn', '==', isbn).get();
 
     return querySnapshot.docs.map(bookFromDoc);
@@ -40,22 +40,24 @@ export class BookRepository {
   };
 
   returnBookById = async (id: string, userId: string) => {
-    const ref = this.mkBookRefById(id);
+    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(
+      async tx => {
+        const ref = this.mkBookRefById(id);
+        const borrowedBook = await tx.get(ref).then(bookFromDoc);
 
-    this.db.runTransaction(async tx => {
-      const borrowedBook = await tx.get(ref).then(bookFromDoc);
+        if (borrowedBook.borrowedBy !== userId) {
+          throw new Error(`id(${id})は貸し出していないので返せません`);
+        }
 
-      if (borrowedBook.borrowedBy !== userId) {
-        throw new Error(`id(${id})は貸し出していないので返せません`);
+        tx.update(ref, { borrowedBy: null });
+        return ref;
       }
+    );
 
-      tx.update(ref, { borrowedBy: userId });
-    });
-
-    return ref.get().then(bookFromDoc);
+    return bookRef.get().then(bookFromDoc);
   };
 
-  borrowBookByIsbn = async (isbn: number, userId: string) => {
+  borrowBookByIsbn = async (isbn: string, userId: string) => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books =>
       books.map(book => book.id)
     );
@@ -86,7 +88,7 @@ export class BookRepository {
     return bookRef.get().then(bookFromDoc);
   };
 
-  returnBookByIsbn = async (isbn: number, userId: string) => {
+  returnBookByIsbn = async (isbn: string, userId: string) => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books =>
       books.map(book => book.id)
     );
