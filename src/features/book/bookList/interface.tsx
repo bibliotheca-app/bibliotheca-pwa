@@ -7,7 +7,13 @@ import { createActions } from 'typeless';
 export const MODULE = 'bookList';
 
 // --- Actions ---
-export const BookListActions = createActions(MODULE, {});
+export const BookListActions = createActions(MODULE, {
+  fetchBookList: null,
+  fetchBookListFullfilled: (books: Book[]) => ({ payload: { books } }),
+  borrowBook: (isbn: string) => ({ payload: { isbn } }),
+  returnBook: (isbn: string) => ({ payload: { isbn } }),
+  $mounted: null,
+});
 
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
