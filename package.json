@@ -49,6 +49,8 @@
   },
   "devDependencies": {
     "firebase": "^5.9.2",
-    "plop": "^2.3.0"
+    "plop": "^2.3.0",
+    "quagga": "^0.12.1",
+    "react-feather": "^1.1.6"
   }
 }
