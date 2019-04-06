@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import * as R from 'remeda';
-import { authService } from 'src';
 import { GlobalActions } from 'src/features/global/interface';
 import { useGlobalModule } from 'src/features/global/module';
 import { useRouterModule } from 'src/features/router/module';
+import { authService } from 'src/services/ServiceContainer';
 import { createGlobalStyle } from 'styled-components';
 import { useActions, useMappedState } from 'typeless';
 import { RouteResolver } from './RouteResolver';

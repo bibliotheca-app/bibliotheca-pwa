@@ -1,4 +1,4 @@
-import { authService } from 'src';
+import { authService } from 'src/services/ServiceContainer';
 import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { RouterActions } from '../router/interface';
