@@ -3,14 +3,6 @@ import React, { useState } from 'react';
 import { bookRepository } from 'src/services/ServiceContainer';
 import { useMappedState } from 'typeless';
 
-// 一通りの操作を実装するまでここで実験
-type Book = {
-  id: string;
-  isbn?: number;
-  title: string;
-  borrowedBy?: string;
-};
-
 export const BookBorrowForm = () => {
   const { user } = useMappedState(state => state.global);
   const [isbn, setIsbn] = useState('');

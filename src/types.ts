@@ -13,6 +13,8 @@ export interface User {
 }
 
 export interface Book {
-  isbn: number;
+  id: string;
+  isbn?: number;
   title: string;
+  borrowedBy?: string;
 }

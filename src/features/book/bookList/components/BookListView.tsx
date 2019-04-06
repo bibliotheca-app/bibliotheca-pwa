@@ -8,9 +8,10 @@ export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
   return (
     <Dashboard>
-      {books.map(({ title, isbn }, i) => (
-        <div key={`books_${i}`}>
+      {books.map(({ id, title, isbn, borrowedBy }) => (
+        <div key={id}>
           {title}isbn: {isbn}
+          {borrowedBy ? `, ${borrowedBy}が借りています` : ''}
         </div>
       ))}
       <br />
