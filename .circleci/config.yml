@@ -1,0 +1,56 @@
+version: 2.1
+
+workflows:
+  main:
+    jobs:
+      - test
+      - deploy:
+          requires:
+            - test
+          filters:
+            branches:
+              only:
+                - master
+
+executors:
+  default:
+    working_directory: ~/repo
+
+    docker:
+      - image: opttech/eagle-front-ci:20190118-141949
+commands:
+  setup:
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - bibliotheca-pwa-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - bibliotheca-pwa-v1-{{ .Branch }}
+            - bibliotheca-pwa-v1-master
+            - bibliotheca-pwa-v1-
+      - run: yarn install
+
+jobs:
+  test:
+    executor:
+      name: default
+
+    steps:
+      - setup
+      - save_cache:
+          paths:
+            - node_modules/
+          key: bibliotheca-pwa-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+      - run: git diff --exit-code # check yarn.lock diff
+      - run: yarn format-check
+      - run: yarn tsc
+      - run: yarn build
+      # - run: yarn test  # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))
+
+
+  deploy:
+    executor:
+      name: default
+    steps:
+      - setup
+      - run: yarn deploy-stg
