@@ -11,9 +11,12 @@ import { BookListActions, BookListState, MODULE } from './interface';
 export const epic = createEpic(MODULE)
   .on(BookListActions.$mounted, () => Rx.of(BookListActions.fetchBookList()))
   .on(BookListActions.fetchBookList, () =>
-    Rx.fromPromise(bookRepository.findAllBooks()).pipe(
-      Rx.map(BookListActions.fetchBookListFulfilled)
-    )
+    Rx.fromPromise(
+      // for development
+      location.host === 'localhost'
+        ? bookRepository.findBooks({ limit: 20 })
+        : bookRepository.findAllBooks()
+    ).pipe(Rx.map(BookListActions.fetchBookListFulfilled))
   );
 
 // --- Reducer ---

@@ -1,10 +1,18 @@
 import { firestore } from 'firebase';
 import { Book } from 'src/types';
 
-const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => ({
-  id: doc.id,
-  ...(doc.data() as any),
-});
+const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
+  const data = doc.data()!;
+
+  return {
+    id: doc.id,
+    isbn: data.isbn,
+    title: data.title,
+    borrowedBy: data.borrowedBy,
+    updatedAt: data.updatedAt.toDate(),
+    createdAt: data.createdAt.toDate(),
+  };
+};
 
 export class BookRepository {
   private collection = this.db.collection('books');
@@ -15,6 +23,21 @@ export class BookRepository {
     const querySnapshot = await this.collection.get();
 
     return querySnapshot.docs.map(bookFromDoc);
+  };
+
+  findBooks = async ({
+    after,
+    limit,
+  }: {
+    after?: Book;
+    limit: number;
+  }): Promise<Book[]> => {
+    const orderField: keyof Book = 'createdAt';
+    const orderedCollection = this.collection.limit(limit).orderBy(orderField);
+    const offsetCollection = after
+      ? orderedCollection.startAfter(after.id)
+      : orderedCollection;
+    return offsetCollection.get().then(qs => qs.docs.map(bookFromDoc));
   };
 
   findBooksByIsbn = async (isbn: string): Promise<Book[]> => {
@@ -33,7 +56,7 @@ export class BookRepository {
         throw new Error(`id(${id})は貸し出せません`);
       }
 
-      tx.update(ref, { borrowedBy: userId });
+      tx.update(ref, { borrowedBy: userId, updatedAt: new Date() });
     });
 
     return ref.get().then(bookFromDoc);
@@ -49,7 +72,7 @@ export class BookRepository {
           throw new Error(`id(${id})は貸し出していないので返せません`);
         }
 
-        tx.update(ref, { borrowedBy: null });
+        tx.update(ref, { borrowedBy: null, updatedAt: new Date() });
         return ref;
       }
     );
@@ -80,7 +103,7 @@ export class BookRepository {
         }
 
         const ref = this.mkBookRefById(borrowableBook.id);
-        tx.update(ref, { borrowedBy: userId });
+        tx.update(ref, { borrowedBy: userId, updatedAt: new Date() });
         return ref;
       }
     );
@@ -110,7 +133,7 @@ export class BookRepository {
         }
 
         const ref = this.mkBookRefById(borrowedBook.id);
-        tx.update(ref, { borrowedBy: null });
+        tx.update(ref, { borrowedBy: null, updatedAt: new Date() });
         return ref;
       }
     );

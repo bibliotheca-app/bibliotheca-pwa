@@ -1,8 +1,10 @@
+import { DataTable } from 'grommet';
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
 import { BookActions } from 'src/features/book/interface';
 import { userIdQuery } from 'src/features/global/query';
+import { Book } from 'src/types';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
 import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
@@ -14,17 +16,24 @@ export const BookListView = () => {
 
   return (
     <Dashboard>
-      {books.map(book => (
-        <div key={book.id}>
-          {book.title}isbn: {book.isbn}
-          <BookBorrowAndReturnButton
-            book={book}
-            userId={userId}
-            onBorrow={borrowBookById}
-            onReturn={returnBookById}
-          />
-        </div>
-      ))}
+      <DataTable
+        data={books}
+        columns={[
+          { property: 'title', header: 'タイトル', primary: true },
+          { property: 'isbn', header: 'ISBN' },
+          {
+            property: 'borrowedBy',
+            render: (book: Book) => (
+              <BookBorrowAndReturnButton
+                book={book}
+                userId={userId}
+                onBorrow={borrowBookById}
+                onReturn={returnBookById}
+              />
+            ),
+          },
+        ]}
+      />
       <br />
       <BookBorrowForm />
       <BookReturnForm />
