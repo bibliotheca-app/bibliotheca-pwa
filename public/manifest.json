@@ -6,6 +6,11 @@
       "src": "./assets/bookshelf-64.png",
       "sizes": "64x64",
       "type": "image/png"
+    },
+    {
+      "src": "./assets/bookshelf-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
     }
   ],
   "start_url": "/",
