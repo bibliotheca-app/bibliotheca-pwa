@@ -13,7 +13,7 @@ export const epic = createEpic(MODULE)
   .on(BookListActions.fetchBookList, () =>
     Rx.fromPromise(
       // for development
-      location.host === 'localhost'
+      location.hostname === 'localhost'
         ? bookRepository.findBooks({ limit: 20 })
         : bookRepository.findAllBooks()
     ).pipe(Rx.map(BookListActions.fetchBookListFulfilled))

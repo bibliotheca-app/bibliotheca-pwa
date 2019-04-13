@@ -17,9 +17,11 @@ export const BookListView = () => {
   return (
     <Dashboard>
       <DataTable
+        size="large"
+        primaryKey="id"
         data={books}
         columns={[
-          { property: 'title', header: 'タイトル', primary: true },
+          { property: 'title', header: 'タイトル' },
           { property: 'isbn', header: 'ISBN' },
           {
             property: 'borrowedBy',
