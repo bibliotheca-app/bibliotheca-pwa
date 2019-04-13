@@ -11,6 +11,10 @@ export const BarcodeLoadActions = createActions(MODULE, {
   $mounted: null,
   enableCamera: null,
   detectBarcode: (data: QuaggaJSResultObject) => ({ payload: { data } }),
+  fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
+  fetchBookFromBarcodeFullfilled: (book: Book | undefined) => ({
+    payload: { book },
+  }),
 });
 
 // --- Routing ---
@@ -34,6 +38,7 @@ export interface BarcodeLoadState {
   isCameraSupported: boolean;
   isCameraEnabled: boolean;
   targetBook: undefined | Book;
+  isProcessingBook: boolean;
 }
 
 declare module 'typeless/types' {
