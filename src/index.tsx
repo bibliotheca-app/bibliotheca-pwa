@@ -8,6 +8,7 @@ import {
   RootReducer,
   TypelessProvider,
 } from 'typeless';
+import { register } from './serviceWorker';
 
 const MOUNT_NODE = document.getElementById('app');
 
@@ -55,3 +56,4 @@ if (module.hot) {
   });
 }
 render();
+register({});
