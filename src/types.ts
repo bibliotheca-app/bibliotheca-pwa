@@ -17,4 +17,6 @@ export interface Book {
   isbn?: string;
   title: string;
   borrowedBy?: string;
+  updatedAt: Date;
+  createdAt: Date;
 }
