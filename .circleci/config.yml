@@ -47,10 +47,10 @@ jobs:
       - run: yarn build
       # - run: yarn test  # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))
 
-
   deploy:
     executor:
       name: default
     steps:
       - setup
-      - run: yarn deploy-stg
+      - run: yarn build
+      - run: yarn deploy-site-with-token

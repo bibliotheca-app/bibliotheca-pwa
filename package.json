@@ -9,6 +9,7 @@
     "@types/react-dom": "16.8.2",
     "@types/styled-components": "4.0.3",
     "@types/webpack-env": "^1.13.7",
+    "firebase-tools": "^6.6.0",
     "history": "^4.9.0",
     "prettier": "^1.16.4",
     "react": "16.8.4",
@@ -33,12 +34,13 @@
     "lint-fix": "yarn tslint --fix",
     "format-check": "yarn prettier-check && yarn lint",
     "tsc": "tsc",
-    "watch-tsc":"tsc -w",
+    "watch-tsc": "tsc -w",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "test": "react-app-rewired test --env=jsdom",
     "eject": "react-app-rewired eject",
     "deploy-site": "firebase deploy --only hosting:bibliotheca-site",
+    "deploy-site-with-token": "yarn deploy-site --token $FIREBASE_TOKEN",
     "g": "plop feature"
   },
   "browserslist": [
