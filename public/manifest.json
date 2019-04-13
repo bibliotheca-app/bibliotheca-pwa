@@ -1,0 +1,15 @@
+{
+  "short_name": "Bibliotheca",
+  "name": "Bibliotheca - 蔵書管理 -",
+  "icons": [
+    {
+      "src": "./assets/bookshelf-64.png",
+      "sizes": "64x64",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "#dc94c0",
+  "background_color": "#ffffff"
+}
