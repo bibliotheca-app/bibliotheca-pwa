@@ -31,11 +31,19 @@ export const epic = createEpic(MODULE)
   .on(BarcodeLoadActions.fetchBookFromBarcode, ({ code }, { getState }) => {
     return Rx.fromPromise(bookRepository.findBooksByIsbn(code)).pipe(
       Rx.map(books => {
+        if (books.length === 0) {
+          return BarcodeLoadActions.fetchBookFromBarcodeFullfilled({
+            existsBookInList: false,
+          });
+        }
+
         const userId = userIdQuery(getState().global);
         const borrowedByMe = books.find(b => b.borrowedBy === userId);
         const stock = books.find(b => !b.borrowedBy);
-        const target = !!borrowedByMe ? borrowedByMe : stock;
-        return BarcodeLoadActions.fetchBookFromBarcodeFullfilled(target);
+        const unStock = books.find(b => !!b.borrowedBy);
+        const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
+
+        return BarcodeLoadActions.fetchBookFromBarcodeFullfilled({ book });
       })
     );
   })
@@ -52,7 +60,7 @@ export const epic = createEpic(MODULE)
 const initialState: BarcodeLoadState = {
   isCameraSupported: false,
   isCameraEnabled: cameraRepository.isCameraPermissionGranted(),
-  targetBook: undefined,
+  target: undefined,
   isProcessingBook: false,
 };
 
@@ -60,7 +68,7 @@ export const reducer = createReducer(initialState)
   .on(BarcodeLoadActions.$mounted, state => {
     state.isCameraSupported =
       navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia;
-    state.targetBook = undefined;
+    state.target = undefined;
     state.isProcessingBook = false;
   })
   .on(BarcodeLoadActions.enableCamera, state => {
@@ -76,12 +84,15 @@ export const reducer = createReducer(initialState)
     [BookActions.borrowBookByIdFulfilled, BookActions.returnBookByIdFulfilled],
     state => {
       state.isProcessingBook = false;
-      state.targetBook = undefined;
+      state.target = undefined;
     }
   )
-  .on(BarcodeLoadActions.fetchBookFromBarcodeFullfilled, (state, { book }) => {
-    state.targetBook = book;
-  });
+  .on(
+    BarcodeLoadActions.fetchBookFromBarcodeFullfilled,
+    (state, { target }) => {
+      state.target = target;
+    }
+  );
 
 // --- Module ---
 export default () => {

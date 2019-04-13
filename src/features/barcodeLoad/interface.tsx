@@ -10,10 +10,12 @@ export const MODULE = 'barcodeLoad';
 export const BarcodeLoadActions = createActions(MODULE, {
   $mounted: null,
   enableCamera: null,
-  detectBarcode: (data: QuaggaJSResultObject) => ({ payload: { data } }),
+  detectBarcode: (data: QuaggaJSResultObject) => ({
+    payload: { data },
+  }),
   fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
-  fetchBookFromBarcodeFullfilled: (book: Book | undefined) => ({
-    payload: { book },
+  fetchBookFromBarcodeFullfilled: (target: BarcodeProcessTarget) => ({
+    payload: { target },
   }),
 });
 
@@ -37,8 +39,18 @@ export const routeConfig: RouteConfig = {
 export interface BarcodeLoadState {
   isCameraSupported: boolean;
   isCameraEnabled: boolean;
-  targetBook: undefined | Book;
+  target: BarcodeProcessTarget | undefined;
   isProcessingBook: boolean;
+}
+
+export type BarcodeProcessTarget = NotExistBookInList | ExistBookInList;
+
+interface NotExistBookInList {
+  existsBookInList: false;
+}
+
+interface ExistBookInList {
+  book: Book;
 }
 
 declare module 'typeless/types' {
