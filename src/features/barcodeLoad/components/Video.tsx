@@ -13,8 +13,8 @@ export const Video: React.FC = ({}) => {
           type: 'LiveStream',
           target: document.querySelector('#video'),
           constraints: {
-            width: 320,
-            height: 240,
+            width: 640,
+            height: 480,
           },
         } as QuaggaJSConfigObject['inputStream'],
         numOfWorkers: 1,
