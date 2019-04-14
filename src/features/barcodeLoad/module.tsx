@@ -74,9 +74,12 @@ export const reducer = createReducer(initialState)
   .on(BarcodeLoadActions.enableCamera, state => {
     state.isCameraEnabled = true;
   })
-  .on(BarcodeLoadActions.fetchBookFromBarcode, state => {
-    state.isCameraEnabled = false;
-  })
+  .onMany(
+    [BarcodeLoadActions.fetchBookFromBarcode, BarcodeLoadActions.disableCamela],
+    state => {
+      state.isCameraEnabled = false;
+    }
+  )
   .onMany([BookActions.borrowBookById, BookActions.returnBookById], state => {
     state.isProcessingBook = true;
   })

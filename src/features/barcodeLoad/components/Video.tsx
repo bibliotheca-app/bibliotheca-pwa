@@ -13,8 +13,8 @@ export const Video: React.FC = ({}) => {
           type: 'LiveStream',
           target: document.querySelector('#video'),
           constraints: {
-            width: 640,
-            height: 480,
+            width: window.innerWidth - 40, // todo: calculate size from dom
+            height: window.innerHeight - 200,
           },
         } as QuaggaJSConfigObject['inputStream'],
         numOfWorkers: 1,
@@ -42,7 +42,7 @@ export const Video: React.FC = ({}) => {
   }, []);
 
   const style: React.CSSProperties = {
-    width: '160px',
+    textAlign: 'center',
   };
   return <div style={style} id="video" />;
 };

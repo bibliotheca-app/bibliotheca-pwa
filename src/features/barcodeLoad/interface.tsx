@@ -10,6 +10,7 @@ export const MODULE = 'barcodeLoad';
 export const BarcodeLoadActions = createActions(MODULE, {
   $mounted: null,
   enableCamera: null,
+  disableCamela: null,
   detectBarcode: (data: QuaggaJSResultObject) => ({
     payload: { data },
   }),
