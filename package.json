@@ -12,6 +12,7 @@
     "@types/webpack-env": "^1.13.7",
     "firebase-tools": "^6.6.0",
     "grommet": "^2.6.5",
+    "grommet-icons": "^4.2.0",
     "history": "^4.9.0",
     "prettier": "^1.16.4",
     "react": "16.8.4",
