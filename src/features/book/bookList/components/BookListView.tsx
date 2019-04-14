@@ -16,6 +16,12 @@ export const BookListView = () => {
 
   return (
     <Dashboard>
+      <BookBorrowForm />
+      <BookReturnForm />
+      <Link href="/sample2">
+        <button>登録</button>
+      </Link>
+      <br />
       <DataTable
         size="large"
         primaryKey="id"
@@ -36,12 +42,6 @@ export const BookListView = () => {
           },
         ]}
       />
-      <br />
-      <BookBorrowForm />
-      <BookReturnForm />
-      <Link href="/sample2">
-        <button>登録</button>
-      </Link>
     </Dashboard>
   );
 };

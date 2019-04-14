@@ -31,6 +31,16 @@ export const epic = createEpic(MODULE)
     return Rx.fromPromise(bookRepository.returnBookByIsbn(isbn, userId)).pipe(
       Rx.map(BookActions.returnBookByIsbnFulfilled)
     );
+  })
+  .on(BookActions.registerBook, ({ bookData }) => {
+    return Rx.fromPromise(bookRepository.registerBook(bookData)).pipe(
+      Rx.map(BookActions.registerBookFulfilled)
+    );
+  })
+  .on(BookActions.deleteBookById, ({ bookId }) => {
+    return Rx.fromPromise(bookRepository.deleteBookById(bookId)).pipe(
+      Rx.map(BookActions.deleteBookByIdFulfilled)
+    );
   });
 
 // --- Reducer ---

@@ -16,6 +16,12 @@ export const BookActions = createActions(MODULE, {
   returnBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
   returnBookByIsbn: (isbn: string) => ({ payload: { isbn } }),
   returnBookByIsbnFulfilled: (book: Book) => ({ payload: { book } }),
+  registerBook: (bookData: { title: string; isbn?: string }) => ({
+    payload: { bookData },
+  }),
+  registerBookFulfilled: (book: Book) => ({ payload: { book } }),
+  deleteBookById: (bookId: string) => ({ payload: { bookId } }),
+  deleteBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
 });
 
 // --- Routing ---
