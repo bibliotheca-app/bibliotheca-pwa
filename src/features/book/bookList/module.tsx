@@ -9,7 +9,12 @@ import { BookListActions, BookListState, MODULE } from './interface';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
-  .on(BookListActions.$mounted, () => Rx.of(BookListActions.fetchBookList()))
+  .on(BookListActions.$mounted, (_, { getState }) =>
+    // 必要な人にはリロードしてもらおう
+    getState().bookList.books.length !== 0
+      ? Rx.empty()
+      : Rx.of(BookListActions.fetchBookList())
+  )
   .on(BookListActions.fetchBookList, () =>
     Rx.fromPromise(
       // for development

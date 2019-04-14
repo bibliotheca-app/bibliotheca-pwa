@@ -1,5 +1,5 @@
 import { firestore } from 'firebase';
-import { Book } from 'src/types';
+import { Book, Omit } from 'src/types';
 
 const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
   const data = doc.data()!;
@@ -40,13 +40,19 @@ export class BookRepository {
     return offsetCollection.get().then(qs => qs.docs.map(bookFromDoc));
   };
 
+  findBookById = async (bookId: string): Promise<Book> => {
+    return this.mkBookRefById(bookId)
+      .get()
+      .then(bookFromDoc);
+  };
+
   findBooksByIsbn = async (isbn: string): Promise<Book[]> => {
     const querySnapshot = await this.collection.where('isbn', '==', isbn).get();
 
     return querySnapshot.docs.map(bookFromDoc);
   };
 
-  borrowBookById = async (id: string, userId: string) => {
+  borrowBookById = async (id: string, userId: string): Promise<Book> => {
     const ref = this.mkBookRefById(id);
 
     this.db.runTransaction(async tx => {
@@ -62,7 +68,7 @@ export class BookRepository {
     return ref.get().then(bookFromDoc);
   };
 
-  returnBookById = async (id: string, userId: string) => {
+  returnBookById = async (id: string, userId: string): Promise<Book> => {
     const bookRef = await this.db.runTransaction<firestore.DocumentReference>(
       async tx => {
         const ref = this.mkBookRefById(id);
@@ -80,7 +86,7 @@ export class BookRepository {
     return bookRef.get().then(bookFromDoc);
   };
 
-  borrowBookByIsbn = async (isbn: string, userId: string) => {
+  borrowBookByIsbn = async (isbn: string, userId: string): Promise<Book> => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books =>
       books.map(book => book.id)
     );
@@ -111,7 +117,7 @@ export class BookRepository {
     return bookRef.get().then(bookFromDoc);
   };
 
-  returnBookByIsbn = async (isbn: string, userId: string) => {
+  returnBookByIsbn = async (isbn: string, userId: string): Promise<Book> => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books =>
       books.map(book => book.id)
     );
@@ -139,6 +145,28 @@ export class BookRepository {
     );
 
     return bookRef.get().then(bookFromDoc);
+  };
+
+  registerBook = async (bookData: {
+    title: string;
+    isbn?: string;
+  }): Promise<Book> => {
+    const book: Omit<Book, 'id'> = {
+      ...bookData,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const bookRef = await this.collection.add(book);
+    return bookRef.get().then(bookFromDoc);
+  };
+
+  // 取扱注意
+  deleteBookById = async (bookId: string): Promise<Book> => {
+    const bookRef = this.mkBookRefById(bookId);
+    const book = await bookRef.get().then(bookFromDoc);
+    await bookRef.delete();
+    return book;
   };
 
   private mkBookRefById = (bookId: string): firestore.DocumentReference =>

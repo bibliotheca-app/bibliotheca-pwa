@@ -1,6 +1,4 @@
-import React from 'react';
-import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { Book, RouteConfig } from 'src/types';
+import { Book } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -16,28 +14,16 @@ export const BookActions = createActions(MODULE, {
   returnBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
   returnBookByIsbn: (isbn: string) => ({ payload: { isbn } }),
   returnBookByIsbnFulfilled: (book: Book) => ({ payload: { book } }),
+  registerBook: (bookData: { title: string; isbn?: string }) => ({
+    payload: { bookData },
+  }),
+  registerBookFulfilled: (book: Book) => ({ payload: { book } }),
+  deleteBookById: (bookId: string) => ({ payload: { bookId } }),
+  deleteBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
 });
 
-// --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const BookRoute = () => (
-  <DefaultSuspense>
-    <ModuleLoader />
-  </DefaultSuspense>
-);
-
-export const routeConfig: RouteConfig = {
-  type: 'route',
-  auth: true,
-  path: '/book',
-  component: <BookRoute />,
-};
-
 // --- Types ---
-export interface BookState {
-  foo: string;
-}
+export interface BookState {}
 
 declare module 'typeless/types' {
   export interface DefaultState {

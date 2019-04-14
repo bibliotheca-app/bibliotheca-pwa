@@ -1,4 +1,5 @@
 import { User as FirebaseUser } from 'firebase/app';
+import React from 'react';
 
 export interface RouteConfig {
   type: 'route';
@@ -20,3 +21,9 @@ export interface Book {
   updatedAt: Date;
   createdAt: Date;
 }
+
+export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type GrommetFormEvent<T> = React.FormEvent<HTMLFormElement> & {
+  value: T;
+};
+export type GrommetFormHandler<T> = React.EventHandler<GrommetFormEvent<T>>;

@@ -10,7 +10,8 @@
     "variable-name": false,
     "no-var-requires": false,
     "object-literal-sort-keys": false,
-    "interface-name": false
+    "interface-name": false,
+    "no-empty-interface": false
   },
   "rulesDirectory": []
 }
