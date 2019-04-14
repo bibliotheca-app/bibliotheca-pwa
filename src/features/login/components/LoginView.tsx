@@ -10,7 +10,7 @@ export const LoginView = () => {
     <>
       <Grommet full>
         <Box justify="center" align="center" background="brand" fill>
-          <Heading>Welcome to Bibliotheca</Heading>
+          <Heading textAlign="center">Welcome to Bibliotheca</Heading>
           <input
             type="image"
             src={SigninButton}
