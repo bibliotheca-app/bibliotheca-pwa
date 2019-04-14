@@ -1,3 +1,4 @@
+import { Box, Button } from 'grommet';
 import React, { Suspense } from 'react';
 import { ArrowDown, Camera } from 'react-feather';
 import { Dashboard } from 'src/components/Dashboard';
@@ -35,28 +36,22 @@ export const BarcodeLoadView = () => {
   }
   return (
     <Dashboard>
-      <div className="cameraHandler__message">
-        Enable your camera with the button below
-        <br />
-        <div className="cameraHandler__messageIcon">
-          <ArrowDown size={35} />
+      <Box justify="center" align="center" fill>
+        バーコード読み取り
+        <div>
+          <div>
+            <ArrowDown size={35} />
+          </div>
         </div>
-      </div>
-      <button
-        aria-label="Enable Camera"
-        className="btn__round camera__enable"
-        onClick={enableCamera}
-      >
-        <Camera />
-      </button>
-
-      <div>
-        <TargetBook
-          target={target}
-          userId={userId}
-          isProcessingBook={isProcessingBook}
-        />
-      </div>
+        <Button label={<Camera />} onClick={enableCamera} />
+        <div>
+          <TargetBook
+            target={target}
+            userId={userId}
+            isProcessingBook={isProcessingBook}
+          />
+        </div>
+      </Box>
     </Dashboard>
   );
 };
