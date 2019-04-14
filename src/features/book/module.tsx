@@ -1,9 +1,7 @@
-import React from 'react';
 import * as Rx from 'src/rx';
 import { bookRepository } from 'src/services/ServiceContainer';
 import { createEpic, createReducer, useModule } from 'typeless';
 import { userIdQuery } from '../global/query';
-import { BookView } from './components/BookView';
 import { BookActions, BookState, MODULE } from './interface';
 
 // --- Epic ---
@@ -44,19 +42,15 @@ export const epic = createEpic(MODULE)
   });
 
 // --- Reducer ---
-const initialState: BookState = {
-  foo: 'bar',
-};
+const initialState: BookState = {};
 
 export const reducer = createReducer(initialState);
 
 // --- Module ---
-export default () => {
+export const useBookModule = () =>
   useModule({
     epic,
     reducer,
     reducerPath: ['book'],
     actions: BookActions,
   });
-  return <BookView />;
-};

@@ -40,6 +40,12 @@ export class BookRepository {
     return offsetCollection.get().then(qs => qs.docs.map(bookFromDoc));
   };
 
+  findBookById = async (bookId: string): Promise<Book> => {
+    return this.mkBookRefById(bookId)
+      .get()
+      .then(bookFromDoc);
+  };
+
   findBooksByIsbn = async (isbn: string): Promise<Book[]> => {
     const querySnapshot = await this.collection.where('isbn', '==', isbn).get();
 

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import * as R from 'remeda';
-import useBookModule from 'src/features/book/module';
+import { useBookModule } from 'src/features/book/module';
 import { GlobalActions } from 'src/features/global/interface';
 import { useGlobalModule } from 'src/features/global/module';
 import { useRouterModule } from 'src/features/router/module';

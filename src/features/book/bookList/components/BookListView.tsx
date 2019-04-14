@@ -1,4 +1,4 @@
-import { DataTable } from 'grommet';
+import { DataTable, Text } from 'grommet';
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
@@ -27,7 +27,17 @@ export const BookListView = () => {
         primaryKey="id"
         data={books}
         columns={[
-          { property: 'title', header: 'タイトル' },
+          {
+            property: 'title',
+            header: 'タイトル',
+            render: (book: Book) => {
+              return (
+                <Link href={`/book-detail?bookId=${book.id}`}>
+                  <Text>{book.title}</Text>
+                </Link>
+              );
+            },
+          },
           { property: 'isbn', header: 'ISBN' },
           {
             property: 'borrowedBy',
