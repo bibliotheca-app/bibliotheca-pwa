@@ -1,4 +1,5 @@
 import { Box, Button } from 'grommet';
+import { Clear } from 'grommet-icons';
 import React, { Suspense } from 'react';
 import { ArrowDown, Camera } from 'react-feather';
 import { Dashboard } from 'src/components/Dashboard';
@@ -19,7 +20,7 @@ export const BarcodeLoadView = () => {
     ...state.barcodeLoad,
     userId: userIdQuery(state.global),
   }));
-  const { enableCamera } = useActions(BarcodeLoadActions);
+  const { enableCamera, disableCamela } = useActions(BarcodeLoadActions);
 
   if (!isCameraSupported) {
     return <div>Camera is not supported 😢</div>;
@@ -28,9 +29,13 @@ export const BarcodeLoadView = () => {
   if (isCameraEnabled) {
     return (
       <Dashboard>
-        <Suspense fallback={<div>Loading...</div>}>
-          <Video />
-        </Suspense>
+        <Box justify="center" align="center" fill>
+          <Button label={<Clear />} onClick={disableCamela} />
+          バーコード読み取り
+          <Suspense fallback={<div>Loading...</div>}>
+            <Video />
+          </Suspense>
+        </Box>
       </Dashboard>
     );
   }

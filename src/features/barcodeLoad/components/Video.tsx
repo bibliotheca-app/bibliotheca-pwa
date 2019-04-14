@@ -42,7 +42,7 @@ export const Video: React.FC = ({}) => {
   }, []);
 
   const style: React.CSSProperties = {
-    width: '160px',
+    textAlign: 'center',
   };
   return <div style={style} id="video" />;
 };
