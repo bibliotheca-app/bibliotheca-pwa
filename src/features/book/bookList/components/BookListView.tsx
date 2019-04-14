@@ -18,7 +18,7 @@ export const BookListView = () => {
     <Dashboard>
       <BookBorrowForm />
       <BookReturnForm />
-      <Link href="/sample2">
+      <Link href="/book-register">
         <button>登録</button>
       </Link>
       <br />
