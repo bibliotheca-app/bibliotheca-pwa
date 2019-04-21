@@ -13,8 +13,7 @@
     "eslint-fix": "npm run eslint -- --fix",
     "format": "run-s prettier-format eslint-fix",
     "format-check": "run-p eslint",
-    "deploy": "firebase deploy --only functions",
-    "deploy-with-token": "yarn deploy --token $FIREBASE_TOKEN"
+    "deploy": "firebase deploy --only functions"
   },
   "main": "lib/index.js",
   "engines": {
