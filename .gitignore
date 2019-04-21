@@ -65,3 +65,6 @@ typings/
 # firebase
 
 .firebase
+
+# direnv file
+.envrc
