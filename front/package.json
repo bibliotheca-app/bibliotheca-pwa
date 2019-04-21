@@ -1,0 +1,65 @@
+{
+  "name": "front",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "dependencies": {
+    "@types/history": "^4.7.2",
+    "@types/react": "16.8.8",
+    "@types/react-dom": "16.8.2",
+    "@types/react-paginate": "^6.2.1",
+    "@types/styled-components": "^4.1.14",
+    "@types/webpack-env": "^1.13.7",
+    "firebase-tools": "^6.6.0",
+    "grommet": "^2.6.5",
+    "grommet-icons": "^4.2.0",
+    "history": "^4.9.0",
+    "prettier": "^1.16.4",
+    "react": "16.8.4",
+    "react-app-rewired": "2.1.1",
+    "react-dom": "16.8.4",
+    "react-scripts": "2.1.8",
+    "redux": "4.0.1",
+    "redux-logger": "^3.0.6",
+    "remeda": "^0.0.11",
+    "rxjs": "^6.4.0",
+    "styled-components": "^4.2.0",
+    "tslint": "^5.14.0",
+    "tslint-config-prettier": "^1.18.0",
+    "typeless": "0.0.18",
+    "typescript": "^3.3.3333"
+  },
+  "scripts": {
+    "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
+    "prettier-format": "yarn _prettier --write",
+    "prettier-check": "yarn _prettier --list-different",
+    "lint": "tslint -p . -e quagga.d.ts",
+    "lint-fix": "yarn tslint --fix",
+    "format-check": "yarn prettier-check && yarn lint",
+    "tsc": "tsc",
+    "watch-tsc": "tsc -w",
+    "start": "react-app-rewired start",
+    "build": "react-app-rewired build",
+    "test": "echo \"no test \" # react-app-rewired test --env=jsdom # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))",
+    "eject": "react-app-rewired eject",
+    "deploy": "firebase deploy --only hosting:bibliotheca-site",
+    "deploy-with-token": "yarn deploy --token $FIREBASE_TOKEN",
+    "g": "plop feature"
+  },
+  "browserslist": [
+    ">0.2%",
+    "not dead",
+    "not ie <= 11",
+    "not op_mini all"
+  ],
+  "prettier": {
+    "singleQuote": true,
+    "trailingComma": "es5"
+  },
+  "devDependencies": {
+    "firebase": "^5.9.2",
+    "plop": "^2.3.0",
+    "quagga": "^0.12.1",
+    "react-feather": "^1.1.6"
+  }
+}
