@@ -9,7 +9,7 @@ export const MODULE = 'book/detail';
 // --- Actions ---
 export const BookDetailActions = createActions(MODULE, {
   $mounted: null,
-  $unmounted: null,
+  $unmounting: null,
   findBookById: (bookId: string) => ({ payload: { bookId } }),
   findBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
 });
