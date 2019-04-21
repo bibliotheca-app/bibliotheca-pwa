@@ -9,7 +9,7 @@
     "logs": "firebase functions:log",
     "_prettier": "prettier *.js \"src/**/*.ts\"",
     "prettier-format": "npm run _prettier -- --write",
-    "eslint": "eslint *.js \"src/**/*.ts\"",
+    "eslint": "eslint *.js \"src/**/*.ts\" --ignore-pattern !.eslintrc.js",
     "eslint-fix": "npm run eslint -- --fix",
     "format": "run-s prettier-format eslint-fix",
     "format-check": "run-p eslint",
