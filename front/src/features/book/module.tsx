@@ -9,35 +9,35 @@ export const epic = createEpic(MODULE)
   .on(BookActions.borrowBookById, ({ bookId }, { getState }) => {
     const userId = userIdQuery(getState().global);
     return Rx.fromPromise(bookRepository.borrowBookById(bookId, userId)).pipe(
-      Rx.map(BookActions.borrowBookByIdFulfilled)
+      Rx.map(BookActions.borrowBookByIdFulfilled),
     );
   })
   .on(BookActions.returnBookById, ({ bookId }, { getState }) => {
     const userId = userIdQuery(getState().global);
     return Rx.fromPromise(bookRepository.returnBookById(bookId, userId)).pipe(
-      Rx.map(BookActions.returnBookByIdFulfilled)
+      Rx.map(BookActions.returnBookByIdFulfilled),
     );
   })
   .on(BookActions.borrowBookByIsbn, ({ isbn }, { getState }) => {
     const userId = userIdQuery(getState().global);
     return Rx.fromPromise(bookRepository.borrowBookByIsbn(isbn, userId)).pipe(
-      Rx.map(BookActions.borrowBookByIsbnFulfilled)
+      Rx.map(BookActions.borrowBookByIsbnFulfilled),
     );
   })
   .on(BookActions.returnBookByIsbn, ({ isbn }, { getState }) => {
     const userId = userIdQuery(getState().global);
     return Rx.fromPromise(bookRepository.returnBookByIsbn(isbn, userId)).pipe(
-      Rx.map(BookActions.returnBookByIsbnFulfilled)
+      Rx.map(BookActions.returnBookByIsbnFulfilled),
     );
   })
   .on(BookActions.registerBook, ({ bookData }) => {
     return Rx.fromPromise(bookRepository.registerBook(bookData)).pipe(
-      Rx.map(BookActions.registerBookFulfilled)
+      Rx.map(BookActions.registerBookFulfilled),
     );
   })
   .on(BookActions.deleteBookById, ({ bookId }) => {
     return Rx.fromPromise(bookRepository.deleteBookById(bookId)).pipe(
-      Rx.map(BookActions.deleteBookByIdFulfilled)
+      Rx.map(BookActions.deleteBookByIdFulfilled),
     );
   });
 

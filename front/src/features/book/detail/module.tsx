@@ -18,7 +18,7 @@ export const epic = createEpic(MODULE)
   })
   .on(BookDetailActions.findBookById, ({ bookId }) => {
     return Rx.fromPromise(bookRepository.findBookById(bookId)).pipe(
-      Rx.map(BookDetailActions.findBookByIdFulfilled)
+      Rx.map(BookDetailActions.findBookByIdFulfilled),
     );
   });
 

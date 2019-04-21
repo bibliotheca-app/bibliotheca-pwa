@@ -20,12 +20,7 @@ export const Video: React.FC = ({}) => {
         numOfWorkers: 1,
         locate: true,
         decoder: {
-          readers: [
-            'ean_reader',
-            'ean_8_reader',
-            'upc_reader',
-            'code_128_reader',
-          ],
+          readers: ['ean_reader', 'ean_8_reader', 'upc_reader', 'code_128_reader'],
         },
       },
       (err: any) => {
@@ -36,7 +31,7 @@ export const Video: React.FC = ({}) => {
         }
         Quagga.start();
         Quagga.onDetected(detectBarcode);
-      }
+      },
     );
     return () => Quagga.stop();
   }, []);

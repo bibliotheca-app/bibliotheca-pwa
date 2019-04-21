@@ -1,13 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { applyMiddleware, createStore } from 'redux';
-import {
-  createEpicMiddleware,
-  onHmr,
-  RootEpic,
-  RootReducer,
-  TypelessProvider,
-} from 'typeless';
+import { createEpicMiddleware, onHmr, RootEpic, RootReducer, TypelessProvider } from 'typeless';
 import { register } from './serviceWorker';
 
 const MOUNT_NODE = document.getElementById('app');
@@ -27,26 +21,19 @@ if (process.env.NODE_ENV !== 'production') {
   middlewares.push(
     createLogger({
       collapsed: true,
-    })
+    }),
   );
 }
-export const store = createStore(
-  rootReducer.getReducer(),
-  applyMiddleware(...middlewares)
-);
+export const store = createStore(rootReducer.getReducer(), applyMiddleware(...middlewares));
 
 const render = () => {
   const App = require('./components/App').App;
   ReactDOM.unmountComponentAtNode(MOUNT_NODE);
   ReactDOM.render(
-    <TypelessProvider
-      rootEpic={rootEpic}
-      rootReducer={rootReducer}
-      store={store}
-    >
+    <TypelessProvider rootEpic={rootEpic} rootReducer={rootReducer} store={store}>
       <App />
     </TypelessProvider>,
-    MOUNT_NODE
+    MOUNT_NODE,
   );
 };
 

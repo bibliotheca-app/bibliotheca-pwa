@@ -10,7 +10,7 @@ export const login = (username: string, password: string) =>
         return user;
       }
       throw new Error('Invalid username or password');
-    })
+    }),
   );
 
 export const getUser = () => Rx.of(sampleUser).pipe(Rx.delay(300));

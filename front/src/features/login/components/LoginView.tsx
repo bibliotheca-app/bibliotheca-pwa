@@ -11,12 +11,7 @@ export const LoginView = () => {
       <Grommet full>
         <Box justify="center" align="center" background="brand" fill>
           <Heading textAlign="center">Welcome to Bibliotheca</Heading>
-          <input
-            type="image"
-            src={SigninButton}
-            alt="signin with google"
-            onClick={auth}
-          />
+          <input type="image" src={SigninButton} alt="signin with google" onClick={auth} />
         </Box>
       </Grommet>
     </>

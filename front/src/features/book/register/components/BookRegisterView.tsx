@@ -7,9 +7,7 @@ import { BookActions } from '../../interface';
 
 export const BookRegisterView = () => {
   const { registerBook } = useActions(BookActions);
-  const registeredBook = useMappedState(
-    state => state.bookRegister.registeredBook
-  );
+  const registeredBook = useMappedState(state => state.bookRegister.registeredBook);
 
   const handleSubmit: GrommetFormHandler<{
     title: string;
@@ -30,8 +28,7 @@ export const BookRegisterView = () => {
           required
           validate={{
             regexp: /(978|979)[0-9]{10}/,
-            message:
-              '978または979のいずれかから始まる13桁の数値を入力してください',
+            message: '978または979のいずれかから始まる13桁の数値を入力してください',
           }}
         />
         <Button type="submit" primary label="登録" />

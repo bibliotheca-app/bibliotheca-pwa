@@ -1,8 +1,7 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
-export interface FormInputProps
-  extends React.InputHTMLAttributes<HTMLInputElement> {
+export interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
   className?: string;
   label: string;
   error?: string | null;
