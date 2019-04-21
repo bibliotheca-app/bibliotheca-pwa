@@ -17,7 +17,7 @@ executors:
     working_directory: ~/repo
 
     docker:
-      - image: opttech/eagle-front-ci:20190118-141949
+      - image: node:8
 commands:
   setup:
     steps:
