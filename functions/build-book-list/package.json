@@ -1,0 +1,9 @@
+{
+  "name": "build-book-list",
+  "version": "0.1.0",
+  "description": "> TODO: description",
+  "license": "MIT",
+  "scripts": {
+    "test": "echo \"no test\""
+  }
+}
