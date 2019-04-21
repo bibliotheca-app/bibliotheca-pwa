@@ -11,17 +11,15 @@ import { BookListActions, BookListState, MODULE } from './interface';
 export const epic = createEpic(MODULE)
   .on(BookListActions.$mounted, (_, { getState }) =>
     // 必要な人にはリロードしてもらおう
-    getState().bookList.books.length !== 0
-      ? Rx.empty()
-      : Rx.of(BookListActions.fetchBookList())
+    getState().bookList.books.length !== 0 ? Rx.empty() : Rx.of(BookListActions.fetchBookList()),
   )
   .on(BookListActions.fetchBookList, () =>
     Rx.fromPromise(
       // for development
       location.hostname === 'localhost'
         ? bookRepository.findBooks({ limit: 20 })
-        : bookRepository.findAllBooks()
-    ).pipe(Rx.map(BookListActions.fetchBookListFulfilled))
+        : bookRepository.findAllBooks(),
+    ).pipe(Rx.map(BookListActions.fetchBookListFulfilled)),
   );
 
 // --- Reducer ---
@@ -29,10 +27,7 @@ const initialState: BookListState = {
   books: [],
 };
 
-const updateBook = (
-  state: BookListState,
-  { book: targetBook }: { book: Book }
-) => {
+const updateBook = (state: BookListState, { book: targetBook }: { book: Book }) => {
   state.books.forEach(book => {
     if (book.id === targetBook.id) {
       book.borrowedBy = targetBook.borrowedBy;

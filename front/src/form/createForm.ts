@@ -14,7 +14,7 @@ import { createFormProvider } from './createFormProvider';
 type Validator<T, TState> = (
   errors: { [x in keyof T]?: string },
   data: T,
-  state: TState
+  state: TState,
 ) => { [x in keyof T]?: string } | void;
 
 export interface FormState<T> {
@@ -25,9 +25,7 @@ export interface FormState<T> {
 
 type GetValues<TState> = TState extends FormState<infer T> ? T : never;
 
-type GetSub<TState, TPath> = TPath extends keyof TState
-  ? GetValues<TState[TPath]>
-  : never;
+type GetSub<TState, TPath> = TPath extends keyof TState ? GetValues<TState[TPath]> : never;
 
 type GetSub2<TState, TPathA, TPathB> = TPathA extends keyof TState
   ? GetSub<TState[TPathA], TPathB>
@@ -51,33 +49,29 @@ export interface FormOptions2<
 
 export interface FormResult<TData, TState> {
   actions: ConvertActions<{
-    blur: (
-      field: keyof TData
-    ) => { payload: { field: keyof TData }; meta: { form: string } };
-    focus: (
-      field: keyof TData
-    ) => { payload: { field: keyof TData }; meta: { form: string } };
+    blur: (field: keyof TData) => { payload: { field: keyof TData }; meta: { form: string } };
+    focus: (field: keyof TData) => { payload: { field: keyof TData }; meta: { form: string } };
     change: (
       field: keyof TData,
-      value: TData[typeof field]
+      value: TData[typeof field],
     ) => {
       payload: { field: keyof TData; value: TData[typeof field] };
       meta: { form: string };
     };
     changeMany: (
-      values: Partial<TData>
+      values: Partial<TData>,
     ) => {
       payload: { values: Partial<TData> };
       meta: { form: string };
     };
     replace: (
-      values: TData
+      values: TData,
     ) => {
       payload: { values: TData };
       meta: { form: string };
     };
     setErrors: (
-      errors: { [x in keyof TData]?: string }
+      errors: { [x in keyof TData]?: string },
     ) => {
       payload: { errors: { [x in keyof TData]?: string } };
     };
@@ -149,13 +143,7 @@ export function createForm<
     (reducerPath as string[]).reduce((ret, path) => ret[path], state);
   const epic = new Epic<TState>(`form_${form}`)
     .onMany(
-      [
-        actions.change,
-        actions.blur,
-        actions.changeMany,
-        actions.replace,
-        actions.validate,
-      ],
+      [actions.change, actions.blur, actions.changeMany, actions.replace, actions.validate],
       (_, { getState }) => {
         if (!validator) {
           return Rx.empty();
@@ -164,7 +152,7 @@ export function createForm<
         const errors = {} as any;
         const ret = validator!(errors, state.values, getState()) as any;
         return actions.setErrors(ret || errors);
-      }
+      },
     )
     .on(actions.submit, (_, { getState, action$ }) => {
       return Rx.concatObs(
@@ -174,12 +162,10 @@ export function createForm<
           Rx.map(() => {
             const state = selector(getState());
             const anyError = Object.values(state.errors).some(x => !!x);
-            return anyError
-              ? actions.setSubmitFailed()
-              : actions.setSubmitSucceeded();
-          })
+            return anyError ? actions.setSubmitFailed() : actions.setSubmitSucceeded();
+          }),
         ),
-        Rx.of(actions.touchAll())
+        Rx.of(actions.touchAll()),
       );
     });
   const reducer = createReducer(initialState)
@@ -204,7 +190,7 @@ export function createForm<
           ret[key] = true;
           return ret;
         },
-        {} as any
+        {} as any,
       );
     })
     .on(actions.resetTouched, state => {

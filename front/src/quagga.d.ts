@@ -41,11 +41,7 @@ interface QuaggaJSStatic {
    */
   init(config: QuaggaJSConfigObject, callback?: (err: any) => void): void;
 
-  init(
-    config: QuaggaJSConfigObject,
-    callback: (err: any) => void,
-    imageWrapper: any
-  ): void;
+  init(config: QuaggaJSConfigObject, callback: (err: any) => void, imageWrapper: any): void;
 
   /**
    * When the library is initialized, the start()
@@ -102,10 +98,7 @@ interface QuaggaJSStatic {
    * image instead. The provided callback is the same as in onDetected and
    * contains the result data object.
    */
-  decodeSingle(
-    config: QuaggaJSConfigObject,
-    resultCallback: QuaggaJSResultCallbackFunction
-  ): void;
+  decodeSingle(config: QuaggaJSConfigObject, resultCallback: QuaggaJSResultCallbackFunction): void;
 }
 
 /**
@@ -123,7 +116,7 @@ type QuaggaJSDebugDrawPath = (
   path: any[],
   def: QuaggaJSxyDef,
   ctx: CanvasRenderingContext2D,
-  style: QuaggaJSStyle
+  style: QuaggaJSStyle,
 ) => void;
 
 /**
@@ -133,7 +126,7 @@ type QuaggaJSDebugDrawRect = (
   pos: any[],
   size: QuaggaJSRectSize,
   ctx: CanvasRenderingContext2D,
-  style: QuaggaJSStyle
+  style: QuaggaJSStyle,
 ) => void;
 
 /**
@@ -223,9 +216,7 @@ interface QuaggaJSCodeResult {
 /**
  * Called to filter which Results to collect in ResultCollector
  */
-type QuaggaJSResultCollectorFilterFunction = (
-  data: QuaggaJSCodeResult
-) => boolean;
+type QuaggaJSResultCollectorFilterFunction = (data: QuaggaJSCodeResult) => boolean;
 
 /**
  * The callbacks passed into onProcessed, onDetected and decodeSingle receive a

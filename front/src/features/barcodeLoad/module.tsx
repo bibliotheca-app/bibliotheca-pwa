@@ -15,17 +15,15 @@ export const epic = createEpic(MODULE)
       Rx.tap(() => {
         cameraRepository.grantCameraPermission();
       }),
-      Rx.ignoreElements()
-    )
+      Rx.ignoreElements(),
+    ),
   )
   .on(BarcodeLoadActions.detectBarcode, ({ data }) => {
     const isbnCodePrefix = '978';
     if (data.codeResult.code.indexOf(isbnCodePrefix) === -1) {
       return Rx.empty();
     } else {
-      return Rx.of(
-        BarcodeLoadActions.fetchBookFromBarcode(data.codeResult.code)
-      );
+      return Rx.of(BarcodeLoadActions.fetchBookFromBarcode(data.codeResult.code));
     }
   })
   .on(BarcodeLoadActions.fetchBookFromBarcode, ({ code }, { getState }) => {
@@ -44,7 +42,7 @@ export const epic = createEpic(MODULE)
         const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
 
         return BarcodeLoadActions.fetchBookFromBarcodeFullfilled({ book });
-      })
+      }),
     );
   })
   .on(BookActions.borrowBookByIdFulfilled, ({ book }) => {
@@ -66,36 +64,26 @@ const initialState: BarcodeLoadState = {
 
 export const reducer = createReducer(initialState)
   .on(BarcodeLoadActions.$mounted, state => {
-    state.isCameraSupported =
-      navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia;
+    state.isCameraSupported = navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia;
     state.target = undefined;
     state.isProcessingBook = false;
   })
   .on(BarcodeLoadActions.enableCamera, state => {
     state.isCameraEnabled = true;
   })
-  .onMany(
-    [BarcodeLoadActions.fetchBookFromBarcode, BarcodeLoadActions.disableCamela],
-    state => {
-      state.isCameraEnabled = false;
-    }
-  )
+  .onMany([BarcodeLoadActions.fetchBookFromBarcode, BarcodeLoadActions.disableCamela], state => {
+    state.isCameraEnabled = false;
+  })
   .onMany([BookActions.borrowBookById, BookActions.returnBookById], state => {
     state.isProcessingBook = true;
   })
-  .onMany(
-    [BookActions.borrowBookByIdFulfilled, BookActions.returnBookByIdFulfilled],
-    state => {
-      state.isProcessingBook = false;
-      state.target = undefined;
-    }
-  )
-  .on(
-    BarcodeLoadActions.fetchBookFromBarcodeFullfilled,
-    (state, { target }) => {
-      state.target = target;
-    }
-  );
+  .onMany([BookActions.borrowBookByIdFulfilled, BookActions.returnBookByIdFulfilled], state => {
+    state.isProcessingBook = false;
+    state.target = undefined;
+  })
+  .on(BarcodeLoadActions.fetchBookFromBarcodeFullfilled, (state, { target }) => {
+    state.target = target;
+  });
 
 // --- Module ---
 export default () => {

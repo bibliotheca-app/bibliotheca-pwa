@@ -7,7 +7,5 @@ interface DefaultSuspenseProps {
 
 export function DefaultSuspense(props: DefaultSuspenseProps) {
   const { children } = props;
-  return (
-    <React.Suspense fallback={<FullScreenSpinner />}>{children}</React.Suspense>
-  );
+  return <React.Suspense fallback={<FullScreenSpinner />}>{children}</React.Suspense>;
 }

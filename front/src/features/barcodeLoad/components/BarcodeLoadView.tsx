@@ -10,16 +10,12 @@ import { TargetBook } from './TargetBook';
 import { Video } from './Video';
 
 export const BarcodeLoadView = () => {
-  const {
-    isCameraEnabled,
-    isCameraSupported,
-    target,
-    userId,
-    isProcessingBook,
-  } = useMappedState(state => ({
-    ...state.barcodeLoad,
-    userId: userIdQuery(state.global),
-  }));
+  const { isCameraEnabled, isCameraSupported, target, userId, isProcessingBook } = useMappedState(
+    state => ({
+      ...state.barcodeLoad,
+      userId: userIdQuery(state.global),
+    }),
+  );
   const { enableCamera, disableCamela } = useActions(BarcodeLoadActions);
 
   if (!isCameraSupported) {
@@ -50,11 +46,7 @@ export const BarcodeLoadView = () => {
         </div>
         <Button label={<Camera />} onClick={enableCamera} />
         <div>
-          <TargetBook
-            target={target}
-            userId={userId}
-            isProcessingBook={isProcessingBook}
-          />
+          <TargetBook target={target} userId={userId} isProcessingBook={isProcessingBook} />
         </div>
       </Box>
     </Dashboard>

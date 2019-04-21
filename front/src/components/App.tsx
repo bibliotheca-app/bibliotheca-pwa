@@ -15,8 +15,6 @@ export const App = () => {
   useBookModule();
   const { loggedIn } = useActions(GlobalActions);
   useEffect(() => authService.subscribe(user => loggedIn(user)));
-  const { isLoaded } = useMappedState(state =>
-    R.pick(state.global, ['isLoaded'])
-  );
+  const { isLoaded } = useMappedState(state => R.pick(state.global, ['isLoaded']));
   return <Grommet plain>{isLoaded && <RouteResolver />}</Grommet>;
 };
