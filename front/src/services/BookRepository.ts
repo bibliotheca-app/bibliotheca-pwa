@@ -14,10 +14,39 @@ const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
   };
 };
 
+interface BookEntry {
+  id: string;
+  data: any; // 許して
+}
+
+const bookFromEntry = (entry: BookEntry): Book => {
+  const { id, data } = entry;
+  return {
+    id,
+    isbn: data.isbn,
+    title: data.title,
+    borrowedBy: data.borrowedBy,
+    updatedAt: data.updatedAt.toDate(),
+    createdAt: data.createdAt.toDate(),
+  };
+};
+
 export class BookRepository {
   private collection = this.db.collection('books');
+  private bookListsCollection = this.db.collection('bookLists');
 
   constructor(private db: firestore.Firestore) {}
+
+  findAllCachedBooks = async (): Promise<Book[]> => {
+    const querySnapshot = await this.bookListsCollection.get();
+
+    return querySnapshot.docs.reduce(
+      (acc, doc) => {
+        return [...acc, ...(doc.data() as any).entries.map(bookFromEntry)];
+      },
+      [] as Book[],
+    );
+  };
 
   findAllBooks = async (): Promise<Book[]> => {
     const querySnapshot = await this.collection.get();
