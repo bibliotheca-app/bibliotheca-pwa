@@ -26,7 +26,7 @@ export const epic = createEpic(MODULE)
 const initialState: BookDetailState = {};
 
 export const reducer = createReducer(initialState)
-  .on(BookDetailActions.$unmounted, state => {
+  .on(BookDetailActions.$unmounting, state => {
     state.selectedBook = undefined;
   })
   .on(BookDetailActions.findBookByIdFulfilled, (state, { book }) => {
