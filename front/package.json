@@ -53,10 +53,17 @@
     "not op_mini all"
   ],
   "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
     "singleQuote": true,
-    "trailingComma": "es5"
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
   },
   "devDependencies": {
+    "@types/webpack-env": "^1.13.9",
     "firebase": "^5.9.2",
     "plop": "^2.3.0",
     "quagga": "^0.12.1",

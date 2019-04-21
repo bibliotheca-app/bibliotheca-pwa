@@ -7,8 +7,7 @@
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",
     "logs": "firebase functions:log",
-    "prettier": "prettier --config ./prettier.config.js",
-    "_prettier": "npm run prettier -- *.js \"src/**/*.ts\"",
+    "_prettier": "prettier *.js \"src/**/*.ts\"",
     "prettier-format": "npm run _prettier -- --write",
     "eslint": "eslint *.js \"src/**/*.ts\"",
     "eslint-fix": "npm run eslint -- --fix",
@@ -34,6 +33,16 @@
     "npm-run-all": "^4.1.5",
     "prettier": "^1.17.0",
     "typescript": "^3.2.2"
+  },
+  "prettier": {
+    "printWidth": 100,
+    "tabWidth": 2,
+    "useTabs": false,
+    "semi": true,
+    "singleQuote": true,
+    "trailingComma": "all",
+    "bracketSpacing": true,
+    "arrowParens": "avoid"
   },
   "private": true
 }
