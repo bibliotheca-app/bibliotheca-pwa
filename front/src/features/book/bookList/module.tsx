@@ -14,12 +14,9 @@ export const epic = createEpic(MODULE)
     getState().bookList.books.length !== 0 ? Rx.empty() : Rx.of(BookListActions.fetchBookList()),
   )
   .on(BookListActions.fetchBookList, () =>
-    Rx.fromPromise(
-      // for development
-      location.hostname === 'localhost'
-        ? bookRepository.findBooks({ limit: 20 })
-        : bookRepository.findAllBooks(),
-    ).pipe(Rx.map(BookListActions.fetchBookListFulfilled)),
+    Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
+      Rx.map(BookListActions.fetchBookListFulfilled),
+    ),
   );
 
 // --- Reducer ---
