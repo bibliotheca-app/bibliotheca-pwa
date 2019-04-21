@@ -4,5 +4,17 @@
   "repository": "git@github.com:opt-tech/bibliotheca-pwa.git",
   "license": "MIT",
   "private": true,
-  "workspaces": ["front"]
+  "workspaces": [
+    "front"
+  ],
+  "devDependencies": {
+    "lerna": "^3.13.3"
+  },
+  "scripts": {
+    "tsc": "lerna run tsc --stream",
+    "format-check": "lerna run format-check --stream",
+    "build": "lerna run build --stream",
+    "test": "lerna run test --stream",
+    "deploy-from-ci": "lerna run deploy-with-token"
+  }
 }

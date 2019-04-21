@@ -5,7 +5,7 @@
   },
   "hosting": {
     "target": "bibliotheca-site",
-    "public": "build",
+    "public": "front/build",
     "ignore": [
       "firebase.json",
       "**/.*",

@@ -45,7 +45,7 @@ jobs:
       - run: yarn format-check
       - run: yarn tsc
       - run: yarn build
-      # - run: yarn test  # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))
+      - run: yarn test
 
   deploy:
     executor:
@@ -53,4 +53,4 @@ jobs:
     steps:
       - setup
       - run: yarn build
-      - run: yarn deploy-site-with-token
+      - run: yarn deploy-from-ci
