@@ -7,9 +7,7 @@ import { BarcodeLoaderActions } from '../interface';
 import { Video } from './Video';
 
 export const BarcodeLoaderView = () => {
-  const { isCameraEnabled, isCameraSupported } = useMappedState(state => ({
-    ...state.barcodeLoader,
-  }));
+  const { isCameraEnabled, isCameraSupported } = useMappedState(state => state.barcodeLoader);
   const { enableCamera, disableCamela } = useActions(BarcodeLoaderActions);
 
   if (!isCameraSupported) {
