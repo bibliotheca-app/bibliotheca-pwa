@@ -4,16 +4,11 @@ import { Book, RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'barcodeLoad';
+export const MODULE = 'borrowOrReturn';
 
 // --- Actions ---
-export const BarcodeLoadActions = createActions(MODULE, {
+export const BorrowOrReturnActions = createActions(MODULE, {
   $mounted: null,
-  enableCamera: null,
-  disableCamela: null,
-  detectBarcode: (data: QuaggaJSResultObject) => ({
-    payload: { data },
-  }),
   fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
   fetchBookFromBarcodeFullfilled: (target: BarcodeProcessTarget) => ({
     payload: { target },
@@ -23,7 +18,7 @@ export const BarcodeLoadActions = createActions(MODULE, {
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
 
-const BarcodeLoadRoute = () => (
+const BorrowOrReturnRoute = () => (
   <DefaultSuspense>
     <ModuleLoader />
   </DefaultSuspense>
@@ -32,18 +27,15 @@ const BarcodeLoadRoute = () => (
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: true,
-  path: '/barcode-load',
-  component: <BarcodeLoadRoute />,
+  path: '/borrow-or-return',
+  component: <BorrowOrReturnRoute />,
 };
 
 // --- Types ---
-export interface BarcodeLoadState {
-  isCameraSupported: boolean;
-  isCameraEnabled: boolean;
+export interface BorrowOrReturnState {
   target: BarcodeProcessTarget | undefined;
   isProcessingBook: boolean;
 }
-
 export type BarcodeProcessTarget = NotExistBookInList | ExistBookInList;
 
 interface NotExistBookInList {
@@ -53,9 +45,8 @@ interface NotExistBookInList {
 interface ExistBookInList {
   book: Book;
 }
-
 declare module 'typeless/types' {
   export interface DefaultState {
-    barcodeLoad: BarcodeLoadState;
+    borrowOrReturn: BorrowOrReturnState;
   }
 }

@@ -28,7 +28,7 @@ export const TargetBook = ({
       <div>
         book title: {book.title}, isbn: {book.isbn}
       </div>
-      {!!book.borrowedBy ? null : <div>在庫がありません</div>}
+      {!!book.borrowedBy && book.borrowedBy !== userId ? <div>在庫がありません</div> : null}
       <BookBorrowAndReturnButton
         onBorrow={() => borrowBookById(book.id)}
         onReturn={() => returnBookById(book.id)}
