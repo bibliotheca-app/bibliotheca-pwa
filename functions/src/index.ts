@@ -1,5 +1,6 @@
 import * as functions from 'firebase-functions';
 import * as admin from 'firebase-admin';
+import { onBookBorrowOrReturn } from './notify-slack';
 
 admin.initializeApp();
 const db = admin.firestore();
@@ -80,3 +81,8 @@ export const buildBookList = functions
     const bookEntries = await fetchFreshBookEntriesAsync();
     return writeBookEntries(bookEntries);
   });
+
+export const notifySlack = functions
+  .region('asia-northeast1')
+  .firestore.document('books/{bookId}')
+  .onUpdate(onBookBorrowOrReturn);
