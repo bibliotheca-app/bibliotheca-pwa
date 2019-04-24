@@ -5,12 +5,12 @@ import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { BookActions } from '../book/interface';
 import { userIdQuery } from '../global/query';
-import { BarcodeLoadView } from './components/BarcodeLoadView';
-import { BarcodeLoadActions, BarcodeLoadState, MODULE } from './interface';
+import { BorrowOrReturnView } from './components/BorrowOrReturnView';
+import { BorrowOrReturnActions, BorrowOrReturnState, MODULE } from './interface';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
-  .on(BarcodeLoadActions.enableCamera, () =>
+  .on(BorrowOrReturnActions.enableCamera, () =>
     Rx.of().pipe(
       Rx.tap(() => {
         cameraRepository.grantCameraPermission();
@@ -18,19 +18,19 @@ export const epic = createEpic(MODULE)
       Rx.ignoreElements(),
     ),
   )
-  .on(BarcodeLoadActions.detectBarcode, ({ data }) => {
+  .on(BorrowOrReturnActions.detectBarcode, ({ data }) => {
     const isbnCodePrefix = '978';
     if (data.codeResult.code.indexOf(isbnCodePrefix) === -1) {
       return Rx.empty();
     } else {
-      return Rx.of(BarcodeLoadActions.fetchBookFromBarcode(data.codeResult.code));
+      return Rx.of(BorrowOrReturnActions.fetchBookFromBarcode(data.codeResult.code));
     }
   })
-  .on(BarcodeLoadActions.fetchBookFromBarcode, ({ code }, { getState }) => {
+  .on(BorrowOrReturnActions.fetchBookFromBarcode, ({ code }, { getState }) => {
     return Rx.fromPromise(bookRepository.findBooksByIsbn(code)).pipe(
       Rx.map(books => {
         if (books.length === 0) {
-          return BarcodeLoadActions.fetchBookFromBarcodeFullfilled({
+          return BorrowOrReturnActions.fetchBookFromBarcodeFullfilled({
             existsBookInList: false,
           });
         }
@@ -41,7 +41,7 @@ export const epic = createEpic(MODULE)
         const unStock = books.find(b => !!b.borrowedBy);
         const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
 
-        return BarcodeLoadActions.fetchBookFromBarcodeFullfilled({ book });
+        return BorrowOrReturnActions.fetchBookFromBarcodeFullfilled({ book });
       }),
     );
   })
@@ -55,7 +55,7 @@ export const epic = createEpic(MODULE)
   });
 
 // --- Reducer ---
-const initialState: BarcodeLoadState = {
+const initialState: BorrowOrReturnState = {
   isCameraSupported: false,
   isCameraEnabled: cameraRepository.isCameraPermissionGranted(),
   target: undefined,
@@ -63,17 +63,20 @@ const initialState: BarcodeLoadState = {
 };
 
 export const reducer = createReducer(initialState)
-  .on(BarcodeLoadActions.$mounted, state => {
+  .on(BorrowOrReturnActions.$mounted, state => {
     state.isCameraSupported = navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia;
     state.target = undefined;
     state.isProcessingBook = false;
   })
-  .on(BarcodeLoadActions.enableCamera, state => {
+  .on(BorrowOrReturnActions.enableCamera, state => {
     state.isCameraEnabled = true;
   })
-  .onMany([BarcodeLoadActions.fetchBookFromBarcode, BarcodeLoadActions.disableCamela], state => {
-    state.isCameraEnabled = false;
-  })
+  .onMany(
+    [BorrowOrReturnActions.fetchBookFromBarcode, BorrowOrReturnActions.disableCamela],
+    state => {
+      state.isCameraEnabled = false;
+    },
+  )
   .onMany([BookActions.borrowBookById, BookActions.returnBookById], state => {
     state.isProcessingBook = true;
   })
@@ -81,7 +84,7 @@ export const reducer = createReducer(initialState)
     state.isProcessingBook = false;
     state.target = undefined;
   })
-  .on(BarcodeLoadActions.fetchBookFromBarcodeFullfilled, (state, { target }) => {
+  .on(BorrowOrReturnActions.fetchBookFromBarcodeFullfilled, (state, { target }) => {
     state.target = target;
   });
 
@@ -90,8 +93,8 @@ export default () => {
   useModule({
     epic,
     reducer,
-    reducerPath: ['barcodeLoad'],
-    actions: BarcodeLoadActions,
+    reducerPath: ['borrowOrReturn'],
+    actions: BorrowOrReturnActions,
   });
-  return <BarcodeLoadView />;
+  return <BorrowOrReturnView />;
 };
