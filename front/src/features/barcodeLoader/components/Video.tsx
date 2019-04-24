@@ -1,10 +1,10 @@
 import Quagga from 'quagga';
 import React, { useEffect } from 'react';
 import { useActions } from 'typeless';
-import { BorrowOrReturnActions } from '../interface';
+import { BarcodeLoaderActions } from '../interface';
 
 export const Video: React.FC = ({}) => {
-  const { detectBarcode } = useActions(BorrowOrReturnActions);
+  const { onDetect: onDetected } = useActions(BarcodeLoaderActions);
   useEffect(() => {
     Quagga.init(
       {
@@ -30,7 +30,7 @@ export const Video: React.FC = ({}) => {
           return;
         }
         Quagga.start();
-        Quagga.onDetected(detectBarcode);
+        Quagga.onDetected(onDetected);
       },
     );
     return () => Quagga.stop();

@@ -1,54 +1,28 @@
-import { Box, Button } from 'grommet';
-import { Clear } from 'grommet-icons';
-import React, { Suspense } from 'react';
-import { ArrowDown, Camera } from 'react-feather';
+import { Box } from 'grommet';
+import React from 'react';
+import * as R from 'remeda';
 import { Dashboard } from 'src/components/Dashboard';
+import { BarcodeLoaderModule } from 'src/features/barcodeLoader/module';
 import { userIdQuery } from 'src/features/global/query';
-import { useActions, useMappedState } from 'typeless';
-import { BorrowOrReturnActions } from '../interface';
+import { useMappedState } from 'typeless';
 import { TargetBook } from './TargetBook';
-import { Video } from './Video';
 
 export const BorrowOrReturnView = () => {
-  const { isCameraEnabled, isCameraSupported, target, userId, isProcessingBook } = useMappedState(
-    state => ({
-      ...state.borrowOrReturn,
-      userId: userIdQuery(state.global),
-    }),
-  );
-  const { enableCamera, disableCamela } = useActions(BorrowOrReturnActions);
-
-  if (!isCameraSupported) {
-    return <div>Camera is not supported 😢</div>;
-  }
-
-  if (isCameraEnabled) {
-    return (
-      <Dashboard>
-        <Box justify="center" align="center" fill>
-          <Button label={<Clear />} onClick={disableCamela} />
-          バーコード読み取り
-          <Suspense fallback={<div>Loading...</div>}>
-            <Video />
-          </Suspense>
-        </Box>
-      </Dashboard>
-    );
-  }
+  const { target, userId, isProcessingBook, isCameraEnabled } = useMappedState(state => ({
+    ...R.pick(state.barcodeLoader, ['isCameraEnabled']),
+    ...state.borrowOrReturn,
+    userId: userIdQuery(state.global),
+  }));
   return (
     <Dashboard>
-      <Box justify="center" align="center" fill>
-        バーコード読み取り
-        <div>
+      <BarcodeLoaderModule />
+      {isCameraEnabled ? null : (
+        <Box justify="center" align="center" fill>
           <div>
-            <ArrowDown size={35} />
+            <TargetBook target={target} userId={userId} isProcessingBook={isProcessingBook} />
           </div>
-        </div>
-        <Button label={<Camera />} onClick={enableCamera} />
-        <div>
-          <TargetBook target={target} userId={userId} isProcessingBook={isProcessingBook} />
-        </div>
-      </Box>
+        </Box>
+      )}
     </Dashboard>
   );
 };

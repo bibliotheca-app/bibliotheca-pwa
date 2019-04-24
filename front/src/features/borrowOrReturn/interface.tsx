@@ -9,11 +9,6 @@ export const MODULE = 'borrowOrReturn';
 // --- Actions ---
 export const BorrowOrReturnActions = createActions(MODULE, {
   $mounted: null,
-  enableCamera: null,
-  disableCamela: null,
-  detectBarcode: (data: QuaggaJSResultObject) => ({
-    payload: { data },
-  }),
   fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
   fetchBookFromBarcodeFullfilled: (target: BarcodeProcessTarget) => ({
     payload: { target },
@@ -38,8 +33,6 @@ export const routeConfig: RouteConfig = {
 
 // --- Types ---
 export interface BorrowOrReturnState {
-  isCameraSupported: boolean;
-  isCameraEnabled: boolean;
   target: BarcodeProcessTarget | undefined;
   isProcessingBook: boolean;
 }
