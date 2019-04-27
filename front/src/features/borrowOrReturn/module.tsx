@@ -10,7 +10,6 @@ import { BorrowOrReturnActions, BorrowOrReturnState, MODULE } from './interface'
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
-  .on(BarcodeLoaderActions.emitBarcode, () => Rx.of(BarcodeLoaderActions.disableCamela()))
   .on(BarcodeLoaderActions.emitBarcode, ({ barcode }, { getState }) => {
     return Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
       Rx.map(books => {
