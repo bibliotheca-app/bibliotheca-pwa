@@ -34,7 +34,7 @@ export const reducer = createReducer(initialState)
   .on(BarcodeLoaderActions.enableCamera, state => {
     state.isCameraEnabled = true;
   })
-  .on(BarcodeLoaderActions.disableCamela, state => {
+  .onMany([BarcodeLoaderActions.disableCamela, BarcodeLoaderActions.emitBarcode], state => {
     state.isCameraEnabled = false;
   });
 

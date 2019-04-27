@@ -27,3 +27,13 @@ export type GrommetFormEvent<T> = React.FormEvent<HTMLFormElement> & {
   value: T;
 };
 export type GrommetFormHandler<T> = React.EventHandler<GrommetFormEvent<T>>;
+
+export interface OpenBDBookItem {
+  summary: {
+    isbn: string;
+    title: string;
+    [key: string]: unknown;
+  };
+  [key: string]: unknown;
+}
+export type OpenBDBookResponse = OpenBDBookItem[];

@@ -1,39 +1,37 @@
-import { Button, Form, FormField } from 'grommet';
+import { Button } from 'grommet';
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
-import { GrommetFormHandler } from 'src/types';
 import { useActions, useMappedState } from 'typeless';
-import { BookActions } from '../../interface';
+import { BookRegisterActions } from '../interface';
+import { RegistrationFromCamera } from './RegistrationFromCamera';
+import { RegistrationFromManual } from './RegistrationFromManual';
 
 export const BookRegisterView = () => {
-  const { registerBook } = useActions(BookActions);
-  const registeredBook = useMappedState(state => state.bookRegister.registeredBook);
+  const { toggleMode } = useActions(BookRegisterActions);
+  const { mode } = useMappedState(state => state.bookRegister);
 
-  const handleSubmit: GrommetFormHandler<{
-    title: string;
-    isbn: string;
-  }> = e => {
-    e.preventDefault();
-    registerBook(e.value);
-  };
-
+  const registration = (() => {
+    switch (mode) {
+      case 'camera':
+        return (
+          <>
+            <Button onClick={toggleMode} label={'手動入力で登録'} />
+            <RegistrationFromCamera />
+          </>
+        );
+      case 'manual':
+        return (
+          <>
+            <Button onClick={toggleMode} label={'カメラから登録'} />
+            <RegistrationFromManual />
+          </>
+        );
+    }
+  })();
   return (
     <Dashboard>
-      <Form onSubmit={handleSubmit}>
-        蔵書登録フォーム
-        <FormField name="title" label="タイトル" required />
-        <FormField
-          name="isbn"
-          label="ISBN"
-          required
-          validate={{
-            regexp: /(978|979)[0-9]{10}/,
-            message: '978または979のいずれかから始まる13桁の数値を入力してください',
-          }}
-        />
-        <Button type="submit" primary label="登録" />
-      </Form>
-      {registeredBook ? JSON.stringify(registeredBook) : ''}
+      蔵書登録フォーム
+      {registration}
     </Dashboard>
   );
 };
