@@ -12,21 +12,9 @@ import { BorrowOrReturnActions, BorrowOrReturnState, MODULE } from './interface'
 export const epic = createEpic(MODULE)
   .on(BarcodeLoaderActions.emitBarcode, ({ barcode }, { getState }) => {
     return Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
-      Rx.map(books => {
-        if (books.length === 0) {
-          return BorrowOrReturnActions.fetchBookFromBarcodeFullfilled({
-            existsBookInList: false,
-          });
-        }
-
-        const userId = userIdQuery(getState().global);
-        const borrowedByMe = books.find(b => b.borrowedBy === userId);
-        const stock = books.find(b => !b.borrowedBy);
-        const unStock = books.find(b => !!b.borrowedBy);
-        const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
-
-        return BorrowOrReturnActions.fetchBookFromBarcodeFullfilled({ book });
-      }),
+      Rx.map(books =>
+        BorrowOrReturnActions.fetchBookFromBarcodeFullfilled(books, userIdQuery(getState().global)),
+      ),
     );
   })
   .on(BookActions.borrowBookByIdFulfilled, ({ book }) => {
@@ -56,8 +44,17 @@ export const reducer = createReducer(initialState)
     state.isProcessingBook = false;
     state.target = undefined;
   })
-  .on(BorrowOrReturnActions.fetchBookFromBarcodeFullfilled, (state, { target }) => {
-    state.target = target;
+  .on(BorrowOrReturnActions.fetchBookFromBarcodeFullfilled, (state, { books, userId }) => {
+    if (books.length === 0) {
+      state.target = { existsBookInList: false };
+    } else {
+      const borrowedByMe = books.find(b => b.borrowedBy === userId);
+      const stock = books.find(b => !b.borrowedBy);
+      const unStock = books.find(b => !!b.borrowedBy);
+      const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
+
+      state.target = { book };
+    }
   });
 
 // --- Module ---

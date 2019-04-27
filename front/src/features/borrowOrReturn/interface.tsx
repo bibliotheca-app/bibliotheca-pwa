@@ -10,8 +10,8 @@ export const MODULE = 'borrowOrReturn';
 export const BorrowOrReturnActions = createActions(MODULE, {
   $mounted: null,
   fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
-  fetchBookFromBarcodeFullfilled: (target: BarcodeProcessTarget) => ({
-    payload: { target },
+  fetchBookFromBarcodeFullfilled: (books: Book[], userId: string) => ({
+    payload: { books, userId },
   }),
 });
 
