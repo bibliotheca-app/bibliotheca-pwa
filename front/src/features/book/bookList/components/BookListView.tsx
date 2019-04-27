@@ -30,6 +30,7 @@ export const BookListView = () => {
           {
             property: 'title',
             header: 'タイトル',
+            search: true,
             render: (book: Book) => {
               return (
                 <Link href={`/book-detail?bookId=${book.id}`}>
@@ -41,6 +42,7 @@ export const BookListView = () => {
           { property: 'isbn', header: 'ISBN' },
           {
             property: 'borrowedBy',
+            search: true,
             render: (book: Book) => (
               <BookBorrowAndReturnButton
                 book={book}
@@ -50,7 +52,14 @@ export const BookListView = () => {
               />
             ),
           },
+          {
+            property: 'createdAt',
+            header: '登録日',
+            render: ({ createdAt }: Book) =>
+              `${createdAt.getFullYear()}/${createdAt.getMonth() + 1}/${createdAt.getDate()}`,
+          },
         ]}
+        sortable
       />
     </Dashboard>
   );
