@@ -52,5 +52,6 @@ jobs:
       name: default
     steps:
       - setup
-      - run: yarn build
+      - run: yarn build:prod
+      - run: yarn run firebase use prod
       - run: yarn deploy

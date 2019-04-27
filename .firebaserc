@@ -1,12 +1,20 @@
 {
   "projects": {
-    "default": "miscs-randd"
+    "prod": "bibliotheca-238406",
+    "test": "bibliotheca-test"
   },
   "targets": {
-    "miscs-randd": {
+    "bibliotheca-238406": {
       "hosting": {
         "bibliotheca-site": [
-          "bibliotheca"
+          "bibliotheca-pwa"
+        ]
+      }
+    },
+    "bibliotheca-test": {
+      "hosting": {
+        "bibliotheca-site": [
+          "bibliotheca-test"
         ]
       }
     }

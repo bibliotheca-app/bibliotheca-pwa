@@ -41,6 +41,7 @@
     "watch-tsc": "tsc -w",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
+    "build:prod": "REACT_APP_TARGET=prod yarn run build",
     "test": "echo \"no test \" # react-app-rewired test --env=jsdom # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))",
     "eject": "react-app-rewired eject",
     "deploy": "firebase deploy --only hosting:bibliotheca-site",

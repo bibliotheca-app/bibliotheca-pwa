@@ -2,12 +2,28 @@ import * as _firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
 
-const config = {
-  apiKey: 'AIzaSyAiJu6x2qleFj5uQU9iNP0mtR_Xz7BkcGs',
-  authDomain: 'bibliotheca.firebaseapp.com',
-  databaseURL: 'https://miscs-randd.firebaseio.com',
-  projectId: 'miscs-randd',
-};
+const config = (() => {
+  switch (process.env.REACT_APP_TARGET) {
+    case 'prod':
+      return {
+        apiKey: 'AIzaSyCcEk8gybo6OgSoTpfi_E7rmFaEb8ef5cs',
+        authDomain: 'bibliotheca-238406.firebaseapp.com',
+        databaseURL: 'https://bibliotheca-238406.firebaseio.com',
+        projectId: 'bibliotheca-238406',
+        storageBucket: 'bibliotheca-238406.appspot.com',
+        messagingSenderId: '27494100207',
+      };
+    default:
+      return {
+        apiKey: 'AIzaSyCwkZrNBPiknXHpMxC0ij2X9Ihk15Mb-RI',
+        authDomain: 'bibliotheca-test.firebaseapp.com',
+        databaseURL: 'https://bibliotheca-test.firebaseio.com',
+        projectId: 'bibliotheca-test',
+        storageBucket: 'bibliotheca-test.appspot.com',
+        messagingSenderId: '236517784800',
+      };
+  }
+})();
 
 _firebase.initializeApp(config);
 
