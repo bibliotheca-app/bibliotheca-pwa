@@ -36,6 +36,7 @@ export const Dashboard = (props: DashboardProps) => {
   const links = [
     { link: '/book-list', title: '書籍一覧' },
     { link: '/borrow-or-return', title: '貸出/返却' },
+    { link: '/inventory-event-list', title: '棚卸し' },
   ];
   const onActive = (index: number) => {
     push(links[index].link);

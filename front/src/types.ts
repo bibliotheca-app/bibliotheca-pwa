@@ -22,6 +22,18 @@ export interface Book {
   createdAt: Date;
 }
 
+export interface BookInventoryItem extends Book {
+  status: 'checked' | 'missing';
+}
+
+export interface InventoryEvent extends InventoryEventBody {
+  id: string;
+}
+export interface InventoryEventBody {
+  date: Date;
+  status: 'doing' | 'done';
+}
+
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type GrommetFormEvent<T> = React.FormEvent<HTMLFormElement> & {
   value: T;
