@@ -3,7 +3,7 @@ import React from 'react';
 
 const coverUrl = (isbn: string) => `https://cover.openbd.jp/${isbn}.jpg`;
 
-export const BookDetail = ({ book }: { book: { title: string; isbn?: string } }) => {
+export const BookDetail = ({ book }: { book: { title: string; isbn: string | null } }) => {
   return (
     <>
       <Text>{book.title}</Text>
