@@ -2,20 +2,17 @@ import { Button } from 'grommet';
 import React from 'react';
 import { BookDetail } from 'src/components/BookDetail';
 import { BarcodeLoaderModule } from 'src/features/barcodeLoader/module';
-import { useActions, useMappedState } from 'typeless';
-import { RegisterInventoryBookActions } from '../interface';
+import { Book } from 'src/types';
 
-export const RegistrationFromCamera = () => {
-  const { registerBook } = useMappedState(state => state.registerInventoryBook);
-  const { submit } = useActions(RegisterInventoryBookActions);
-
+// todo: combine register form's `RegistrationFromCamera` Component
+export const RegistrationFromCamera = (props: { targetBook?: Book; submit: () => void }) => {
   return (
     <>
       <BarcodeLoaderModule />
-      {registerBook ? (
+      {props.targetBook ? (
         <>
-          <BookDetail book={registerBook} />
-          <Button type="button" primary label="登録" onClick={submit} />
+          <BookDetail book={props.targetBook} />
+          <Button type="button" primary label="登録" onClick={props.submit} />
         </>
       ) : null}
     </>
