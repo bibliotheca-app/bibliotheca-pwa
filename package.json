@@ -15,6 +15,7 @@
     "tsc": "lerna run tsc --stream",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
+    "build:prod": "lerna run build:prod --stream",
     "test": "lerna run test --stream",
     "deploy": "lerna run deploy"
   }
