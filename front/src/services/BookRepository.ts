@@ -158,11 +158,12 @@ export class BookRepository {
     return bookRef.get().then(bookFromDoc);
   };
 
-  registerBook = async (bookData: { title: string; isbn?: string }): Promise<Book> => {
+  registerBook = async (bookData: { title: string; isbn: string | null }): Promise<Book> => {
     const book: Omit<Book, 'id'> = {
-      ...bookData,
       createdAt: new Date(),
       updatedAt: new Date(),
+      borrowedBy: null,
+      ...bookData,
     };
 
     const bookRef = await this.collection.add(book);
