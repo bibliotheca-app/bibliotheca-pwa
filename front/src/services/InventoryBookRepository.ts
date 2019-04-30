@@ -13,9 +13,6 @@ const inventoryBookFromDoc = (doc: firestore.DocumentSnapshot): InventoryBook =>
   };
 };
 
-const toInventoryKey = (date: Date) =>
-  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-
 export class InventoryBookRepository {
   private collection = this.db.collection('inventoryEvents');
 
@@ -36,16 +33,14 @@ export class InventoryBookRepository {
     return querySnapshot.docs.map(inventoryBookFromDoc);
   };
 
-  addInventoriedItem = async (date: Date, book: Book, status: InventoryStatus) => {
-    const bookData = { ...R.omit(book, ['id']), status };
-    await this.mkInventoryBookRefByDate(date)
+  addInventoriedItem = async (eventId: string, book: Book, status: InventoryStatus) => {
+    const bookData = { ...R.omit(book, ['id', 'borrowedBy']), status };
+    await this.mkInventoryBookRefByEvent({ id: eventId })
       .collection('books')
       .doc(book.id)
       .set(bookData);
   };
 
-  private mkInventoryBookRefByDate = (date: Date): firestore.DocumentReference =>
-    this.collection.doc(toInventoryKey(date));
   private mkInventoryBookRefByEvent = (ev: { id: string }): firestore.DocumentReference =>
     this.collection.doc(ev.id);
 }

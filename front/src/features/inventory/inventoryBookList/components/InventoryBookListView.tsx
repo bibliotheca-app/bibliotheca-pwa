@@ -6,10 +6,10 @@ import { InventoryBook } from 'src/types';
 import { useMappedState } from 'typeless';
 
 export const InventoryBookListView = () => {
-  const { inventoryBooks } = useMappedState(state => state.inventoryBookList);
+  const { inventoryBooks, eventId } = useMappedState(state => state.inventoryBookList);
   return (
     <Dashboard>
-      <Link href="/inventory-book">
+      <Link href={`/register-inventory-book?eventId=${eventId}`}>
         <Button label="棚卸しする" />
       </Link>
       <DataTable

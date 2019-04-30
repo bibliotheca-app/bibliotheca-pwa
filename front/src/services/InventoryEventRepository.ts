@@ -22,6 +22,13 @@ export class InventoryEventRepository {
     return querySnapshot.docs.map(inventoryEventFromDoc);
   };
 
+  findInventoryEventById = async (eventId: string) => {
+    return this.collection
+      .doc(eventId)
+      .get()
+      .then(inventoryEventFromDoc);
+  };
+
   findInventoryEventByDate = async (date: Date): Promise<InventoryEvent> => {
     const querySnapshot = await this.collection
       .where('date', '>=', startOfDay(date))

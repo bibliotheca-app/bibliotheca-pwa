@@ -27,12 +27,13 @@ const initialState: InventoryBookListState = {
   inventoryBooks: [],
 };
 
-export const reducer = createReducer(initialState).on(
-  InventoryBookListActions.fetchInventoryBookListFullfilled,
-  (state, { books }) => {
+export const reducer = createReducer(initialState)
+  .on(InventoryBookListActions.fetchInventoryBookListFullfilled, (state, { books }) => {
     state.inventoryBooks = books;
-  },
-);
+  })
+  .on(InventoryBookListActions.fetchInventoryBookList, (state, { eventId }) => {
+    state.eventId = eventId;
+  });
 
 // --- Module ---
 export default () => {

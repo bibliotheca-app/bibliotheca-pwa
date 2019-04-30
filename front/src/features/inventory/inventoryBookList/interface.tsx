@@ -32,6 +32,7 @@ export const routeConfig: RouteConfig = {
 // --- Types ---
 export interface InventoryBookListState {
   inventoryBooks: InventoryBook[];
+  eventId?: string;
 }
 
 declare module 'typeless/types' {
