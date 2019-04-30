@@ -1,6 +1,6 @@
 import { endOfDay, startOfDay } from 'date-fns';
 import { firestore } from 'firebase';
-import { InventoryEvent, InventoryEventBody } from 'src/types';
+import { InventoryEvent, InventoryEventBody, InventoryEventStatus } from 'src/types';
 
 const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent => {
   const data = doc.data()!;
@@ -38,11 +38,20 @@ export class InventoryEventRepository {
     // note: result must have only 1 item
     return querySnapshot.docs.map(inventoryEventFromDoc)[0];
   };
+  findInventoryEventByStatus = async (status: InventoryEventStatus) => {
+    const querySnapshot = await this.collection.where('status', '==', status).get();
+
+    return querySnapshot.docs.map(inventoryEventFromDoc);
+  };
 
   createInventoryEvent = async () => {
-    // todo: disallow to create when collection has 'doing' status event
+    const doingEvents = await this.findInventoryEventByStatus('doing');
+    if (doingEvents.length > 0) {
+      throw new Error('棚卸し中に新しい棚卸しは開始できません');
+    }
+
     const e: InventoryEventBody = { date: new Date(), status: 'doing' };
-    const eventRef = await this.collection.add(e);
-    return eventRef.get().then(inventoryEventFromDoc);
+    const ref = await this.collection.add(e);
+    return ref.get().then(inventoryEventFromDoc);
   };
 }

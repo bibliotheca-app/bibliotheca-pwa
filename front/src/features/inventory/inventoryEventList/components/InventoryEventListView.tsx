@@ -8,12 +8,20 @@ import { useActions, useMappedState } from 'typeless';
 import { InventoryEventListActions } from '../interface';
 
 export const InventoryEventListView = () => {
-  const { inventoryEvents } = useMappedState(state => state.inventoryEventList);
+  const { inventoryEvents, canStartInventory } = useMappedState(
+    // tslint:disable-next-line:no-shadowed-variable
+    ({ inventoryEventList: { inventoryEvents } }) => {
+      return {
+        inventoryEvents,
+        canStartInventory: inventoryEvents.find(ie => ie.status === 'doing') === undefined,
+      };
+    },
+  );
   const { createInventoryEvent } = useActions(InventoryEventListActions);
   return (
     <Dashboard>
       棚卸し
-      <Button label="棚卸し開始" onClick={createInventoryEvent} />
+      {canStartInventory ? <Button label="棚卸し開始" onClick={createInventoryEvent} /> : null}
       <DataTable
         size="large"
         primaryKey="id"

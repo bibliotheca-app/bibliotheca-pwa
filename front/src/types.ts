@@ -30,9 +30,10 @@ export interface InventoryBook extends Book {
 export interface InventoryEvent extends InventoryEventBody {
   id: string;
 }
+export type InventoryEventStatus = 'doing' | 'done';
 export interface InventoryEventBody {
   date: Date;
-  status: 'doing' | 'done';
+  status: InventoryEventStatus;
 }
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
