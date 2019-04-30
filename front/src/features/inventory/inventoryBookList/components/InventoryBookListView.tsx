@@ -1,21 +1,62 @@
-import { Button, DataTable, Text } from 'grommet';
+import { Button, DataTable, RadioButton, Text } from 'grommet';
 import React from 'react';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
 import { InventoryBook } from 'src/types';
-import { useMappedState } from 'typeless';
+import { useActions, useMappedState } from 'typeless';
+import { InventoryBookListActions } from '../interface';
 
 export const InventoryBookListView = () => {
-  const { inventoryBooks, eventId } = useMappedState(state => state.inventoryBookList);
+  const { changeView } = useActions(InventoryBookListActions);
+  const { books, viewType, eventId } = useMappedState(
+    ({ inventoryBookModule, inventoryBookList }) => {
+      // tslint:disable-next-line:no-shadowed-variable
+      const books = (() => {
+        switch (inventoryBookList.viewType) {
+          case 'checkedOnly':
+            return inventoryBookModule.inventoryBooks;
+          case 'all':
+            return inventoryBookModule.booksInList;
+          case 'uncheckedOnly': {
+            const checked = new Set(inventoryBookModule.inventoryBooks.map(b => b.id));
+
+            return inventoryBookModule.booksInList.filter(b => !checked.has(b.id));
+          }
+        }
+      })();
+      return { ...inventoryBookModule, ...inventoryBookList, books };
+    },
+  );
   return (
     <Dashboard>
       <Link href={`/register-inventory-book?eventId=${eventId}`}>
         <Button label="棚卸しする" />
       </Link>
+      <RadioButton
+        label="棚卸し済のみ"
+        name="viewType"
+        value="checkedOnly"
+        checked={viewType === 'checkedOnly'}
+        onChange={() => changeView('checkedOnly')}
+      />
+      <RadioButton
+        label="全て"
+        name="viewType"
+        value="all"
+        checked={viewType === 'all'}
+        onChange={() => changeView('all')}
+      />
+      <RadioButton
+        label="未チェック"
+        name="viewType"
+        value="uncheckedOnly"
+        checked={viewType === 'uncheckedOnly'}
+        onChange={() => changeView('uncheckedOnly')}
+      />
       <DataTable
         size="large"
         primaryKey="id"
-        data={inventoryBooks}
+        data={books}
         columns={[
           {
             property: 'title',

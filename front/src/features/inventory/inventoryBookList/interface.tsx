@@ -1,6 +1,6 @@
 import React from 'react';
 import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { InventoryBook, RouteConfig } from 'src/types';
+import { RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -9,8 +9,7 @@ export const MODULE = 'inventoryBookList';
 // --- Actions ---
 export const InventoryBookListActions = createActions(MODULE, {
   $mounted: null,
-  fetchInventoryBookList: (eventId: string) => ({ payload: { eventId } }),
-  fetchInventoryBookListFullfilled: (books: InventoryBook[]) => ({ payload: { books } }),
+  changeView: (type: ViewType) => ({ payload: { type } }),
 });
 
 // --- Routing ---
@@ -31,9 +30,9 @@ export const routeConfig: RouteConfig = {
 
 // --- Types ---
 export interface InventoryBookListState {
-  inventoryBooks: InventoryBook[];
-  eventId?: string;
+  viewType: ViewType;
 }
+export type ViewType = 'all' | 'checkedOnly' | 'uncheckedOnly';
 
 declare module 'typeless/types' {
   export interface DefaultState {

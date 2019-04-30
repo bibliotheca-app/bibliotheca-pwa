@@ -34,12 +34,20 @@ export class InventoryBookRepository {
   };
 
   addInventoriedItem = async (eventId: string, book: Book, status: InventoryStatus) => {
-    const bookData = { ...R.omit(book, ['id', 'borrowedBy']), status };
+    const bookData = { ...R.omit(book, ['borrowedBy']), status };
     await this.mkInventoryBookRefByEvent({ id: eventId })
       .collection('books')
-      .doc(book.id)
+      .doc()
       .set(bookData);
   };
+
+  subscribeInventoryBooks = (eventId: string, observer: (books: InventoryBook[]) => void) =>
+    this.collection
+      .doc(eventId)
+      .collection('books')
+      .onSnapshot(snapshot => {
+        observer(snapshot.docs.map(inventoryBookFromDoc));
+      });
 
   private mkInventoryBookRefByEvent = (ev: { id: string }): firestore.DocumentReference =>
     this.collection.doc(ev.id);
