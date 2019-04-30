@@ -22,8 +22,9 @@ export interface Book {
   createdAt: Date;
 }
 
-export interface BookInventoryItem extends Book {
-  status: 'checked' | 'missing';
+export type InventoryStatus = 'checked' | 'missing';
+export interface InventoryBook extends Book {
+  status: InventoryStatus;
 }
 
 export interface InventoryEvent extends InventoryEventBody {

@@ -1,7 +1,6 @@
 import { endOfDay, startOfDay } from 'date-fns';
 import { firestore } from 'firebase';
-import * as R from 'remeda';
-import { Book, InventoryEvent, InventoryEventBody } from 'src/types';
+import { InventoryEvent, InventoryEventBody } from 'src/types';
 
 const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent => {
   const data = doc.data()!;
@@ -13,9 +12,6 @@ const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent 
   };
 };
 
-const toInventoryKey = (date: Date) =>
-  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-
 export class InventoryEventRepository {
   private collection = this.db.collection('inventoryEvents');
 
@@ -26,12 +22,14 @@ export class InventoryEventRepository {
     return querySnapshot.docs.map(inventoryEventFromDoc);
   };
 
-  findInventoryEventByDate = async (date: Date) => {
+  findInventoryEventByDate = async (date: Date): Promise<InventoryEvent> => {
     const querySnapshot = await this.collection
       .where('date', '>=', startOfDay(date))
       .where('date', '<', endOfDay(date))
       .get();
-    return querySnapshot.docs.map(inventoryEventFromDoc);
+
+    // note: result must have only 1 item
+    return querySnapshot.docs.map(inventoryEventFromDoc)[0];
   };
 
   createInventoryEvent = async () => {
@@ -40,15 +38,4 @@ export class InventoryEventRepository {
     const eventRef = await this.collection.add(e);
     return eventRef.get().then(inventoryEventFromDoc);
   };
-
-  addInventoriedItem = async (date: Date, book: Book) => {
-    const bookData = R.omit(book, ['id']);
-    await this.mkBookInventoryEventRefByDate(date)
-      .collection('books')
-      .doc(book.id)
-      .set(bookData);
-  };
-
-  private mkBookInventoryEventRefByDate = (date: Date): firestore.DocumentReference =>
-    this.collection.doc(toInventoryKey(date));
 }

@@ -1,7 +1,7 @@
 import { firestore } from 'firebase';
 import { Book, Omit } from 'src/types';
 
-const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
+export const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
   const data = doc.data()!;
 
   return {
