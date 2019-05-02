@@ -5,11 +5,10 @@ import { Link } from 'src/components/Link';
 import { BookActions } from 'src/features/book/interface';
 import { userIdQuery } from 'src/features/global/query';
 import { Book } from 'src/types';
+import styled from 'styled-components';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
 import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
-
-import styled from 'styled-components';
 
 const StyledDataTable = styled(DataTable)`
   tbody tr:nth-of-type(2n) {

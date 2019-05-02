@@ -1,4 +1,4 @@
-import { Button, Text } from 'grommet';
+import { Button } from 'grommet';
 import React from 'react';
 import { Book } from 'src/types';
 
