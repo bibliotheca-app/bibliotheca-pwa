@@ -5,9 +5,22 @@ import { Link } from 'src/components/Link';
 import { BookActions } from 'src/features/book/interface';
 import { userIdQuery } from 'src/features/global/query';
 import { Book } from 'src/types';
+import styled from 'styled-components';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
 import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
+
+const StyledDataTable = styled(DataTable)`
+  tbody tr:nth-of-type(2n) {
+    background-color: #fff;
+  }
+  tbody tr:nth-of-type(2n + 1) {
+    background-color: #f9f9f9;
+  }
+  tbody tr:hover {
+    background-color: #f0f0f0;
+  }
+`;
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
@@ -22,7 +35,7 @@ export const BookListView = () => {
         <button>登録</button>
       </Link>
       <br />
-      <DataTable
+      <StyledDataTable
         size="large"
         primaryKey="id"
         data={books}

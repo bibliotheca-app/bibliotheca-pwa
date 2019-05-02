@@ -74,9 +74,8 @@ export class BookRepository {
   };
 
   borrowBookById = async (id: string, userId: string): Promise<Book> => {
-    const ref = this.mkBookRefById(id);
-
-    this.db.runTransaction(async tx => {
+    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+      const ref = this.mkBookRefById(id);
       const borrowableBook = await tx.get(ref).then(bookFromDoc);
 
       if (!!borrowableBook.borrowedBy) {
@@ -84,9 +83,10 @@ export class BookRepository {
       }
 
       tx.update(ref, { borrowedBy: userId, updatedAt: new Date() });
+      return ref;
     });
 
-    return ref.get().then(bookFromDoc);
+    return bookRef.get().then(bookFromDoc);
   };
 
   returnBookById = async (id: string, userId: string): Promise<Book> => {
