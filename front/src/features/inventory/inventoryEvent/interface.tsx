@@ -4,18 +4,17 @@ import { RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'inventoryBookList';
+export const MODULE = 'InventoryEvent';
 
 // --- Actions ---
-export const InventoryBookListActions = createActions(MODULE, {
-  $mounted: null,
+export const InventoryEventActions = createActions(MODULE, {
   changeView: (type: ViewType) => ({ payload: { type } }),
 });
 
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
 
-const InventoryBookListRoute = () => (
+const InventoryEventRoute = () => (
   <DefaultSuspense>
     <ModuleLoader />
   </DefaultSuspense>
@@ -24,18 +23,18 @@ const InventoryBookListRoute = () => (
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: true,
-  path: '/inventory-book-list',
-  component: <InventoryBookListRoute />,
+  path: '/inventory-event',
+  component: <InventoryEventRoute />,
 };
 
 // --- Types ---
-export interface InventoryBookListState {
+export interface InventoryEventState {
   viewType: ViewType;
 }
 export type ViewType = 'all' | 'checkedOnly' | 'uncheckedOnly';
 
 declare module 'typeless/types' {
   export interface DefaultState {
-    inventoryBookList: InventoryBookListState;
+    InventoryEvent: InventoryEventState;
   }
 }

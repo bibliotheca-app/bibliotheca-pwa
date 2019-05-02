@@ -1,6 +1,6 @@
 import React from 'react';
 import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { Book, InventoryEvent, RouteConfig } from 'src/types';
+import { Book, RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -8,11 +8,10 @@ export const MODULE = 'registerInventoryBook';
 
 // --- Actions ---
 export const RegisterInventoryBookActions = createActions(MODULE, {
-  $mounted: null,
-  fetchInventoryEvent: (eventId: string) => ({ payload: { eventId } }),
-  fetchInventoryEventFullfilled: (event: InventoryEvent) => ({ payload: { event } }),
+  $unmounting: null,
   fetchBookFullfilled: (book: Book) => ({ payload: { book } }),
   submit: null,
+  submitFullfilled: null,
 });
 
 // --- Routing ---
@@ -34,8 +33,8 @@ export const routeConfig: RouteConfig = {
 // --- Types ---
 export interface RegisterInventoryBookState {
   registerBook?: Book;
+  // todo: implements loading state
   isProcessingBook: boolean;
-  targetEvent?: InventoryEvent;
 }
 
 declare module 'typeless/types' {

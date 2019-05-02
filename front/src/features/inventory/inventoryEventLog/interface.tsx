@@ -1,25 +1,23 @@
 import React from 'react';
 import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { InventoryEvent, RouteConfig } from 'src/types';
+import { InventoryEventLog, RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'inventoryEventList';
+export const MODULE = 'InventoryEventLog';
 
 // --- Actions ---
-export const InventoryEventListActions = createActions(MODULE, {
+export const InventoryEventLogActions = createActions(MODULE, {
   $mounted: null,
-  fetchEventList: null,
-  fetchEventListFullfilled: (inventoryEvents: InventoryEvent[]) => ({
+  fetchEventListFullfilled: (inventoryEvents: InventoryEventLog[]) => ({
     payload: { inventoryEvents },
   }),
-  createInventoryEvent: null,
 });
 
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
 
-const InventoryEventListRoute = () => (
+const InventoryEventLogRoute = () => (
   <DefaultSuspense>
     <ModuleLoader />
   </DefaultSuspense>
@@ -28,17 +26,17 @@ const InventoryEventListRoute = () => (
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: true,
-  path: '/inventory-event-list',
-  component: <InventoryEventListRoute />,
+  path: '/inventory-event-logs',
+  component: <InventoryEventLogRoute />,
 };
 
 // --- Types ---
-export interface InventoryEventListState {
-  inventoryEvents: InventoryEvent[];
+export interface InventoryEventLogState {
+  inventoryEventLogs: InventoryEventLog[];
 }
 
 declare module 'typeless/types' {
   export interface DefaultState {
-    inventoryEventList: InventoryEventListState;
+    InventoryEventLog: InventoryEventLogState;
   }
 }
