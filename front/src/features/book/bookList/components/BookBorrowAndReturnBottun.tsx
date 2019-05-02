@@ -1,5 +1,8 @@
+import { Button, Text } from 'grommet';
 import React from 'react';
 import { Book } from 'src/types';
+
+const extractName = (email: string): string => email.split('@')[0];
 
 interface Props {
   onBorrow: (bookId: string) => void;
@@ -18,20 +21,12 @@ export const BookBorrowAndReturnButton: React.SFC<Props> = ({
 }) => {
   if (book.borrowedBy === userId) {
     // 借りている時
-    return (
-      <button onClick={() => onReturn(book.id)} disabled={disabled}>
-        返却
-      </button>
-    );
+    return <Button primary label="返却" onClick={() => onReturn(book.id)} disabled={disabled} />;
   } else if (!book.borrowedBy) {
     // 借りられていない時
-    return (
-      <button onClick={() => onBorrow(book.id)} disabled={disabled}>
-        貸出
-      </button>
-    );
+    return <Button label="貸出" onClick={() => onBorrow(book.id)} disabled={disabled} />;
   } else {
     // 借りられている時
-    return <button disabled>{book.borrowedBy}が借りています</button>;
+    return <Button disabled label={`${extractName(book.borrowedBy)} が借りています`} />;
   }
 };
