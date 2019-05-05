@@ -1,4 +1,5 @@
-import { Book, InventoryEvent } from 'src/types';
+import { Book } from 'shared/types';
+import { InventoryEvent } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---

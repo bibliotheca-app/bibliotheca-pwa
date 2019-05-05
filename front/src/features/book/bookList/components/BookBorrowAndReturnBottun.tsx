@@ -1,6 +1,6 @@
 import { Button } from 'grommet';
 import React from 'react';
-import { Book } from 'src/types';
+import { Book } from 'shared/types';
 
 const extractName = (email: string): string => email.split('@')[0];
 

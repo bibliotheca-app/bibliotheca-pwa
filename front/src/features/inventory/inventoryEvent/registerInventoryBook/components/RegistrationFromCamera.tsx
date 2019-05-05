@@ -1,8 +1,8 @@
 import { Button } from 'grommet';
 import React from 'react';
+import { Book } from 'shared/types';
 import { BookDetail } from 'src/components/BookDetail';
 import { BarcodeLoaderModule } from 'src/features/barcodeLoader/module';
-import { Book } from 'src/types';
 
 // todo: combine register form's `RegistrationFromCamera` Component
 export const RegistrationFromCamera = (props: { targetBook?: Book; submit: () => void }) => {

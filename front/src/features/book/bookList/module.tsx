@@ -1,7 +1,7 @@
 import React from 'react';
+import { Book } from 'shared/types';
 import * as Rx from 'src/rx';
 import { bookRepository } from 'src/services/ServiceContainer';
-import { Book } from 'src/types';
 import { createEpic, createReducer, useModule } from 'typeless';
 import { BookActions } from '../interface';
 import { BookListView } from './components/BookListView';

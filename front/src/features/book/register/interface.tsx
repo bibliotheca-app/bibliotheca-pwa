@@ -1,6 +1,7 @@
 import React from 'react';
+import { Book } from 'shared/types';
 import { DefaultSuspense } from 'src/components/DefaultSuspense';
-import { Book, RouteConfig } from 'src/types';
+import { RouteConfig } from 'src/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---

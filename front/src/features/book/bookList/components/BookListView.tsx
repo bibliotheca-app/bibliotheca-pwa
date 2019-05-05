@@ -1,10 +1,10 @@
 import { DataTable, Text } from 'grommet';
 import React from 'react';
+import { Book } from 'shared/types';
 import { Dashboard } from 'src/components/Dashboard';
 import { Link } from 'src/components/Link';
 import { BookActions } from 'src/features/book/interface';
 import { userIdQuery } from 'src/features/global/query';
-import { Book } from 'src/types';
 import styled from 'styled-components';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';

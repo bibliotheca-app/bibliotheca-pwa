@@ -1,4 +1,4 @@
-import { Book } from 'src/types';
+import { Book } from 'shared/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---

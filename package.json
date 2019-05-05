@@ -6,13 +6,16 @@
   "private": true,
   "workspaces": [
     "front",
-    "functions"
+    "functions",
+    "shared"
   ],
   "devDependencies": {
-    "lerna": "^3.13.3"
+    "lerna": "^3.13.3",
+    "typescript": "^3.4.5"
   },
   "scripts": {
-    "tsc": "lerna run tsc --stream",
+    "tsc": "tsc -b front functions shared",
+    "tsc-watch": "tsc -b front functions shared -w",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
     "build:prod": "lerna run build:prod --stream",

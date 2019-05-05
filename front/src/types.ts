@@ -13,15 +13,6 @@ export interface User {
   firebaseAuth: FirebaseUser;
 }
 
-export interface Book {
-  id: string;
-  isbn: string | null;
-  title: string;
-  borrowedBy: string | null;
-  updatedAt: Date;
-  createdAt: Date;
-}
-
 type InventoryStatus = 'checked' | 'missing';
 
 export interface InventoryEventDone {

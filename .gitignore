@@ -68,3 +68,5 @@ typings/
 
 # direnv file
 .envrc
+
+/dist

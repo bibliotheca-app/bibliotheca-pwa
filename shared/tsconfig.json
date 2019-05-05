@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2018",
+    "module": "commonjs",
+    "declaration": true,
+    "declarationMap": true,
+    "sourceMap": true,
+    "rootDir": "./src",
+    "outDir": "../dist/shared",
+    "composite": true,
+    "incremental": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    // "noUnusedParameters": true,
+    "noImplicitReturns": true,
+    "typeRoots": ["node_modules/@types"],
+    "esModuleInterop": true
+  }
+}
