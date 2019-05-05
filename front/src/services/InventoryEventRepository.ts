@@ -1,54 +1,91 @@
-import { endOfDay, startOfDay } from 'date-fns';
 import { firestore } from 'firebase';
-import * as R from 'remeda';
-import { Book, InventoryEvent, InventoryEventBody } from 'src/types';
+import {
+  InventoryBook,
+  InventoryEvent,
+  InventoryEventDoing,
+  InventoryEventStatus,
+  isDoneEvent,
+} from 'src/types';
 
 const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent => {
   const data = doc.data()!;
+  switch (data.status) {
+    case InventoryEventStatus.Done:
+      return { status: InventoryEventStatus.Done };
 
-  return {
-    id: doc.id,
-    date: data.date.toDate(),
-    status: data.status,
-  };
+    case InventoryEventStatus.Doing:
+      return {
+        date: data.date.toDate(),
+        status: InventoryEventStatus.Doing,
+        inventoryBooks: data.inventoryBooks,
+      };
+
+    default:
+      throw new Error('Invalid field: `status` must be InventoryEventStatus');
+  }
 };
 
-const toInventoryKey = (date: Date) =>
-  `${date.getFullYear()}-${date.getMonth() + 1}-${date.getDate()}`;
-
 export class InventoryEventRepository {
-  private collection = this.db.collection('inventoryEvents');
-
+  private collection = this.db.collection('inventoryEvent');
+  private eventRef = this.collection.doc('event');
   constructor(private db: firestore.Firestore) {}
 
-  findAllEvents = async (): Promise<InventoryEvent[]> => {
-    const querySnapshot = await this.collection.get();
-    return querySnapshot.docs.map(inventoryEventFromDoc);
+  get = async (): Promise<InventoryEvent> => {
+    return this.eventRef.get().then(inventoryEventFromDoc);
   };
 
-  findInventoryEventByDate = async (date: Date) => {
-    const querySnapshot = await this.collection
-      .where('date', '>=', startOfDay(date))
-      .where('date', '<', endOfDay(date))
-      .get();
-    return querySnapshot.docs.map(inventoryEventFromDoc);
+  start = async (): Promise<InventoryEvent> => {
+    await this.db.runTransaction(async tx => {
+      const presentEvent = await tx.get(this.eventRef).then(inventoryEventFromDoc);
+      if (!isDoneEvent(presentEvent)) {
+        throw new Error('Invalid update `InventoryEvent`: event has already started');
+      }
+
+      const newEvent: InventoryEventDoing = {
+        inventoryBooks: [],
+        status: InventoryEventStatus.Doing,
+        date: new Date(),
+      };
+      tx.update(this.eventRef, newEvent);
+      return;
+    });
+    return this.eventRef.get().then(inventoryEventFromDoc);
   };
 
-  createInventoryEvent = async () => {
-    // todo: disallow to create when collection has 'doing' status event
-    const e: InventoryEventBody = { date: new Date(), status: 'doing' };
-    const eventRef = await this.collection.add(e);
-    return eventRef.get().then(inventoryEventFromDoc);
+  close = async () => {
+    await this.db.runTransaction(async tx => {
+      const presentEvent = await tx.get(this.eventRef).then(inventoryEventFromDoc);
+      if (isDoneEvent(presentEvent)) {
+        throw new Error('Invalid update `InventoryEvent`: inventory is already done');
+      }
+      // todo: throw if event.inventoryBooks's length is different from `books`
+
+      // todo: insert eventlog and delete lost books
+      tx.set(this.eventRef, { status: InventoryEventStatus.Done }, { merge: false });
+      return;
+    });
+    return this.eventRef.get().then(inventoryEventFromDoc);
   };
 
-  addInventoriedItem = async (date: Date, book: Book) => {
-    const bookData = R.omit(book, ['id']);
-    await this.mkBookInventoryEventRefByDate(date)
-      .collection('books')
-      .doc(book.id)
-      .set(bookData);
+  addInventoryBook = async (inventoryBook: InventoryBook) => {
+    await this.db.runTransaction(async tx => {
+      const presentEvent = await tx.get(this.eventRef).then(inventoryEventFromDoc);
+      if (isDoneEvent(presentEvent)) {
+        throw new Error('Invalid update `InventoryEvent`: cannot add book when inventory is done');
+      }
+      // todo: throw if duplicate book id
+
+      const newEvent: Pick<InventoryEventDoing, 'inventoryBooks'> = {
+        inventoryBooks: [...presentEvent.inventoryBooks, inventoryBook],
+      };
+      tx.update(this.eventRef, newEvent);
+      return;
+    });
+    return this.eventRef.get().then(inventoryEventFromDoc);
   };
 
-  private mkBookInventoryEventRefByDate = (date: Date): firestore.DocumentReference =>
-    this.collection.doc(toInventoryKey(date));
+  subscribeInventoryBooks = (observer: (event: InventoryEvent) => void) =>
+    this.collection.onSnapshot(snapshot => {
+      observer(snapshot.docs.map(inventoryEventFromDoc)[0]);
+    });
 }

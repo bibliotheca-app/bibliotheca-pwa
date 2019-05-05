@@ -22,16 +22,41 @@ export interface Book {
   createdAt: Date;
 }
 
-export interface BookInventoryItem extends Book {
-  status: 'checked' | 'missing';
-}
+type InventoryStatus = 'checked' | 'missing';
 
-export interface InventoryEvent extends InventoryEventBody {
+export interface InventoryEventDone {
+  status: typeof InventoryEventStatus.Done;
+}
+export interface InventoryBook {
+  status: InventoryStatus;
+  bookId: string;
+  // inventoriedAt: Date; // todo: implement this field
+  // inventoriedBy: string;
+}
+export interface InventoryEventDoing {
+  date: Date;
+  status: typeof InventoryEventStatus.Doing;
+  inventoryBooks: InventoryBook[];
+}
+export type InventoryEvent = InventoryEventDoing | InventoryEventDone;
+
+export const InventoryEventStatus = {
+  Doing: 'doing',
+  Done: 'done',
+} as const;
+
+export type InventoryEventStatus = typeof InventoryEventStatus[keyof typeof InventoryEventStatus];
+export const isDoneEvent = (e: InventoryEvent): e is InventoryEventDone =>
+  e.status === InventoryEventStatus.Done;
+
+export interface InventoryEventLog extends InventoryEventLogBody {
   id: string;
 }
-export interface InventoryEventBody {
+
+export interface InventoryEventLogBody {
   date: Date;
-  status: 'doing' | 'done';
+  status: typeof InventoryEventStatus.Done;
+  // books: InventoryBook[] // todo
 }
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
