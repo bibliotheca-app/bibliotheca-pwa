@@ -1,5 +1,4 @@
 import * as admin from 'firebase-admin';
-
 async function main() {
   const saPath = process.env.SEED_EXECUTOR_SA_PATH;
   if (!saPath) {
@@ -15,6 +14,7 @@ async function main() {
   const db = admin.firestore();
   await insertInventoryEvent(db);
   await insertBooks(db);
+  // await read(db);
 }
 
 async function insertInventoryEvent(db: FirebaseFirestore.Firestore) {
@@ -24,10 +24,42 @@ async function insertInventoryEvent(db: FirebaseFirestore.Firestore) {
 }
 
 import { books } from './books-seed';
+
+// for test
+async function read(db: FirebaseFirestore.Firestore) {
+  {
+    const collection = db.collection('books');
+    const booksSnapshot = await collection.get();
+    const books = booksSnapshot.docs.map(d => {
+      const data = d.data()!;
+      return {
+        id: d.id,
+        ...data,
+      };
+    });
+    console.log(JSON.stringify(books));
+  }
+  console.log('================================');
+  {
+    const collection = db.collection('bookLists');
+    const bookListsSnapshot = await collection.doc('0').get();
+    const books = bookListsSnapshot.data()!.entries.map((d: any) => {
+      return {
+        id: d.id,
+        ...d.data,
+      };
+    });
+    console.log(JSON.stringify(books));
+  }
+}
 async function insertBooks(db: FirebaseFirestore.Firestore) {
   const collection = db.collection('books');
-  const oldBooks = await collection.get();
-  await Promise.all(oldBooks.docs.map(r => r.ref.delete()));
+  {
+    const batch = db.batch();
+    const books = await collection.get();
+    books.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+  }
 
   const chunkedArray = <T>(array: T[], chunkSize: number): T[][] =>
     Array(Math.ceil(array.length / chunkSize))
