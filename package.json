@@ -11,7 +11,7 @@
     "lerna": "^3.13.3"
   },
   "scripts": {
-    "tsc": "lerna run tsc --stream",
+    "tsc": "tsc -b packages/front packages/functions packages/seed",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
     "build:prod": "lerna run build:prod --stream",

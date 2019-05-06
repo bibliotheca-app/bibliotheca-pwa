@@ -1,12 +1,13 @@
 {
   "name": "seed",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
   "license": "MIT",
   "scripts": {
     "build": "tsc",
     "watch": "tsc -w",
-    "run": "node ./dist/index.js"
+    "run": "node ./lib/index.js"
   },
   "dependencies": {
     "firebase": "^5.11.1",

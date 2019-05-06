@@ -1,13 +1,12 @@
 {
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "outDir": "lib",
-    "sourceMap": true,
-    "strict": true,
     "target": "es2015",
-    "typeRoots": ["node_modules/@types"]
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "lib",
+    "typeRoots": ["node_modules/@types"],
+    "incremental": true
   },
   "compileOnSave": true,
   "include": ["src"],

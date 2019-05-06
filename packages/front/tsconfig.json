@@ -1,38 +1,20 @@
 {
-  "extends": "./tsconfig.paths.json",
+  "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": ".",
     "target": "es5",
     "module": "esnext",
-    "lib": [
-      "dom",
-      "es2015"
-    ],
+    "lib": ["dom", "es2017"],
     "jsx": "preserve",
     "noEmit": true,
-    "strict": true,
     "strictFunctionTypes": false,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
-    "noFallthroughCasesInSwitch": true,
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "allowJs": true,
+    "allowJs": false,
     "skipLibCheck": true,
-    "allowSyntheticDefaultImports": true,
-    "forceConsistentCasingInFileNames": true,
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "typeRoots": [
-      "node_modules/@types"
-    ],
-    "types": [
-      "webpack-env"
-    ]
+    "typeRoots": ["node_modules/@types"],
+    "types": ["webpack-env"]
   },
-  "include": [
-    "src"
-  ],
-  "exclude": [
-    "node_modules"
-  ]
+  "include": ["src"],
+  "exclude": ["node_modules"]
 }
