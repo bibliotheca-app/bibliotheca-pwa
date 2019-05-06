@@ -26,8 +26,7 @@
     "styled-components": "^4.2.0",
     "tslint": "^5.14.0",
     "tslint-config-prettier": "^1.18.0",
-    "typeless": "0.0.18",
-    "typescript": "^3.3.3333"
+    "typeless": "0.0.18"
   },
   "scripts": {
     "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
@@ -37,8 +36,6 @@
     "lint-fix": "yarn lint --fix",
     "format": "yarn prettier-format && yarn lint-fix",
     "format-check": "yarn prettier-check && yarn lint",
-    "tsc": "tsc",
-    "watch-tsc": "tsc -w",
     "start": "react-app-rewired start",
     "build": "react-app-rewired build",
     "build:prod": "REACT_APP_TARGET=prod yarn run build",
@@ -69,6 +66,7 @@
     "firebase": "^5.9.2",
     "plop": "^2.3.0",
     "quagga": "^0.12.1",
-    "react-feather": "^1.1.6"
+    "react-feather": "^1.1.6",
+    "typescript": "^3.4.5"
   }
 }

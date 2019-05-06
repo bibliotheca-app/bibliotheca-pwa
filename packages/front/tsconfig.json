@@ -1,7 +1,6 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "baseUrl": ".",
     "target": "es5",
     "module": "esnext",
     "lib": ["dom", "es2017"],
@@ -13,7 +12,8 @@
     "allowJs": false,
     "skipLibCheck": true,
     "typeRoots": ["node_modules/@types"],
-    "types": ["webpack-env"]
+    "types": ["webpack-env"],
+    "isolatedModules": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]

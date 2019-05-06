@@ -5,16 +5,16 @@
   "typings": "./lib/index.d.ts",
   "license": "MIT",
   "scripts": {
-    "build": "tsc",
-    "watch": "tsc -w",
-    "run": "node ./lib/index.js"
+    "build": "tsc -b .",
+    "preseed": "yarn build && firebase use test",
+    "seed": "node ."
   },
   "dependencies": {
     "firebase": "^5.11.1",
-    "firebase-admin": "^7.3.0",
-    "typescript": "^3.4.5"
+    "firebase-admin": "^7.3.0"
   },
   "devDependencies": {
-    "@types/node": "^11.13.9"
+    "@types/node": "^11.13.9",
+    "typescript": "^3.4.5"
   }
 }

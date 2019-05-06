@@ -11,7 +11,8 @@
     "lerna": "^3.13.3"
   },
   "scripts": {
-    "tsc": "tsc -b packages/front packages/functions packages/seed",
+    "tsc": "tsc -b packages/front/tsconfig.build.json packages/functions packages/seed",
+    "tsc-w": "yarn tsc -w",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
     "build:prod": "lerna run build:prod --stream",
