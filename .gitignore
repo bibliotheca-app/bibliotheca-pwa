@@ -1,4 +1,5 @@
 build
+packages/*/lib
 
 # Logs
 logs
@@ -68,3 +69,5 @@ typings/
 
 # direnv file
 .envrc
+
+tsconfig.tsbuildinfo

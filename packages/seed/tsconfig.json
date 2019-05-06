@@ -1,0 +1,14 @@
+{
+  "extends": "../tsconfig.base.json",
+  "compilerOptions": {
+    "target": "es2017",
+    "module": "commonjs",
+    "rootDir": "src",
+    "outDir": "lib",
+    "typeRoots": ["node_modules/@types"],
+    "incremental": true,
+    "noUnusedLocals": false
+  },
+  "compileOnSave": true,
+  "references": [{ "path": "../functions" }]
+}

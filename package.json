@@ -5,14 +5,14 @@
   "license": "MIT",
   "private": true,
   "workspaces": [
-    "front",
-    "functions"
+    "packages/*"
   ],
   "devDependencies": {
     "lerna": "^3.13.3"
   },
   "scripts": {
-    "tsc": "lerna run tsc --stream",
+    "tsc": "tsc -b packages/front/tsconfig.build.json packages/functions packages/seed",
+    "tsc-w": "yarn tsc -w",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
     "build:prod": "lerna run build:prod --stream",

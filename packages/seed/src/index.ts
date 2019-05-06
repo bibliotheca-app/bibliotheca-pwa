@@ -1,4 +1,6 @@
 import * as admin from 'firebase-admin';
+import { writeAllBook } from 'functions/lib/bookList';
+
 async function main() {
   const saPath = process.env.SEED_EXECUTOR_SA_PATH;
   if (!saPath) {
@@ -15,6 +17,7 @@ async function main() {
   await insertInventoryEvent(db);
   await insertBooks(db);
   // await read(db);
+  await writeAllBook(db);
 }
 
 async function insertInventoryEvent(db: FirebaseFirestore.Firestore) {
