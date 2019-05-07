@@ -1,4 +1,3 @@
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { InventoryEventLog } from 'bibliotheca/types';
 import { format } from 'date-fns';
 import { DataTable, Text } from 'grommet';
@@ -8,7 +7,7 @@ import { useMappedState } from 'typeless';
 export const InventoryEventLogView = () => {
   const { inventoryEventLogs } = useMappedState(state => state.InventoryEventLog);
   return (
-    <Dashboard>
+    <>
       棚卸し
       <DataTable
         size="large"
@@ -26,6 +25,6 @@ export const InventoryEventLogView = () => {
         ]}
         sortable
       />
-    </Dashboard>
+    </>
   );
 };

@@ -35,7 +35,7 @@ export const App = () => {
   useBookModule();
 
   const { loggedIn } = useActions(GlobalActions);
-  useEffect(() => authService.subscribe(authUser => loggedIn(authUser)));
+  useEffect(() => authService.subscribe(authUser => loggedIn(authUser)), [loggedIn]);
 
   const { isLoaded, user } = useMappedState(state => ({
     ...R.pick(state.global, ['isLoaded']),

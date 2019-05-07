@@ -1,6 +1,5 @@
-import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
-import { Book, RouteConfig } from 'bibliotheca/types';
-import React from 'react';
+import { Book, RouteEntry } from 'bibliotheca/types';
+import { lazy } from 'navi';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -16,19 +15,9 @@ export const BorrowOrReturnActions = createActions(MODULE, {
 });
 
 // --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const BorrowOrReturnRoute = () => (
-  <DefaultSuspense>
-    <ModuleLoader />
-  </DefaultSuspense>
-);
-
-export const routeConfig: RouteConfig = {
-  type: 'route',
-  auth: true,
+export const routeEntry: RouteEntry = {
   path: '/borrow-or-return',
-  component: <BorrowOrReturnRoute />,
+  routes: lazy(() => import('./routes')),
 };
 
 // --- Types ---

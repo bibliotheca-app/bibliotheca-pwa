@@ -1,4 +1,5 @@
-import { Book } from 'bibliotheca/types';
+import { Book, RouteEntry } from 'bibliotheca/types';
+import { lazy } from 'navi';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -21,6 +22,12 @@ export const BookActions = createActions(MODULE, {
   deleteBookById: (bookId: string) => ({ payload: { bookId } }),
   deleteBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
 });
+
+// --- Routing ---
+export const routeEntry: RouteEntry = {
+  path: '/books',
+  routes: lazy(() => import('./routes')),
+};
 
 // --- Types ---
 export interface BookState {}

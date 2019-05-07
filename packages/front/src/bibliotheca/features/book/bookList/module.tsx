@@ -42,7 +42,7 @@ export const reducer = createReducer(initialState)
   .on(BookActions.returnBookByIsbnFulfilled, updateBook);
 
 // --- Module ---
-export default () => {
+export const BookListModule = () => {
   useModule({
     epic,
     reducer,

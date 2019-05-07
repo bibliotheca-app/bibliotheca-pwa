@@ -58,7 +58,7 @@ export const reducer = createReducer(initialState)
   });
 
 // --- Module ---
-export default () => {
+export const BorrowOrReturnModule = () => {
   useModule({
     epic,
     reducer,

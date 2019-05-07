@@ -8,7 +8,7 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
 
 export const Link = (props: LinkProps) => {
   const { href, onClick, children } = props;
-  const { push } = useActions(RouterActions);
+  const { navigate } = useActions(RouterActions);
 
   return (
     <a
@@ -16,7 +16,7 @@ export const Link = (props: LinkProps) => {
       onClick={e => {
         e.preventDefault();
         if (href) {
-          push(href);
+          navigate(href);
         }
         if (onClick) {
           onClick(e);

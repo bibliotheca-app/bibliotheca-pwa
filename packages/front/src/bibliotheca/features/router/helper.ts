@@ -1,5 +1,5 @@
 export const getDefaultRoute = () => {
   const isSmartphone = !!('ontouchstart' in window);
 
-  return isSmartphone ? '/borrow-or-return' : '/book-list';
+  return isSmartphone ? '/borrow-or-return' : '/books';
 };

@@ -10,10 +10,9 @@ import { BookDetailActions, BookDetailState, MODULE } from './interface';
 export const epic = createEpic(MODULE)
   .on(BookDetailActions.$mounted, (_, { getState }) => {
     const location = getState().router.location!;
-    const param = new URLSearchParams(location.search);
-    const bookId = param.get('bookId');
+    const bookId = location.request!.params.bookId;
     return !bookId
-      ? Rx.of(RouterActions.locationChange({ ...location, pathname: '/' }))
+      ? Rx.of(RouterActions.navigate('/'))
       : Rx.of(BookDetailActions.findBookById(bookId));
   })
   .on(BookDetailActions.findBookById, ({ bookId }) => {
@@ -34,7 +33,7 @@ export const reducer = createReducer(initialState)
   });
 
 // --- Module ---
-export default () => {
+export const BookDetailModule = () => {
   useModule({
     epic,
     reducer,

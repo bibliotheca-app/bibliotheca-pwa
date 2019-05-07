@@ -1,4 +1,3 @@
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { InventoryEventStatus } from 'bibliotheca/types';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
@@ -29,9 +28,9 @@ export const RegisterInventoryBookView = () => {
   })();
 
   return (
-    <Dashboard>
+    <>
       蔵書登録フォーム
       {component}
-    </Dashboard>
+    </>
   );
 };

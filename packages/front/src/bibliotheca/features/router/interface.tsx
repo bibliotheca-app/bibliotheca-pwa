@@ -1,4 +1,4 @@
-import { LocationDescriptor } from 'history';
+import { NaviRequest, URLDescriptor } from 'navi';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -7,23 +7,16 @@ export const MODULE = '@@router';
 // --- Actions ---
 export const RouterActions = createActions(MODULE, {
   $mounted: null,
-  locationChange: (data: RouterLocation) => ({
-    payload: data,
-  }),
-  push: <S extends unknown>(location: LocationDescriptor<S>) => ({
-    payload: location,
-  }),
-  replace: <S extends unknown>(location: LocationDescriptor<S>) => ({
-    payload: location,
-  }),
+  navigate: (url: RouterNavigation) => ({ payload: { url } }),
+  locationChange: (data: RouterLocation) => ({ payload: data }),
 });
 
 // --- Types ---
+export type RouterNavigation = string | Partial<URLDescriptor>;
 export interface RouterLocation {
-  hash: string;
-  pathname: string;
-  search: string;
+  url: URLDescriptor;
   state?: object;
+  request?: NaviRequest;
 }
 
 export interface RouterState {

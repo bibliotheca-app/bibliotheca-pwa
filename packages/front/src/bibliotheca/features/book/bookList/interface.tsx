@@ -1,6 +1,4 @@
-import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
-import { Book, RouteConfig } from 'bibliotheca/types';
-import React from 'react';
+import { Book } from 'bibliotheca/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -12,22 +10,6 @@ export const BookListActions = createActions(MODULE, {
   fetchBookListFulfilled: (books: Book[]) => ({ payload: { books } }),
   $mounted: null,
 });
-
-// --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const BookListRoute = () => (
-  <DefaultSuspense>
-    <ModuleLoader />
-  </DefaultSuspense>
-);
-
-export const routeConfig: RouteConfig = {
-  type: 'route',
-  auth: true,
-  path: '/book-list',
-  component: <BookListRoute />,
-};
 
 // --- Types ---
 export interface BookListState {

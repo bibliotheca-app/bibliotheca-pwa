@@ -1,6 +1,4 @@
-import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
-import { Book, RouteConfig } from 'bibliotheca/types';
-import React from 'react';
+import { Book } from 'bibliotheca/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -13,22 +11,6 @@ export const BookRegisterActions = createActions(MODULE, {
   submit: null,
   toggleMode: null,
 });
-
-// --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const BookRegisterRoute = () => (
-  <DefaultSuspense>
-    <ModuleLoader />
-  </DefaultSuspense>
-);
-
-export const routeConfig: RouteConfig = {
-  type: 'route',
-  auth: true,
-  path: '/book-register',
-  component: <BookRegisterRoute />,
-};
 
 // --- Types ---
 export interface BookRegisterState {
