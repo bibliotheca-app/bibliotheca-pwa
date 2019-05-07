@@ -1,0 +1,14 @@
+{
+  "folders": [
+	{
+		"path": "front"
+	},
+	{
+		"path": "functions"
+	},
+	{
+		"path": "seed"
+	}
+],
+  "settings": {}
+}
