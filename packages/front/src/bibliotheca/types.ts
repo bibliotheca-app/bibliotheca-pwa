@@ -1,12 +1,18 @@
 import { User as FirebaseUser } from 'firebase/app';
+import { Matcher } from 'navi';
 import React from 'react';
 
-export interface RouteConfig {
-  type: 'route';
+export interface AppContext {
+  user: User | null;
+  isLoadedAsync: Promise<void>;
+}
+
+export interface RouteEntry<
+  Context extends object = AppContext,
+  ChildContext extends object = Context
+> {
   path: string;
-  exact?: boolean;
-  auth: boolean;
-  component: React.ReactElement<any>;
+  routes: Matcher<Context, ChildContext>;
 }
 
 export interface User {
