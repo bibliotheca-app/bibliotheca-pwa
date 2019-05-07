@@ -3,7 +3,7 @@ import React, { useEffect } from 'react';
 import { useActions } from 'typeless';
 import { BarcodeLoaderActions } from '../interface';
 
-export const Video: React.FC = ({}) => {
+export const Video: React.FC = () => {
   const { onDetect: onDetected } = useActions(BarcodeLoaderActions);
   useEffect(() => {
     Quagga.init(
@@ -30,6 +30,7 @@ export const Video: React.FC = ({}) => {
       },
     );
     return () => Quagga.stop();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const style: React.CSSProperties = {

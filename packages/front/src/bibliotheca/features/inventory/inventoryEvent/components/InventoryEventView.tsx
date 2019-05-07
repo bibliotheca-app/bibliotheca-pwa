@@ -18,6 +18,8 @@ export const InventoryEventView = () => {
         return <InventoryDoing />;
       case InventoryEventStatus.Done:
         return <InventoryDone />;
+      default:
+        throw new Error('unknown mode');
     }
   })();
   return (

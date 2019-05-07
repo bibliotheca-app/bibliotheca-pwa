@@ -23,6 +23,8 @@ export const RegisterInventoryBookView = () => {
         return <RegistrationFromCamera targetBook={registerBook} submit={submit} />;
       case InventoryEventStatus.Done:
         return '棚卸し作業は棚卸しを開始状態にしてから実施してください';
+      default:
+        throw new Error('unknown mode');
     }
   })();
 

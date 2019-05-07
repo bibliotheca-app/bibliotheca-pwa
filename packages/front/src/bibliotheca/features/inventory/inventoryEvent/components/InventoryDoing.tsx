@@ -33,6 +33,8 @@ export const InventoryDoing = () => {
               .filter(b => !checked.has(b.id))
               .map(b => ({ status: 'unchecked', ...b }));
           }
+          default:
+            throw new Error('unknown mode');
         }
       })(event as InventoryEventDoing);
       return { ...InventoryEvent, books: books.map((b, i) => ({ ...b, key: i })) };

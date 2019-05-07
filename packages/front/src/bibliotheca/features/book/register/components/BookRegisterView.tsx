@@ -26,6 +26,8 @@ export const BookRegisterView = () => {
             <RegistrationFromManual />
           </>
         );
+      default:
+        throw new Error('unknown mode');
     }
   })();
   return (

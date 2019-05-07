@@ -32,7 +32,7 @@
     "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
     "prettier-format": "yarn _prettier --write",
     "prettier-check": "yarn _prettier --list-different",
-    "lint": "tslint -p . -e quagga.d.ts",
+    "lint": "eslint --ext ts,tsx src",
     "lint-fix": "yarn lint --fix",
     "format": "yarn prettier-format && yarn lint-fix",
     "format-check": "yarn prettier-check && yarn lint",
@@ -50,6 +50,13 @@
     "not ie <= 11",
     "not op_mini all"
   ],
+  "eslintConfig": {
+    "extends": "react-app",
+    "rules": {
+      "no-useless-constructor": "off",
+      "no-use-before-define": "off"
+    }
+  },
   "prettier": {
     "printWidth": 100,
     "tabWidth": 2,

@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 import * as Rx from 'bibliotheca/rx';
 import {
   ConvertActions,

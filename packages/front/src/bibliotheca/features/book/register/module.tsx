@@ -54,6 +54,9 @@ export const reducer = createReducer(initialState)
         break;
       case 'camera':
         state.mode = 'manual';
+        break;
+      default:
+        throw new Error('unknown mode');
     }
   });
 

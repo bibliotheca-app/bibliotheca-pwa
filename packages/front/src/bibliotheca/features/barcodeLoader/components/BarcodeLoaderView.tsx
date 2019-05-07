@@ -11,7 +11,14 @@ export const BarcodeLoaderView = () => {
   const { enableCamera, disableCamela } = useActions(BarcodeLoaderActions);
 
   if (!isCameraSupported) {
-    return <div>Camera is not supported 😢</div>;
+    return (
+      <div>
+        Camera is not supported{' '}
+        <span role="img" aria-label="cry">
+          😢
+        </span>
+      </div>
+    );
   }
 
   const loader = (
