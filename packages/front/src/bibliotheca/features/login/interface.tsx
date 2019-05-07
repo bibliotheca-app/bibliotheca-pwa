@@ -1,18 +1,18 @@
-import React from 'react';
 import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
 import { RouteConfig } from 'bibliotheca/types';
+import React from 'react';
 import { createActions } from 'typeless';
 
 // --- Constants ---
-export const MODULE = '{{name}}';
+export const MODULE = 'login';
 
 // --- Actions ---
-export const {{pascalCase name}}Actions = createActions(MODULE, {});
+export const LoginActions = createActions(MODULE, { auth: null });
 
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
 
-const {{pascalCase name}}Route = () => (
+const LoginRoute = () => (
   <DefaultSuspense>
     <ModuleLoader />
   </DefaultSuspense>
@@ -20,18 +20,17 @@ const {{pascalCase name}}Route = () => (
 
 export const routeConfig: RouteConfig = {
   type: 'route',
-  auth: true,
-  path: '/{{dashCase name}}',
-  component: <{{pascalCase name}}Route />,
+  auth: false,
+  path: '/login',
+  component: <LoginRoute />,
 };
 
 // --- Types ---
-export interface {{pascalCase name}}State {
-  foo: string;
-}
+// tslint:disable-next-line:no-empty-interface
+export interface LoginState {}
 
 declare module 'typeless/types' {
   export interface DefaultState {
-    {{name}}: {{pascalCase name}}State;
+    ['login']: LoginState;
   }
 }
