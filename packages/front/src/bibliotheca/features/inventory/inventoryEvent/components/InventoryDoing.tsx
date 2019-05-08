@@ -42,7 +42,7 @@ export const InventoryDoing = () => {
   );
   return (
     <>
-      <Link href={`/register-inventory-book`}>
+      <Link href={`/inventory-event/register-register`}>
         <Button label="本を棚卸す" />
       </Link>
       <Button
@@ -82,7 +82,7 @@ export const InventoryDoing = () => {
             search: true,
             render: (book: { id: string; title: string }) => {
               return (
-                <Link href={`/book-detail?bookId=${book.id}`}>
+                <Link href={`/books/detail/${book.id}`}>
                   <Text>{book.title}</Text>
                 </Link>
               );

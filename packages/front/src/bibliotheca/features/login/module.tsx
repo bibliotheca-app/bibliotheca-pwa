@@ -17,7 +17,7 @@ const initialState: LoginState = {};
 export const reducer = createReducer(initialState);
 
 // --- Module ---
-export default () => {
+export const LoginModule = () => {
   useModule({
     epic,
     reducer,

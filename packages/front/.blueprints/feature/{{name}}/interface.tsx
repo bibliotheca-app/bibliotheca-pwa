@@ -1,7 +1,8 @@
 import React from 'react';
 import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
-import { RouteConfig } from 'bibliotheca/types';
+import { RouteEntry } from 'bibliotheca/types';
 import { createActions } from 'typeless';
+import { lazy } from 'navi';
 
 // --- Constants ---
 export const MODULE = '{{name}}';
@@ -10,19 +11,9 @@ export const MODULE = '{{name}}';
 export const {{pascalCase name}}Actions = createActions(MODULE, {});
 
 // --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const {{pascalCase name}}Route = () => (
-  <DefaultSuspense>
-    <ModuleLoader />
-  </DefaultSuspense>
-);
-
-export const routeConfig: RouteConfig = {
-  type: 'route',
-  auth: true,
-  path: '/{{dashCase name}}',
-  component: <{{pascalCase name}}Route />,
+export const routeEntry: RouteEntry = {
+  path: '/{{name}}',
+  routes: lazy(() => import('./routes')),
 };
 
 // --- Types ---

@@ -1,4 +1,3 @@
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Box } from 'grommet';
@@ -14,7 +13,7 @@ export const BorrowOrReturnView = () => {
     userId: userIdQuery(state.global),
   }));
   return (
-    <Dashboard>
+    <>
       <BarcodeLoaderModule />
       {isCameraEnabled ? null : (
         <Box justify="center" align="center" fill>
@@ -23,6 +22,6 @@ export const BorrowOrReturnView = () => {
           </div>
         </Box>
       )}
-    </Dashboard>
+    </>
   );
 };

@@ -1,4 +1,3 @@
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { Button } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
@@ -31,9 +30,9 @@ export const BookRegisterView = () => {
     }
   })();
   return (
-    <Dashboard>
+    <>
       蔵書登録フォーム
       {registration}
-    </Dashboard>
+    </>
   );
 };

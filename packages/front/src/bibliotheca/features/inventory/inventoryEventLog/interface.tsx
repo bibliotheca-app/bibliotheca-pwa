@@ -1,6 +1,4 @@
-import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
-import { InventoryEventLog, RouteConfig } from 'bibliotheca/types';
-import React from 'react';
+import { InventoryEventLog } from 'bibliotheca/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -13,22 +11,6 @@ export const InventoryEventLogActions = createActions(MODULE, {
     payload: { inventoryEvents },
   }),
 });
-
-// --- Routing ---
-const ModuleLoader = React.lazy(() => import('./module'));
-
-const InventoryEventLogRoute = () => (
-  <DefaultSuspense>
-    <ModuleLoader />
-  </DefaultSuspense>
-);
-
-export const routeConfig: RouteConfig = {
-  type: 'route',
-  auth: true,
-  path: '/inventory-event-logs',
-  component: <InventoryEventLogRoute />,
-};
 
 // --- Types ---
 export interface InventoryEventLogState {

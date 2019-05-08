@@ -7,7 +7,7 @@ import { GlobalActions, GlobalState, MODULE } from './interface';
 // --- Epic ---
 export const epic = createEpic(MODULE).on(GlobalActions.logout, () => {
   return Rx.concatObs(
-    Rx.of(RouterActions.push('/login')),
+    Rx.of(RouterActions.navigate('/login')),
     Rx.fromPromise(authService.logout()).pipe(Rx.ignoreElements()),
   );
 });

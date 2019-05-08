@@ -14,7 +14,7 @@ const initialState: {{pascalCase name}}State = {
 export const reducer = createReducer(initialState);
 
 // --- Module ---
-export default () => {
+export const {{pascalCase name}}Module = () => {
   useModule({
     epic,
     reducer,

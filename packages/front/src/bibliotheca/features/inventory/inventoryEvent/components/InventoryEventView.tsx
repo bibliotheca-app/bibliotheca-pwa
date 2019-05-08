@@ -1,4 +1,3 @@
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { Link } from 'bibliotheca/components/Link';
 import { InventoryEventStatus } from 'bibliotheca/types';
 import React from 'react';
@@ -23,9 +22,9 @@ export const InventoryEventView = () => {
     }
   })();
   return (
-    <Dashboard>
-      <Link href="/inventory-event-logs">過去の棚卸し履歴</Link>
+    <>
+      <Link href="/inventory-event/logs">過去の棚卸し履歴</Link>
       {component}
-    </Dashboard>
+    </>
   );
 };

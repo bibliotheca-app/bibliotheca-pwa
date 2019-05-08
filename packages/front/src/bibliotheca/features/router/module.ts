@@ -1,12 +1,20 @@
+import { Route } from 'navi';
+import { navigation } from 'bibliotheca/routes';
 import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
-import { history } from '../../history';
-import { MODULE, RouterActions, RouterState } from './interface';
+import { MODULE, RouterActions, RouterLocation, RouterState } from './interface';
 
-// --- Reducer ---
-const initialState: RouterState = {
-  location: null,
-  prevLocation: null,
+const toRouterLocation = (route: Route): RouterLocation => {
+  const { url, state } = route;
+  const requests = route.chunks.filter(chunk => chunk.request).map(chunk => chunk.request);
+  const request = requests.length === 0 ? undefined : requests[requests.length - 1];
+  return { url, state, request };
+};
+
+const emitLocationChageIfNeeded = (route: Route, fn: (location: RouterLocation) => void) => {
+  if (route.type === 'ready') {
+    fn(toRouterLocation(route));
+  }
 };
 
 // --- Epic ---
@@ -15,20 +23,25 @@ export const epic = createEpic(MODULE)
     RouterActions.$mounted,
     () =>
       new Rx.Observable(subscriber => {
-        subscriber.next(RouterActions.locationChange(history.location));
-        return history.listen(location => {
+        const emitter = (location: RouterLocation) =>
           subscriber.next(RouterActions.locationChange(location));
+        emitLocationChageIfNeeded(navigation.getCurrentValue(), emitter);
+        return navigation.subscribe(route => {
+          emitLocationChageIfNeeded(route, emitter);
         });
       }),
   )
-  .on(RouterActions.push, location => {
-    history.push(location as any);
-    return Rx.empty();
-  })
-  .on(RouterActions.replace, location => {
-    history.replace(location as any);
-    return Rx.empty();
+  .on(RouterActions.navigate, ({ url }) => {
+    return Rx.fromPromise(navigation.navigate(url)).pipe(
+      Rx.map(route => RouterActions.locationChange(toRouterLocation(route))),
+    );
   });
+
+// --- Reducer ---
+const initialState: RouterState = {
+  location: null,
+  prevLocation: null,
+};
 
 export const reducer = createReducer(initialState).on(
   RouterActions.locationChange,

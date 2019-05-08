@@ -1,4 +1,3 @@
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { Link } from 'bibliotheca/components/Link';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
@@ -28,10 +27,10 @@ export const BookListView = () => {
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
   return (
-    <Dashboard>
+    <>
       <BookBorrowForm />
       <BookReturnForm />
-      <Link href="/book-register">
+      <Link href="/books/register">
         <button>登録</button>
       </Link>
       <br />
@@ -46,7 +45,7 @@ export const BookListView = () => {
             search: true,
             render: (book: Book) => {
               return (
-                <Link href={`/book-detail?bookId=${book.id}`}>
+                <Link href={`/books/detail/${book.id}`}>
                   <Text>{book.title}</Text>
                 </Link>
               );
@@ -74,6 +73,6 @@ export const BookListView = () => {
         ]}
         sortable
       />
-    </Dashboard>
+    </>
   );
 };

@@ -3,6 +3,7 @@ import { RouterActions } from 'bibliotheca/features/router/interface';
 import { Box, Button, Heading, Tab, Tabs } from 'grommet';
 import { Logout } from 'grommet-icons';
 import * as React from 'react';
+import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 
@@ -31,17 +32,18 @@ const AppBar = (props: { children: any }) => (
 export const Dashboard = (props: DashboardProps) => {
   const { children } = props;
   const { logout } = useActions(GlobalActions);
-  const { push } = useActions(RouterActions);
+  const { navigate } = useActions(RouterActions);
+  const route = useCurrentRoute();
 
   const links = [
-    { link: '/book-list', title: '書籍一覧' },
+    { link: '/books', title: '書籍一覧' },
     { link: '/borrow-or-return', title: '貸出/返却' },
     { link: '/inventory-event', title: '棚卸し' },
   ];
   const onActive = (index: number) => {
-    push(links[index].link);
+    navigate(links[index].link);
   };
-  const activeIndex = links.findIndex(l => l.link === window.location.pathname);
+  const activeIndex = links.findIndex(({ link }) => link.startsWith(route.url.pathname));
 
   return (
     <>

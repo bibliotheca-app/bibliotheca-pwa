@@ -53,7 +53,7 @@ export const reducer = createReducer(initialState)
   );
 
 // --- Module ---
-export default () => {
+export const RegisterInventoryBookModule = () => {
   useInventoryBookModule();
   useModule({
     epic,
