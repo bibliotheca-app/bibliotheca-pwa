@@ -1,6 +1,7 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
+    "baseUrl": "src",
     "target": "es5",
     "module": "esnext",
     "lib": ["dom", "es2017"],

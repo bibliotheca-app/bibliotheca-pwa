@@ -1,18 +1,22 @@
-import React from 'react';
 import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
-import { RouteConfig } from 'bibliotheca/types';
+import { Book, RouteConfig } from 'bibliotheca/types';
+import React from 'react';
 import { createActions } from 'typeless';
 
 // --- Constants ---
-export const MODULE = '{{name}}';
+export const MODULE = 'bookList';
 
 // --- Actions ---
-export const {{pascalCase name}}Actions = createActions(MODULE, {});
+export const BookListActions = createActions(MODULE, {
+  fetchBookList: null,
+  fetchBookListFulfilled: (books: Book[]) => ({ payload: { books } }),
+  $mounted: null,
+});
 
 // --- Routing ---
 const ModuleLoader = React.lazy(() => import('./module'));
 
-const {{pascalCase name}}Route = () => (
+const BookListRoute = () => (
   <DefaultSuspense>
     <ModuleLoader />
   </DefaultSuspense>
@@ -21,17 +25,17 @@ const {{pascalCase name}}Route = () => (
 export const routeConfig: RouteConfig = {
   type: 'route',
   auth: true,
-  path: '/{{dashCase name}}',
-  component: <{{pascalCase name}}Route />,
+  path: '/book-list',
+  component: <BookListRoute />,
 };
 
 // --- Types ---
-export interface {{pascalCase name}}State {
-  foo: string;
+export interface BookListState {
+  books: Book[];
 }
 
 declare module 'typeless/types' {
   export interface DefaultState {
-    {{name}}: {{pascalCase name}}State;
+    bookList: BookListState;
   }
 }

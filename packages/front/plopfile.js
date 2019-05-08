@@ -2,9 +2,7 @@ const path = require('path');
 const fs = require('fs');
 
 function getDirsSync(src) {
-  return fs
-    .readdirSync(src)
-    .filter(file => fs.statSync(path.join(src, file)).isDirectory());
+  return fs.readdirSync(src).filter(file => fs.statSync(path.join(src, file)).isDirectory());
 }
 
 module.exports = function generate(plop) {
@@ -20,7 +18,7 @@ module.exports = function generate(plop) {
     actions: [
       {
         type: 'addMany',
-        destination: path.join(__dirname, 'src/features'),
+        destination: path.join(__dirname, 'src/bibliotheca/features'),
         base: '.blueprints/feature',
         templateFiles: '.blueprints/feature/**/**',
       },
