@@ -1,6 +1,10 @@
 import { AppContext, RouteEntry } from 'bibliotheca/types';
 import { createBrowserNavigation, map, Matcher, mount, redirect } from 'navi';
-import { getDefaultRoute } from './features/router/helper';
+import {
+  decideRedirectUrlFromRequest,
+  getDefaultRoute,
+  makeLoginUrlForRedirectFromRequest,
+} from './features/router/helper';
 
 const staticRoute: Record<string, Matcher<AppContext>> = {
   '/': redirect(getDefaultRoute()),
@@ -30,18 +34,14 @@ export function withAuthentication(matcher: Matcher<AppContext>) {
     // wait for global state
     await context.isLoadedAsync;
 
-    return context.user
-      ? matcher
-      : redirect('/login?redirectTo=' + encodeURIComponent(request.mountpath + request.search));
+    return context.user ? matcher : redirect(makeLoginUrlForRedirectFromRequest(request));
   });
 }
 
-export const withRedirectDefaultRouteIfLoggedIn = (matcher: Matcher<AppContext>) => {
-  return map<AppContext>(async (_request, context) => {
+export const withRedirectIfLoggedIn = (matcher: Matcher<AppContext>) => {
+  return map<AppContext>(async (request, context) => {
     await context.isLoadedAsync;
 
-    return context.user
-      ? redirect(getDefaultRoute())
-      : matcher
+    return context.user ? redirect(decideRedirectUrlFromRequest(request)) : matcher;
   });
-}
+};
