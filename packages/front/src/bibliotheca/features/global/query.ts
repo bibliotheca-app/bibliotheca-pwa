@@ -1,4 +1,10 @@
 import { GlobalState } from './interface';
 
-// ログイン後のみ有効
-export const userIdQuery = (state: GlobalState): string => state.user!.firebaseAuth.email!;
+// TODO: 綺麗にかけるかも
+export const userIdQuery = (state: GlobalState): string => {
+  const user = state.user;
+  if (!user) {
+    return '';
+  }
+  return user.firebaseAuth.email || '';
+};
