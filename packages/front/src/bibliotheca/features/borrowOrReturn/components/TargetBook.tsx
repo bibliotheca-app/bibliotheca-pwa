@@ -1,4 +1,4 @@
-import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/bookList/components/BookBorrowAndReturnBottun';
+import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import React from 'react';
 import { useActions } from 'typeless';
