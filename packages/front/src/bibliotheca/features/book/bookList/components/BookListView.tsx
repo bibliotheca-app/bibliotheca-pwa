@@ -3,11 +3,10 @@ import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book } from 'bibliotheca/types';
-import { Text } from 'grommet';
+import { Button, Text } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
-import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
@@ -16,12 +15,10 @@ export const BookListView = () => {
 
   return (
     <>
-      <BookBorrowForm />
-      <BookReturnForm />
       <Link href="/books/register">
-        <button>登録</button>
+        <Button label="登録" />
       </Link>
-      <br />
+      <hr />
       <StyledDataTable
         size="large"
         primaryKey="id"
