@@ -1,25 +1,12 @@
 import { Link } from 'bibliotheca/components/Link';
+import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book } from 'bibliotheca/types';
-import { DataTable, Text } from 'grommet';
+import { Button, Text } from 'grommet';
 import React from 'react';
-import styled from 'styled-components';
 import { useActions, useMappedState } from 'typeless';
 import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
-import { BookBorrowForm, BookReturnForm } from './BorrowReturnForms';
-
-const StyledDataTable = styled(DataTable)`
-  tbody tr:nth-of-type(2n) {
-    background-color: #fff;
-  }
-  tbody tr:nth-of-type(2n + 1) {
-    background-color: #f9f9f9;
-  }
-  tbody tr:hover {
-    background-color: #f0f0f0;
-  }
-`;
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
@@ -28,12 +15,10 @@ export const BookListView = () => {
 
   return (
     <>
-      <BookBorrowForm />
-      <BookReturnForm />
       <Link href="/books/register">
-        <button>登録</button>
+        <Button label="登録" />
       </Link>
-      <br />
+      <hr />
       <StyledDataTable
         size="large"
         primaryKey="id"
@@ -54,6 +39,7 @@ export const BookListView = () => {
           { property: 'isbn', header: 'ISBN' },
           {
             property: 'borrowedBy',
+            header: '貸借',
             search: true,
             render: (book: Book) => (
               <BookBorrowAndReturnButton
