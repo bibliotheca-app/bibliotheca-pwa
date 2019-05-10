@@ -16,6 +16,7 @@ export const epic = createEpic(MODULE).on(GlobalActions.logout, () => {
 const initialState: GlobalState = {
   isLoaded: false,
   user: null,
+  progress: false,
 };
 
 export const reducer = createReducer(initialState)
@@ -25,6 +26,12 @@ export const reducer = createReducer(initialState)
   })
   .on(GlobalActions.logout, state => {
     state.user = null;
+  })
+  .on(GlobalActions.progressShow, state => {
+    state.progress = true;
+  })
+  .on(GlobalActions.progressHide, state => {
+    state.progress = false;
   });
 
 // --- Module ---

@@ -10,12 +10,15 @@ export const GlobalActions = createActions(MODULE, {
   $mounted: null,
   logout: null,
   loggedIn: (user: FirebaseUser | null) => ({ payload: { user } }),
+  progressShow: null,
+  progressHide: null,
 });
 
 // --- Types ---
 export interface GlobalState {
   isLoaded: boolean;
   user: User | null;
+  progress: boolean;
 }
 
 declare module 'typeless/types' {

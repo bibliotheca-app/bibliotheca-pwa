@@ -4,6 +4,7 @@
   "description": "",
   "keywords": [],
   "dependencies": {
+    "@material/react-linear-progress": "^0.12.0",
     "@types/history": "^4.7.2",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
