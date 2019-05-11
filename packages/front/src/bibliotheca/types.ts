@@ -28,6 +28,8 @@ export interface Book {
   createdAt: Date;
 }
 
+export type BookData = Omit<Book, 'id'>;
+
 type InventoryStatus = 'checked' | 'missing';
 
 export interface InventoryEventDone {

@@ -1,4 +1,4 @@
-import { Book } from 'bibliotheca/types';
+import { Book, BookData } from 'bibliotheca/types';
 import { createActions } from 'typeless';
 
 // --- Constants ---
@@ -19,10 +19,7 @@ export interface BookRegisterState {
   bookData?: BookData;
   mode: RegistrationMode;
 }
-interface BookData {
-  title: string;
-  isbn: string;
-}
+
 export type RegistrationMode = 'camera' | 'manual';
 declare module 'typeless/types' {
   export interface DefaultState {

@@ -1,7 +1,7 @@
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
-import { Book } from 'bibliotheca/types';
+import { BookData } from 'bibliotheca/types';
 import { Box, Image, Table, TableBody, TableCell, TableRow, Text } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
@@ -37,7 +37,7 @@ const SimpleTable: React.SFC<SimpleTableProps> = ({ rows }) => (
   </Table>
 );
 
-export const BookDetail = ({ book }: { book: Book }) => {
+export const BookDetail = ({ book }: { book: BookData }) => {
   const { borrowBookById, returnBookById } = useActions(BookActions);
   const userId = useMappedState(s => userIdQuery(s.global));
 
