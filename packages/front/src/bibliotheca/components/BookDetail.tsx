@@ -1,80 +1,58 @@
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
-import { BookData } from 'bibliotheca/types';
-import { Box, Image, Table, TableBody, TableCell, TableRow, Text } from 'grommet';
-import React from 'react';
+import { Book } from 'bibliotheca/types';
+import { Box, Button } from 'grommet';
+import {
+  Edit as EditIcon,
+  Trash as DeleteIcon,
+  Save as SaveIcon,
+  Close as CloseIcon,
+} from 'grommet-icons';
+import React, { useState } from 'react';
 import { useActions, useMappedState } from 'typeless';
+import { BookDataTable } from './BookDataTable';
 
-const coverUrl = (isbn: string | null) => {
-  if (isbn === null) {
-    return '';
-  }
-  return `https://cover.openbd.jp/${isbn}.jpg`;
-};
-
-interface SimpleTableProps {
-  rows: Array<{
-    label: string;
-    render: React.ReactNode | string;
-  }>;
-}
-
-const SimpleTable: React.SFC<SimpleTableProps> = ({ rows }) => (
-  <Table>
-    <TableBody>
-      {rows.map(row => (
-        <TableRow key={row.label}>
-          <TableCell scope="row">
-            <Text weight="bold">{row.label}</Text>
-          </TableCell>
-          <TableCell>
-            {typeof row.render === 'function' ? row.render() : <Text>{String(row.render)}</Text>}
-          </TableCell>
-        </TableRow>
-      ))}
-    </TableBody>
-  </Table>
-);
-
-export const BookDetail = ({ book }: { book: BookData }) => {
+export const BookDetail = ({ book }: { book: Book }) => {
   const { borrowBookById, returnBookById } = useActions(BookActions);
   const userId = useMappedState(s => userIdQuery(s.global));
 
-  const rows = [
-    {
-      label: 'タイトル',
-      render: book.title,
-    },
-    {
-      label: 'ISBN (or JAN)',
-      render: book.isbn,
-    },
-    {
-      label: '貸借',
-      render: () => (
+  const [editMode, setEditMode] = useState(false);
+
+  const Buttons = () =>
+    !editMode ? (
+      <Box fill gap="xsmall" justify="end" direction="row">
+        <Button icon={<EditIcon />} plain={false} onClick={() => setEditMode(true)} />
+        <Button icon={<DeleteIcon />} plain={false} onClick={() => console.log('delete')} />
+      </Box>
+    ) : (
+      <Box fill gap="xsmall" justify="end" direction="row">
+        <Button icon={<SaveIcon />} plain={false} onClick={() => setEditMode(false)} />
+        <Button icon={<CloseIcon />} plain={false} onClick={() => setEditMode(false)} />
+      </Box>
+    );
+
+  const Main = () =>
+    !editMode ? (
+      <>
+        <BookDataTable book={book} />
         <BookBorrowAndReturnButton
           onBorrow={borrowBookById}
           onReturn={returnBookById}
           book={book}
           userId={userId}
         />
-      ),
-    },
-    {
-      label: '作成日',
-      render: book.createdAt,
-    },
-    {
-      label: '更新日',
-      render: book.updatedAt,
-    },
-  ];
+      </>
+    ) : (
+      <BookDataTable book={book} edit={editMode} />
+    );
 
   return (
-    <Box align="center" justify="center">
-      <SimpleTable rows={rows} />
-      <Image fit="contain" src={coverUrl(book.isbn)} />
+    <Box>
+      <Box alignSelf="center" style={{ maxWidth: '500px' }}>
+        <Buttons />
+        <Main />
+      </Box>
     </Box>
   );
 };

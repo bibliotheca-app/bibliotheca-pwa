@@ -1,4 +1,4 @@
-import { BookDetail } from 'bibliotheca/components/BookDetail';
+import { BookDataTable } from 'bibliotheca/components/BookDataTable';
 import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 import { Button } from 'grommet';
 import React from 'react';
@@ -14,7 +14,7 @@ export const RegistrationFromCamera = () => {
       <BarcodeLoaderModule />
       {bookData ? (
         <>
-          <BookDetail book={bookData} />
+          <BookDataTable book={bookData} />
           <Button type="button" primary label="登録" onClick={submit} />
         </>
       ) : null}

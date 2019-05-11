@@ -5,6 +5,7 @@ import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book } from 'bibliotheca/types';
 import { Button, Text } from 'grommet';
+import { Add as AddIcon } from 'grommet-icons';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 
@@ -16,7 +17,7 @@ export const BookListView = () => {
   return (
     <>
       <Link href="/books/register">
-        <Button label="登録" />
+        <Button icon={<AddIcon />} label="登録" />
       </Link>
       <hr />
       <StyledDataTable
