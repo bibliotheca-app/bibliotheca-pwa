@@ -12,10 +12,19 @@ import {
 import React, { useState } from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { BookDataTable } from './BookDataTable';
+import { useConfirm } from '../hooks/useConfirm';
 
 export const BookDetail = ({ book }: { book: Book }) => {
   const { borrowBookById, returnBookById } = useActions(BookActions);
   const userId = useMappedState(s => userIdQuery(s.global));
+
+  const { show: showDeleteConfirm, render: renderDeleteConfirm } = useConfirm({
+    cancelButton: 'Cancel',
+    confirmButton: 'Ok',
+    content: `Delete book: ${book.title})`,
+    onCancel: () => console.log('cancel'),
+    onConfirm: () => console.log('confirm'),
+  });
 
   const [editMode, setEditMode] = useState(false);
 
@@ -23,7 +32,7 @@ export const BookDetail = ({ book }: { book: Book }) => {
     !editMode ? (
       <Box fill gap="xsmall" justify="end" direction="row">
         <Button icon={<EditIcon />} plain={false} onClick={() => setEditMode(true)} />
-        <Button icon={<DeleteIcon />} plain={false} onClick={() => console.log('delete')} />
+        <Button icon={<DeleteIcon />} plain={false} onClick={() => { console.log('delete'); showDeleteConfirm(); }} />
       </Box>
     ) : (
       <Box fill gap="xsmall" justify="end" direction="row">
@@ -35,6 +44,7 @@ export const BookDetail = ({ book }: { book: Book }) => {
   const Main = () =>
     !editMode ? (
       <>
+        {renderDeleteConfirm()}
         <BookDataTable book={book} />
         <BookBorrowAndReturnButton
           onBorrow={borrowBookById}
