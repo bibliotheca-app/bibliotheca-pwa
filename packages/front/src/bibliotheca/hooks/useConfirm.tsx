@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { Layer, Box, Text, Button } from 'grommet';
+import { Size, StyledLayer } from 'bibliotheca/components/StyledLayer';
 import { Omit } from 'bibliotheca/types';
+import { Box, Button, Text } from 'grommet';
+import React, { useState } from 'react';
 
 interface Props {
   cancelButton: string;
@@ -10,6 +11,8 @@ interface Props {
   onCancel: () => void;
   onConfirm: () => void;
   open: boolean;
+  size?: Size;
+  responsive?: boolean;
 }
 
 const Confirm: React.FC<Props> = ({
@@ -20,6 +23,8 @@ const Confirm: React.FC<Props> = ({
   onCancel,
   onConfirm,
   open,
+  size,
+  responsive,
 }) => {
   const [show, setShow] = useState(open);
 
@@ -40,8 +45,13 @@ const Confirm: React.FC<Props> = ({
   };
 
   return (
-    <Layer onEsc={onCancelInLayer} onClickOutside={onCancelInLayer}>
-      <Box direction="column">
+    <StyledLayer
+      size={size || 'small'}
+      onEsc={onCancelInLayer}
+      onClickOutside={onCancelInLayer}
+      responsive={responsive}
+    >
+      <Box pad="small" direction="column">
         {header && (
           <Box>
             <Text>{header}</Text>
@@ -55,8 +65,12 @@ const Confirm: React.FC<Props> = ({
           <Button label={confirmButton} onClick={onConfirmInLayer} />
         </Box>
       </Box>
-    </Layer>
+    </StyledLayer>
   );
+};
+
+type UseConfirmIn = Omit<Props, 'open'> & {
+  responsive?: boolean;
 };
 
 interface UseConfirmOut {
@@ -64,8 +78,8 @@ interface UseConfirmOut {
   render: () => React.ReactNode;
 }
 
-export const useConfirm = (props: Omit<Props, 'open'>): UseConfirmOut => {
-  const { onCancel, onConfirm, ...rest } = props;
+export const useConfirm = (params: UseConfirmIn): UseConfirmOut => {
+  const { onCancel, onConfirm, ...rest } = params;
 
   const [show, setShow] = useState(false);
 

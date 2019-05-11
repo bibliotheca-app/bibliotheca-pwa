@@ -24,6 +24,7 @@ export const BookDetail = ({ book }: { book: Book }) => {
     content: `Delete book: ${book.title})`,
     onCancel: () => console.log('cancel'),
     onConfirm: () => console.log('confirm'),
+    responsive: false,
   });
 
   const [editMode, setEditMode] = useState(false);
@@ -32,7 +33,14 @@ export const BookDetail = ({ book }: { book: Book }) => {
     !editMode ? (
       <Box fill gap="xsmall" justify="end" direction="row">
         <Button icon={<EditIcon />} plain={false} onClick={() => setEditMode(true)} />
-        <Button icon={<DeleteIcon />} plain={false} onClick={() => { console.log('delete'); showDeleteConfirm(); }} />
+        <Button
+          icon={<DeleteIcon />}
+          plain={false}
+          onClick={() => {
+            console.log('delete');
+            showDeleteConfirm();
+          }}
+        />
       </Box>
     ) : (
       <Box fill gap="xsmall" justify="end" direction="row">
