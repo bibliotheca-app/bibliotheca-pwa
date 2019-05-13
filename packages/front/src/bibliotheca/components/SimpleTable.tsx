@@ -18,7 +18,7 @@ export const SimpleTable: React.SFC<SimpleTableProps> = ({ rows, ...rest }) => (
             <Text weight="bold">{row.label}</Text>
           </TableCell>
           <TableCell>
-            <Box alignSelf={row.align || 'center'}>
+            <Box alignSelf={row.align || 'center'} fill>
               {typeof row.render === 'function' ? row.render() : <Text>{String(row.render)}</Text>}
             </Box>
           </TableCell>
