@@ -11,7 +11,7 @@ export const BarcodeLoaderActions = createActions(MODULE, {
   onDetect: (data: QuaggaJSResultObject) => ({
     payload: { data },
   }),
-  emitBarcode: barcode => ({ payload: { barcode } }),
+  emitBarcode: (barcode: string) => ({ payload: { barcode } }),
 });
 
 // --- Types ---

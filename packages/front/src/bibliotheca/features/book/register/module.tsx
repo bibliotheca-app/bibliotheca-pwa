@@ -6,14 +6,15 @@ import * as Rx from 'typeless/rx';
 import { BookActions } from '../interface';
 import { BookRegisterView } from './components/BookRegisterView';
 import { BookRegisterActions, BookRegisterState, MODULE } from './interface';
+import { isBookInformation } from 'bibliotheca/types';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
   .on(BarcodeLoaderActions.emitBarcode, ({ barcode }) => {
     return Rx.fromPromise(openBdRepository.findBookByIsbn(barcode)).pipe(
       Rx.flatMap(res => {
-        if (res.length === 0) {
-          alert('不正なisbnコードです');
+        if (!isBookInformation(res)) {
+          alert('ISBNコードから書籍データを取得できませんでした');
           return Rx.empty();
         } else {
           const {
