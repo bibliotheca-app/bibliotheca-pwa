@@ -12,8 +12,11 @@ export const epic = createEpic(MODULE)
     return Rx.empty();
   })
   .on(BarcodeLoaderActions.onDetect, ({ data }) => {
-    const isbnCodePrefix = '978';
-    if (data.codeResult.code.indexOf(isbnCodePrefix) === -1) {
+    const prefixWhitelists = ['978', '491'];
+    const disallowed =
+      prefixWhitelists.find(prefix => data.codeResult.code.indexOf(prefix) !== -1) === undefined;
+
+    if (disallowed) {
       return Rx.empty();
     } else {
       return Rx.of(BarcodeLoaderActions.emitBarcode(data.codeResult.code));

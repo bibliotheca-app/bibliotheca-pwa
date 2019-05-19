@@ -3,6 +3,8 @@ import { BookActions } from 'bibliotheca/features/book/interface';
 import React from 'react';
 import { useActions } from 'typeless';
 import { BarcodeProcessTarget } from '../interface';
+import { BookDataViewTable } from 'bibliotheca/components/BookDataTable';
+import { Box, Text } from 'grommet';
 
 export const TargetBook = ({
   target,
@@ -20,15 +22,17 @@ export const TargetBook = ({
   }
 
   if ('existsBookInList' in target) {
-    return <div>この本は書籍一覧にありません</div>;
+    return (
+      <Box>
+        <Text>この本は蔵書に登録されておりません</Text>
+        <BookDataViewTable book={{ isbn: target.loadedCode }} />
+      </Box>
+    );
   }
   const book = target.book;
   return (
     <>
-      <div>
-        book title: {book.title}, isbn: {book.isbn}
-      </div>
-      {!!book.borrowedBy && book.borrowedBy !== userId ? <div>在庫がありません</div> : null}
+      {!!book.borrowedBy && book.borrowedBy !== userId ? <Text>在庫がありません</Text> : null}
       <BookBorrowAndReturnButton
         onBorrow={() => borrowBookById(book.id)}
         onReturn={() => returnBookById(book.id)}
@@ -36,6 +40,7 @@ export const TargetBook = ({
         book={book}
         disabled={isProcessingBook}
       />
+      <BookDataViewTable book={book} />
     </>
   );
 };

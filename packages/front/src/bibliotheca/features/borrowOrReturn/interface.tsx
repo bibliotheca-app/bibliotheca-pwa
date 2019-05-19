@@ -9,8 +9,8 @@ export const MODULE = 'borrowOrReturn';
 export const BorrowOrReturnActions = createActions(MODULE, {
   $mounted: null,
   fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
-  fetchBookFromBarcodeFullfilled: (books: Book[], userId: string) => ({
-    payload: { books, userId },
+  fetchBookFromBarcodeFullfilled: (books: Book[], userId: string, loadedCode: string) => ({
+    payload: { books, userId, loadedCode },
   }),
 });
 
@@ -28,10 +28,12 @@ export interface BorrowOrReturnState {
 export type BarcodeProcessTarget = NotExistBookInList | ExistBookInList;
 
 interface NotExistBookInList {
+  loadedCode: string;
   existsBookInList: false;
 }
 
 interface ExistBookInList {
+  loadedCode: string;
   book: Book;
 }
 declare module 'typeless/types' {

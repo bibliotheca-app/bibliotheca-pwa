@@ -13,7 +13,11 @@ export const epic = createEpic(MODULE)
   .on(BarcodeLoaderActions.emitBarcode, ({ barcode }, { getState }) => {
     return Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
       Rx.map(books =>
-        BorrowOrReturnActions.fetchBookFromBarcodeFullfilled(books, userIdQuery(getState().global)),
+        BorrowOrReturnActions.fetchBookFromBarcodeFullfilled(
+          books,
+          userIdQuery(getState().global),
+          barcode,
+        ),
       ),
     );
   })
@@ -44,18 +48,21 @@ export const reducer = createReducer(initialState)
     state.isProcessingBook = false;
     state.target = undefined;
   })
-  .on(BorrowOrReturnActions.fetchBookFromBarcodeFullfilled, (state, { books, userId }) => {
-    if (books.length === 0) {
-      state.target = { existsBookInList: false };
-    } else {
-      const borrowedByMe = books.find(b => b.borrowedBy === userId);
-      const stock = books.find(b => !b.borrowedBy);
-      const unStock = books.find(b => !!b.borrowedBy);
-      const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
+  .on(
+    BorrowOrReturnActions.fetchBookFromBarcodeFullfilled,
+    (state, { books, userId, loadedCode }) => {
+      if (books.length === 0) {
+        state.target = { existsBookInList: false, loadedCode };
+      } else {
+        const borrowedByMe = books.find(b => b.borrowedBy === userId);
+        const stock = books.find(b => !b.borrowedBy);
+        const unStock = books.find(b => !!b.borrowedBy);
+        const book = !!borrowedByMe ? borrowedByMe : stock ? stock : unStock!;
 
-      state.target = { book };
-    }
-  });
+        state.target = { book, loadedCode };
+      }
+    },
+  );
 
 // --- Module ---
 export const BorrowOrReturnModule = () => {
