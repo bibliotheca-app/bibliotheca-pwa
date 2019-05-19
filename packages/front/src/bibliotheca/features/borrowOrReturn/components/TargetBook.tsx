@@ -20,7 +20,12 @@ export const TargetBook = ({
   }
 
   if ('existsBookInList' in target) {
-    return <div>この本は書籍一覧にありません</div>;
+    return (
+      <>
+        <div>この本は書籍一覧にありません</div>
+        <div>isbn: {target.loadedCode}</div>
+      </>
+    );
   }
   const book = target.book;
   return (
