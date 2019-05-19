@@ -11,7 +11,7 @@
     "@types/react-paginate": "^6.2.1",
     "@types/styled-components": "^4.1.14",
     "@types/webpack-env": "^1.13.9",
-    "firebase-tools": "^6.6.0",
+    "firebase-tools": "^6.10.0",
     "grommet": "^2.6.5",
     "grommet-icons": "^4.2.0",
     "history": "^4.9.0",
