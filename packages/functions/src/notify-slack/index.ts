@@ -58,6 +58,15 @@ async function getUserId(slackClient: SlackClient, email: string): Promise<strin
   }
 }
 
+async function postMessage(params: { text: string }): Promise<void> {
+  const { text } = params;
+  await axios.post(
+    getEnvVar('NOTIFY_SLACK_WEBHOOK_URL'),
+    { text },
+    { headers: { 'Content-type': 'application/json' } },
+  );
+}
+
 type Book = { borrowedBy: string | undefined; createdAt: Date; title: string };
 
 export async function onBookBorrowOrReturn(
@@ -74,9 +83,42 @@ export async function onBookBorrowOrReturn(
   const after = change.after.data() as Book;
   const slackClient = new SlackClient(getEnvVar('SLACK_TOKEN'));
   const text = await buildMessage(slackClient, before, after);
-  await axios.post(
-    getEnvVar('NOTIFY_SLACK_WEBHOOK_URL'),
-    { text },
-    { headers: { 'Content-type': 'application/json' } },
-  );
+  await postMessage({ text });
+}
+
+export async function onBookWrite(
+  change: Change<DocumentSnapshot>,
+  context: EventContext,
+): Promise<void> {
+  const bookId: string = context.params.bookId;
+
+  console.log(`bookId: ${bookId}`);
+  console.log(`change: ${JSON.stringify(change)}`);
+  console.log(`context: ${JSON.stringify(context)}`);
+
+  if (context.authType === 'ADMIN') {
+    console.log(`ADMIN による処理なのでスキップ: delete bookId(${bookId})`);
+    return;
+  }
+
+  const slackClient = new SlackClient(getEnvVar('SLACK_TOKEN'));
+  const uid = (context.auth && context.auth.uid) || '不明なユーザー';
+  const userName = await getUserId(slackClient, uid);
+
+  if (!change.before.exists) {
+    // 作成
+    const book = change.after.data() as Book;
+    await postMessage({
+      text: `${userName} さんが『${book.title}』を登録しました`,
+    });
+  } else if (!change.after.exists) {
+    // 削除
+    const book = change.before.data() as Book;
+    await postMessage({
+      text: `${userName} さんが『${book.title}』を削除しました`,
+    });
+  } else {
+    // 更新
+    // TODO: 貸し借り以外の更新であれば通知をする？
+  }
 }
