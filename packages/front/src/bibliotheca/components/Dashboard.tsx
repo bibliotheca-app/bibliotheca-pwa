@@ -1,12 +1,12 @@
 import { Progress } from 'bibliotheca/features/global/components/Progress';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
-import { Box, Button, Heading, Tab, Tabs } from 'grommet';
-import { Logout } from 'grommet-icons';
+import { Box, Heading, Menu, ResponsiveContext, Tab, Tabs } from 'grommet';
 import * as React from 'react';
 import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
+import icon from './bookshelf-64.png';
 
 const Main = styled.main`
   padding: 20px;
@@ -40,28 +40,61 @@ export const Dashboard = (props: DashboardProps) => {
   const links = [
     { link: '/books', title: '書籍一覧' },
     { link: '/borrow-or-return', title: '貸出/返却' },
-    { link: '/inventory-event', title: '棚卸し' },
   ];
   const onActive = (index: number) => {
     navigate(links[index].link);
   };
   const activeIndex = links.findIndex(({ link }) => link.startsWith(route.url.pathname));
 
+  const menuItems = [
+    {
+      label: '棚卸し',
+      onClick: () => navigate('/inventory-event'),
+    },
+    {
+      label: 'ログアウト',
+      onClick: logout,
+    },
+  ];
+  /**
+   * xsmall,small,middle,large
+   */
+  const appName = (size: string) => {
+    switch (size) {
+      case 'small':
+        return <img src={icon} alt="bibliotheca" />;
+
+      default:
+        return 'Bibliotheca - 書籍管理 -';
+    }
+  };
   return (
-    <>
-      <Progress />
-      <AppBar>
-        <Heading level="3" margin="none">
-          Bibliotheca - 書籍管理 -
-        </Heading>
-        <Tabs activeIndex={activeIndex} onActive={onActive}>
-          {links.map((l, i) => (
-            <Tab key={`tab_${i}`} title={l.title} />
-          ))}
-        </Tabs>
-        <Button icon={<Logout />} onClick={logout} />
-      </AppBar>
-      <Main>{children}</Main>
-    </>
+    <ResponsiveContext.Consumer>
+      {size => (
+        <>
+          <Progress />
+          <AppBar>
+            <Heading level="3" margin="none">
+              {appName(size)}
+            </Heading>
+            <Tabs activeIndex={activeIndex} onActive={onActive}>
+              {links.map((l, i) => (
+                <Tab key={`tab_${i}`} title={l.title} />
+              ))}
+            </Tabs>
+            <Box align="center">
+              <Menu
+                items={menuItems}
+                dropProps={{
+                  target: {},
+                  align: { top: 'bottom', right: 'right' },
+                }}
+              />
+            </Box>
+          </AppBar>
+          <Main>{children}</Main>
+        </>
+      )}
+    </ResponsiveContext.Consumer>
   );
 };
