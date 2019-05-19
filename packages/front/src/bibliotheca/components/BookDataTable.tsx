@@ -20,7 +20,7 @@ export const BookDataViewTable: React.FC<ViewProps> = ({ book }) => {
   const rows = [
     {
       label: 'タイトル',
-      render: book.title,
+      render: book.title || '-',
     },
     {
       label: '画像',
