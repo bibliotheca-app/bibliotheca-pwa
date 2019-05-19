@@ -23,6 +23,10 @@ export const epic = createEpic(MODULE)
             BookRegisterActions.fetchBookFromOpenBdFullfilled({
               isbn,
               title,
+              // dummy
+              borrowedBy: null,
+              createdAt: new Date(),
+              updatedAt: new Date(),
             }),
           );
         }

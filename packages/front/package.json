@@ -4,6 +4,7 @@
   "description": "",
   "keywords": [],
   "dependencies": {
+    "@material/react-linear-progress": "^0.12.0",
     "@types/history": "^4.7.2",
     "@types/react": "16.8.8",
     "@types/react-dom": "16.8.2",
@@ -18,6 +19,7 @@
     "prettier": "^1.16.4",
     "react": "16.8.4",
     "react-app-rewired": "2.1.1",
+    "react-content-loader": "^4.2.1",
     "react-dom": "16.8.4",
     "react-navi": "^0.12.6",
     "react-scripts": "3.0.0",

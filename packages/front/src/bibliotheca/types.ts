@@ -28,6 +28,8 @@ export interface Book {
   createdAt: Date;
 }
 
+export type BookData = Omit<Book, 'id'>;
+
 type InventoryStatus = 'checked' | 'missing';
 
 export interface InventoryEventDone {
@@ -66,6 +68,9 @@ export interface InventoryEventLogBody {
 }
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type Parameters<T> = T extends (...args: infer T) => any ? T : never;
+export type ReturnType<T> = T extends (...args: any[]) => infer T ? T : never;
+
 export type GrommetFormEvent<T> = React.FormEvent<HTMLFormElement> & {
   value: T;
 };

@@ -10,11 +10,13 @@ export const BookDetailActions = createActions(MODULE, {
   $unmounting: null,
   findBookById: (bookId: string) => ({ payload: { bookId } }),
   findBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
+  findBookByIdFailure: (error: any) => ({ payload: { error } }),
 });
 
 // --- Types ---
 export interface BookDetailState {
   selectedBook?: Book;
+  findBookError?: any;
 }
 
 declare module 'typeless/types' {

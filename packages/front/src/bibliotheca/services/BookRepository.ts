@@ -1,4 +1,4 @@
-import { Book, Omit } from 'bibliotheca/types';
+import { Book, BookData } from 'bibliotheca/types';
 import { firestore } from 'firebase';
 
 const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
@@ -159,7 +159,7 @@ export class BookRepository {
   };
 
   registerBook = async (bookData: { title: string; isbn: string | null }): Promise<Book> => {
-    const book: Omit<Book, 'id'> = {
+    const book: BookData = {
       createdAt: new Date(),
       updatedAt: new Date(),
       borrowedBy: null,

@@ -1,3 +1,4 @@
+import { Progress } from 'bibliotheca/features/global/components/Progress';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
 import { Box, Button, Heading, Tab, Tabs } from 'grommet';
@@ -29,6 +30,7 @@ const AppBar = (props: { children: any }) => (
     {...props}
   />
 );
+
 export const Dashboard = (props: DashboardProps) => {
   const { children } = props;
   const { logout } = useActions(GlobalActions);
@@ -47,6 +49,7 @@ export const Dashboard = (props: DashboardProps) => {
 
   return (
     <>
+      <Progress />
       <AppBar>
         <Heading level="3" margin="none">
           Bibliotheca - 書籍管理 -

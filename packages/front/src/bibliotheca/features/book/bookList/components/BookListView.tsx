@@ -1,12 +1,13 @@
 import { Link } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
+import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book } from 'bibliotheca/types';
 import { Button, Text } from 'grommet';
+import { Add as AddIcon } from 'grommet-icons';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
-import { BookBorrowAndReturnButton } from './BookBorrowAndReturnBottun';
 
 export const BookListView = () => {
   const { books } = useMappedState(state => state.bookList);
@@ -16,7 +17,7 @@ export const BookListView = () => {
   return (
     <>
       <Link href="/books/register">
-        <Button label="登録" />
+        <Button icon={<AddIcon />} label="登録" />
       </Link>
       <hr />
       <StyledDataTable
