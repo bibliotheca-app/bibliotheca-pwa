@@ -26,29 +26,15 @@ const Confirm: React.FC<Props> = ({
   size,
   responsive,
 }) => {
-  const [show, setShow] = useState(open);
-
-  if (!show) {
+  if (!open) {
     return null;
   }
-
-  const closeLayer = () => setShow(false);
-
-  const onCancelInLayer = () => {
-    onCancel();
-    closeLayer();
-  };
-
-  const onConfirmInLayer = () => {
-    onConfirm();
-    closeLayer();
-  };
 
   return (
     <StyledLayer
       size={size || 'small'}
-      onEsc={onCancelInLayer}
-      onClickOutside={onCancelInLayer}
+      onEsc={onCancel}
+      onClickOutside={onCancel}
       responsive={responsive}
     >
       <Box pad="small" direction="column">
@@ -61,15 +47,15 @@ const Confirm: React.FC<Props> = ({
           <Text>{content}</Text>
         </Box>
         <Box direction="row" justify="end" gap="small">
-          <Button label={cancelButton} onClick={onCancelInLayer} />
-          <Button label={confirmButton} onClick={onConfirmInLayer} />
+          <Button label={cancelButton} onClick={onCancel} />
+          <Button label={confirmButton} onClick={onConfirm} />
         </Box>
       </Box>
     </StyledLayer>
   );
 };
 
-type UseConfirmIn = Omit<Props, 'open'> & {
+export type UseConfirmIn = Omit<Props, 'open'> & {
   responsive?: boolean;
 };
 

@@ -1,4 +1,4 @@
-import { Book, RouteEntry } from 'bibliotheca/types';
+import { Book, RouteEntry, BookEditData } from 'bibliotheca/types';
 import { lazy } from 'navi';
 import { createActions } from 'typeless';
 
@@ -21,6 +21,8 @@ export const BookActions = createActions(MODULE, {
   registerBookFulfilled: (book: Book) => ({ payload: { book } }),
   deleteBookById: (bookId: string) => ({ payload: { bookId } }),
   deleteBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
+  editBook: (bookEdit: BookEditData) => ({ payload: { bookEdit } }),
+  editBookFulfilled: (book: Book) => ({ payload: { book } }),
 });
 
 // --- Routing ---

@@ -6,6 +6,7 @@ import React from 'react';
 import { createEpic, createReducer, useModule } from 'typeless';
 import { BookDetailView } from './components/BookDetailView';
 import { BookDetailActions, BookDetailState, MODULE } from './interface';
+import { BookActions } from '../interface';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
@@ -22,6 +23,9 @@ export const epic = createEpic(MODULE)
       Rx.catchLog(e => Rx.of(BookDetailActions.findBookByIdFailure(e))),
       Rx.flatMap(fulfilledOrError => Rx.of(fulfilledOrError, GlobalActions.progressHide())),
     );
+  })
+  .onMany([BookActions.editBookFulfilled, BookActions.deleteBookById], () => {
+    return RouterActions.navigate('/books');
   });
 
 // --- Reducer ---

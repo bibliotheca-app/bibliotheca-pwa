@@ -30,6 +30,12 @@ export interface Book {
 
 export type BookData = Omit<Book, 'id'>;
 
+export interface BookEditData {
+  id: string;
+  isbn: string;
+  title: string;
+}
+
 type InventoryStatus = 'checked' | 'missing';
 
 export interface InventoryEventDone {
