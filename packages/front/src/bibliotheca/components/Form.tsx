@@ -3,10 +3,6 @@ import { Form as GForm } from 'grommet';
 // この修正がマージされるまでの繋ぎ
 // https://github.com/grommet/grommet/pull/3101/files
 export class Form extends GForm {
-  constructor(props: any) {
-    super(props);
-  }
-
   update = (name: any, data: any, error: any) => {
     this.setState((state: any) => {
       const { errors, touched, value } = state;
