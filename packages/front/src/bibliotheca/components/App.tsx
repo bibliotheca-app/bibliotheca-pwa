@@ -13,6 +13,7 @@ import * as R from 'remeda';
 import { useActions, useMappedState } from 'typeless';
 import { Dashboard } from './Dashboard';
 import { FullScreenSpinner } from './FullScreenSpinner';
+import { useNotificationModule } from 'bibliotheca/features/notification/module';
 
 interface LayoutProps {
   isLoggedIn: boolean;
@@ -33,6 +34,7 @@ export const App = () => {
   useRouterModule();
   useGlobalModule();
   useBookModule();
+  useNotificationModule();
 
   const { loggedIn } = useActions(GlobalActions);
   useEffect(() => authService.subscribe(authUser => loggedIn(authUser)), [loggedIn]);

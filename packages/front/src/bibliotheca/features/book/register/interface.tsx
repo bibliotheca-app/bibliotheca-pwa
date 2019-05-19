@@ -7,20 +7,19 @@ export const MODULE = 'book/register';
 // --- Actions ---
 export const BookRegisterActions = createActions(MODULE, {
   $mounted: null,
-  fetchBookFromOpenBdFullfilled: (bookData: BookData) => ({ payload: { bookData } }),
+  changeFormValue: (key: keyof BookData, value: string) => ({ payload: { key, value } }),
+  fetchBookFromOpenBd: (barcode: string) => ({ payload: { barcode } }),
+  fetchBookFromOpenBdFullfilled: (bookData: Partial<BookData>) => ({ payload: { bookData } }),
   submit: null,
-  toggleMode: null,
 });
 
 // --- Types ---
 export interface BookRegisterState {
   registeredBook?: Book;
   isProcessingBook: boolean;
-  bookData?: BookData;
-  mode: RegistrationMode;
+  bookData: Partial<BookData>;
 }
 
-export type RegistrationMode = 'camera' | 'manual';
 declare module 'typeless/types' {
   export interface DefaultState {
     bookRegister: BookRegisterState;
