@@ -1,18 +1,19 @@
+import { Form } from 'bibliotheca/components/Form';
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { useConfirm } from 'bibliotheca/hooks/useConfirm';
 import { Book } from 'bibliotheca/types';
-import { Box, Button, Form } from 'grommet';
+import { Box, Button } from 'grommet';
 import {
-  Edit as EditIcon,
-  Trash as DeleteIcon,
-  Save as SaveIcon,
   Close as CloseIcon,
+  Edit as EditIcon,
+  Save as SaveIcon,
+  Trash as DeleteIcon,
 } from 'grommet-icons';
 import React, { useState } from 'react';
 import { useActions, useMappedState } from 'typeless';
-import { BookDataViewTable, BookDataEditTable } from './BookDataTable';
+import { BookDataEditTable, BookDataViewTable } from './BookDataTable';
 
 export const BookDetail = ({ book }: { book: Book }) => {
   const { borrowBookById, returnBookById } = useActions(BookActions);
