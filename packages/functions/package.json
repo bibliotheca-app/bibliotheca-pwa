@@ -19,7 +19,7 @@
   },
   "main": "lib/index.js",
   "engines": {
-    "node": "8"
+    "node": "10"
   },
   "dependencies": {
     "@slack/web-api": "^5.0.1",
