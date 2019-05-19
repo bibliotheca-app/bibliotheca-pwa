@@ -7,6 +7,7 @@ import { BookActions } from '../book/interface';
 import { userIdQuery } from '../global/query';
 import { BorrowOrReturnView } from './components/BorrowOrReturnView';
 import { BorrowOrReturnActions, BorrowOrReturnState, MODULE } from './interface';
+import { NotificationActions } from '../notification/interface';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
@@ -22,12 +23,10 @@ export const epic = createEpic(MODULE)
     );
   })
   .on(BookActions.borrowBookByIdFulfilled, ({ book }) => {
-    alert(`${book.title}を借りました`);
-    return Rx.empty();
+    return NotificationActions.notifyMessage(`${book.title}を借りました`);
   })
   .on(BookActions.returnBookByIdFulfilled, ({ book }) => {
-    alert(`${book.title}を返却しました`);
-    return Rx.empty();
+    return NotificationActions.notifyMessage(`${book.title}を返却しました`);
   });
 
 // --- Reducer ---

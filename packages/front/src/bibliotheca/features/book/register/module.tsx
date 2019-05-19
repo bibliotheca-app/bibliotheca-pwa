@@ -1,13 +1,14 @@
 import { BarcodeLoaderActions } from 'bibliotheca/features/barcodeLoader/interface';
+import { NotificationActions } from 'bibliotheca/features/notification/interface';
+import { RouterActions } from 'bibliotheca/features/router/interface';
 import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
+import { isBookInformation } from 'bibliotheca/types';
 import React from 'react';
 import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { BookActions } from '../interface';
 import { BookRegisterView } from './components/BookRegisterView';
 import { BookRegisterActions, BookRegisterState, MODULE } from './interface';
-import { isBookInformation, BookData } from 'bibliotheca/types';
-import { RouterActions } from 'bibliotheca/features/router/interface';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
@@ -20,25 +21,19 @@ export const epic = createEpic(MODULE)
   })
   .on(BookRegisterActions.fetchBookFromOpenBd, ({ barcode }) => {
     return Rx.fromPromise(openBdRepository.findBookByIsbn(barcode)).pipe(
-      Rx.flatMap(res => {
-        const bd: Partial<BookData> = (() => {
-          if (isBookInformation(res)) {
-            const {
-              summary: { isbn, title },
-            } = res[0];
-            return {
-              isbn,
-              title,
-            };
-          } else {
-            alert('ISBNコードから書籍データを取得できませんでした');
-            return {
+      Rx.mergeMap(res => {
+        if (isBookInformation(res)) {
+          const { summary } = res[0];
+          return [BookRegisterActions.fetchBookFromOpenBdFullfilled(summary)];
+        } else {
+          return [
+            BookRegisterActions.fetchBookFromOpenBdFullfilled({
               isbn: barcode,
               title: '',
-            };
-          }
-        })();
-        return Rx.of(BookRegisterActions.fetchBookFromOpenBdFullfilled(bd));
+            }),
+            NotificationActions.notifyMessage('ISBNコードから書籍データを取得できませんでした'),
+          ];
+        }
       }),
     );
   })
@@ -47,13 +42,14 @@ export const epic = createEpic(MODULE)
     if (title && title !== '') {
       return BookActions.registerBook({ title, isbn: isbn === undefined ? null : isbn });
     } else {
-      alert('本のタイトルが入力されておりません');
-      return Rx.empty();
+      return NotificationActions.notifyMessage('本のタイトルが入力されておりません');
     }
   })
   .on(BookActions.registerBookFulfilled, ({ book }) => {
-    alert(`${book.title}を登録しました`);
-    return RouterActions.navigate('/books');
+    return [
+      RouterActions.navigate('/books'),
+      NotificationActions.notifyMessage(`${book.title}を登録しました`),
+    ];
   });
 
 // --- Reducer ---
