@@ -6,8 +6,9 @@
   "license": "MIT",
   "scripts": {
     "build": "tsc -b .",
-    "preseed": "yarn build && firebase use test",
-    "seed": "node ."
+    "preseed": "yarn build && firebase use test && firebase functions:delete updateBookList",
+    "seed": "node .",
+    "postseed": "firebase deploy --only functions:updateBookList"
   },
   "dependencies": {
     "firebase": "^5.11.1",
