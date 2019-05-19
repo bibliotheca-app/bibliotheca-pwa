@@ -17,7 +17,7 @@ executors:
     working_directory: ~/repo
 
     docker:
-      - image: node:10
+      - image: node:8
 commands:
   setup:
     steps:
