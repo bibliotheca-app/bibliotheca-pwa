@@ -3,7 +3,7 @@ import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { useConfirm } from 'bibliotheca/hooks/useConfirm';
-import { Book } from 'bibliotheca/types';
+import { Book, BookEditData, Omit } from 'bibliotheca/types';
 import { Box, Button } from 'grommet';
 import {
   Close as CloseIcon,
@@ -16,13 +16,8 @@ import { useActions, useMappedState } from 'typeless';
 import { BookDataEditTable, BookDataViewTable } from './BookDataTable';
 import { useConfirmWithData } from 'bibliotheca/hooks/useConfirmWithData';
 
-interface BookEditData {
-  isbn: string;
-  title: string;
-}
-
 export const BookDetail = ({ book }: { book: Book }) => {
-  const { borrowBookById, returnBookById, deleteBookById } = useActions(BookActions);
+  const { borrowBookById, returnBookById, deleteBookById, editBook } = useActions(BookActions);
   const userId = useMappedState(s => userIdQuery(s.global));
 
   const { show: showDeleteConfirm, render: renderDeleteConfirm } = useConfirm({
@@ -34,7 +29,9 @@ export const BookDetail = ({ book }: { book: Book }) => {
     responsive: false,
   });
 
-  const { show: showSaveConfirm, render: renderShowConfirm } = useConfirmWithData<BookEditData>({
+  const { show: showSaveConfirm, render: renderShowConfirm } = useConfirmWithData<
+    Omit<BookEditData, 'id'>
+  >({
     cancelButton: '取り消し',
     confirmButton: '保存',
     content: `次の本の内容を保存しますか: ${book.title}`,
@@ -42,7 +39,7 @@ export const BookDetail = ({ book }: { book: Book }) => {
       console.log('cancel: save');
     },
     onConfirm: data => {
-      console.log('save', data);
+      editBook({ ...data, id: book.id });
       setEditMode(false);
     },
     responsive: false,

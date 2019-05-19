@@ -39,6 +39,11 @@ export const epic = createEpic(MODULE)
     return Rx.fromPromise(bookRepository.deleteBookById(bookId)).pipe(
       Rx.map(BookActions.deleteBookByIdFulfilled),
     );
+  })
+  .on(BookActions.editBook, ({ bookEdit }) => {
+    return Rx.fromPromise(bookRepository.editBookById(bookEdit)).pipe(
+      Rx.map(BookActions.editBookFulfilled),
+    );
   });
 
 // --- Reducer ---

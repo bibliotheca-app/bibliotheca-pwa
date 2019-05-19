@@ -1,4 +1,4 @@
-import { Book, BookData } from 'bibliotheca/types';
+import { Book, BookData, BookEditData } from 'bibliotheca/types';
 import { firestore } from 'firebase';
 
 const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
@@ -176,6 +176,16 @@ export class BookRepository {
     const book = await bookRef.get().then(bookFromDoc);
     await bookRef.delete();
     return book;
+  };
+
+  editBookById = async (book: BookEditData): Promise<Book> => {
+    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+      const ref = this.mkBookRefById(book.id);
+      tx.update(ref, { title: book.title, isbn: book.isbn, updatedAt: new Date() });
+      return ref;
+    });
+
+    return bookRef.get().then(bookFromDoc);
   };
 
   private mkBookRefById = (bookId: string): firestore.DocumentReference =>
