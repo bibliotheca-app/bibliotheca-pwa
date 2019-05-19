@@ -55,7 +55,7 @@ const Confirm: React.FC<Props> = ({
   );
 };
 
-type UseConfirmIn = Omit<Props, 'open'> & {
+export type UseConfirmIn = Omit<Props, 'open'> & {
   responsive?: boolean;
 };
 
