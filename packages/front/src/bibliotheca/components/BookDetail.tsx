@@ -22,7 +22,7 @@ interface BookEditData {
 }
 
 export const BookDetail = ({ book }: { book: Book }) => {
-  const { borrowBookById, returnBookById } = useActions(BookActions);
+  const { borrowBookById, returnBookById, deleteBookById } = useActions(BookActions);
   const userId = useMappedState(s => userIdQuery(s.global));
 
   const { show: showDeleteConfirm, render: renderDeleteConfirm } = useConfirm({
@@ -30,7 +30,7 @@ export const BookDetail = ({ book }: { book: Book }) => {
     confirmButton: '削除',
     content: `次の本を削除しますか: ${book.title}`,
     onCancel: () => console.log('cancel: delete'),
-    onConfirm: () => console.log('delete'),
+    onConfirm: () => deleteBookById(book.id),
     responsive: false,
   });
 
