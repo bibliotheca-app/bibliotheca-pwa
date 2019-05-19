@@ -82,12 +82,20 @@ export type GrommetFormEvent<T> = React.FormEvent<HTMLFormElement> & {
 };
 export type GrommetFormHandler<T> = React.EventHandler<GrommetFormEvent<T>>;
 
-export interface OpenBDBookItem {
-  summary: {
-    isbn: string;
-    title: string;
-    [key: string]: unknown;
-  };
+export type OpenBDBookItem = BookInformation & {
   [key: string]: unknown;
+};
+export type BookInformation = {
+  summary: { isbn: string; title: string };
+};
+export function isBookInformation(res: unknown): res is [BookInformation] {
+  if (!Array.isArray(res)) {
+    return false;
+  }
+  if (res.length === 0) {
+    return false;
+  }
+  const body = res[0];
+  return body && body.summary && body.summary.isbn && body.summary.title;
 }
 export type OpenBDBookResponse = OpenBDBookItem[];
