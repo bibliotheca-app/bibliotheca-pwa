@@ -1,7 +1,8 @@
 import { Progress } from 'bibliotheca/features/global/components/Progress';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
-import { Box, Heading, Menu, ResponsiveContext, Tab, Tabs } from 'grommet';
+import { Box, Heading, Menu, ResponsiveContext, Tab, Tabs, ButtonProps } from 'grommet';
+import { List as ListIcon, Logout as LogoutIcon, Add as AddIcon } from 'grommet-icons';
 import * as React from 'react';
 import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
@@ -46,12 +47,19 @@ export const Dashboard = (props: DashboardProps) => {
   };
   const activeIndex = links.findIndex(({ link }) => link.startsWith(route.url.pathname));
 
-  const menuItems = [
+  const menuItems: ButtonProps[] = [
     {
+      icon: <AddIcon />,
+      label: '書籍登録',
+      onClick: () => navigate('/books/register'),
+    },
+    {
+      icon: <ListIcon />,
       label: '棚卸し',
       onClick: () => navigate('/inventory-event'),
     },
     {
+      icon: <LogoutIcon />,
       label: 'ログアウト',
       onClick: logout,
     },
