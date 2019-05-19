@@ -1,6 +1,7 @@
 import * as _firebase from 'firebase/app';
 import 'firebase/auth';
 import 'firebase/firestore';
+import 'firebase/performance';
 
 const config = (() => {
   switch (process.env.REACT_APP_TARGET) {
@@ -28,3 +29,4 @@ const config = (() => {
 _firebase.initializeApp(config);
 
 export const firebase = _firebase;
+export const perf = _firebase.performance();
