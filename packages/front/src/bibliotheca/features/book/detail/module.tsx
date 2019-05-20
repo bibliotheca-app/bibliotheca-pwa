@@ -1,4 +1,6 @@
+import { BookActions } from 'bibliotheca/features/book/interface';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
+import { NotificationActions } from 'bibliotheca/features/notification/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
@@ -6,7 +8,6 @@ import React from 'react';
 import { createEpic, createReducer, useModule } from 'typeless';
 import { BookDetailView } from './components/BookDetailView';
 import { BookDetailActions, BookDetailState, MODULE } from './interface';
-import { BookActions } from '../interface';
 
 // --- Epic ---
 export const epic = createEpic(MODULE)
@@ -24,8 +25,14 @@ export const epic = createEpic(MODULE)
       Rx.flatMap(fulfilledOrError => Rx.of(fulfilledOrError, GlobalActions.progressHide())),
     );
   })
-  .onMany([BookActions.editBookFulfilled, BookActions.deleteBookById], () => {
-    return RouterActions.navigate('/books');
+  .on(BookActions.editBookFulfilled, ({ book }) => {
+    return NotificationActions.notifyMessage(`${book.title}の変更を保存しました`);
+  })
+  .on(BookActions.deleteBookByIdFulfilled, ({ book }) => {
+    return Rx.of(
+      NotificationActions.notifyMessage(`${book.title}を削除しました`),
+      RouterActions.navigate('/books'),
+    );
   });
 
 // --- Reducer ---
@@ -41,7 +48,17 @@ export const reducer = createReducer(initialState)
   })
   .on(BookDetailActions.findBookByIdFailure, (state, { error }) => {
     state.findBookError = error;
-  });
+  })
+  .onMany(
+    [
+      BookActions.borrowBookByIdFulfilled,
+      BookActions.returnBookByIdFulfilled,
+      BookActions.editBookFulfilled,
+    ],
+    (state, { book }) => {
+      state.selectedBook = book;
+    },
+  );
 
 // --- Module ---
 export const BookDetailModule = () => {
