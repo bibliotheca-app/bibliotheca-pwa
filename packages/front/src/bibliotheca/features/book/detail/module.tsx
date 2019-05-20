@@ -41,6 +41,9 @@ export const reducer = createReducer(initialState)
   })
   .on(BookDetailActions.findBookByIdFailure, (state, { error }) => {
     state.findBookError = error;
+  })
+  .onMany([BookActions.borrowBookByIdFulfilled, BookActions.returnBookByIdFulfilled], (state, { book }) => {
+    state.selectedBook = book;
   });
 
 // --- Module ---
