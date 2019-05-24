@@ -65,13 +65,32 @@ export async function onBookBorrowOrReturn(
   context: EventContext,
 ): Promise<void> {
   const bookId: string = context.params.bookId;
+  const before = change.before.data() as Book;
+  const after = change.after.data() as Book;
 
   console.log(`bookId: ${bookId}`);
   console.log(`change: ${JSON.stringify(change)}`);
   console.log(`context: ${JSON.stringify(context)}`);
 
-  const before = change.before.data() as Book;
-  const after = change.after.data() as Book;
+  if (!change.before.exists) {
+    console.log('新規作成なのでスキップ');
+    return;
+  }
+
+  if (!change.after.exists) {
+    if (before.borrowedBy) {
+      console.log('貸出中の本が削除されました');
+    } else {
+      console.log('削除されたのでスキップ');
+    }
+    return;
+  }
+
+  if (before.borrowedBy === after.borrowedBy) {
+    console.log('貸出状態が変更されていないのでスキップ');
+    return;
+  }
+
   const slackClient = new SlackClient(getEnvVar('SLACK_TOKEN'));
   const text = await buildMessage(slackClient, before, after);
   await axios.post(
