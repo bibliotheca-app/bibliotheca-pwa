@@ -21,10 +21,10 @@ export const BookBorrowAndReturnButton: React.SFC<Props> = ({
 }) => {
   if (book.borrowedBy === userId) {
     // 借りている時
-    return <Button primary label="返却" onClick={() => onReturn(book.id)} disabled={disabled} />;
+    return <Button primary label="返す" onClick={() => onReturn(book.id)} disabled={disabled} />;
   } else if (!book.borrowedBy) {
     // 借りられていない時
-    return <Button label="貸出" onClick={() => onBorrow(book.id)} disabled={disabled} />;
+    return <Button label="借りる" onClick={() => onBorrow(book.id)} disabled={disabled} />;
   } else {
     // 借りられている時
     return <Button disabled label={`${extractName(book.borrowedBy)} が借りています`} />;

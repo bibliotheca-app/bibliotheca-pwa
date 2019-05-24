@@ -40,12 +40,12 @@ async function buildMessage(slackClient: SlackClient, before: Book, after: Book)
   const borrowOrReturnText = ((bOrR: BorrowOrReturn) => {
     switch (bOrR) {
       case 'borrow':
-        return '貸出';
+        return '借り';
       case 'return':
-        return '返却';
+        return '返し';
     }
   })(borrowOrReturn);
-  const text = `${userName} さんが『${bookTitle}』を${borrowOrReturnText}しました`;
+  const text = `${userName} さんが『${bookTitle}』を${borrowOrReturnText}ました`;
   return text;
 }
 
