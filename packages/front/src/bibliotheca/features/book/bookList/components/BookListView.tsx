@@ -35,7 +35,7 @@ export const BookListView = () => {
           { property: 'isbn', header: 'ISBN' },
           {
             property: 'borrowedBy',
-            header: '貸借',
+            header: 'ユーザー',
             search: true,
             render: (book: Book) => (
               <BookBorrowAndReturnButton
