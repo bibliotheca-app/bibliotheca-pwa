@@ -25,14 +25,15 @@ export const BookRegisterView = () => {
         <FormField
           type="text"
           name="title"
-          value={title || ''}
+          value={title}
           onChange={e => changeFormValue('title', e.target.value)}
         />
       ),
     },
     {
       label: '画像',
-      render: () => <Image fit="contain" src={coverUrl(isbn!)} />,
+      render: () =>
+        isbn ? <Image fit="contain" src={coverUrl(isbn)} /> : <div>image not found</div>,
     },
     {
       label: 'ISBN (or JAN)',
@@ -40,7 +41,7 @@ export const BookRegisterView = () => {
         <FormField
           type="text"
           name="isbn"
-          value={isbn || ''}
+          value={isbn!}
           onChange={e => changeFormValue('isbn', e.target.value)}
         />
       ),
