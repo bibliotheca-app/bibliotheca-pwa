@@ -9,7 +9,6 @@ export const InventoryDoing = () => {
   const { changeView } = useActions(InventoryEventActions);
   const { books, viewType } = useMappedState(
     ({ inventoryBookModule: { booksInList, event }, InventoryEvent }) => {
-      // tslint:disable-next-line:no-shadowed-variable
       const books = ((e: InventoryEventDoing) => {
         switch (InventoryEvent.viewType) {
           case 'checkedOnly':

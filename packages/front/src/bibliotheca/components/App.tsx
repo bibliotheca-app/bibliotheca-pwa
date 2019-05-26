@@ -14,6 +14,7 @@ import { useActions, useMappedState } from 'typeless';
 import { Dashboard } from './Dashboard';
 import { FullScreenSpinner } from './FullScreenSpinner';
 import { useNotificationModule } from 'bibliotheca/features/notification/module';
+import { useBarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 
 interface LayoutProps {
   isLoggedIn: boolean;
@@ -35,6 +36,7 @@ export const App = () => {
   useGlobalModule();
   useBookModule();
   useNotificationModule();
+  useBarcodeLoaderModule();
 
   const { loggedIn } = useActions(GlobalActions);
   useEffect(() => authService.subscribe(authUser => loggedIn(authUser)), [loggedIn]);

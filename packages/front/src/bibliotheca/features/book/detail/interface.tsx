@@ -17,6 +17,7 @@ export const BookDetailActions = createActions(MODULE, {
 export interface BookDetailState {
   selectedBook?: Book;
   findBookError?: any;
+  isProcessingBook: boolean;
 }
 
 declare module 'typeless/types' {

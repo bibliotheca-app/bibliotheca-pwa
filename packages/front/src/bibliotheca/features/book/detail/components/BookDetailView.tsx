@@ -7,7 +7,7 @@ import { useCurrentRoute } from 'react-navi';
 import { useMappedState } from 'typeless';
 
 export const BookDetailView = () => {
-  const book = useMappedState(state => state.bookDetail.selectedBook);
+  const { selectedBook: book, isProcessingBook } = useMappedState(state => state.bookDetail);
   const error = useMappedState(state => state.bookDetail.findBookError);
   const currentRoute = useCurrentRoute();
 
@@ -23,5 +23,5 @@ export const BookDetailView = () => {
     );
   }
 
-  return <BookDetail book={book} />;
+  return <BookDetail book={book} isProcessingBook={isProcessingBook} />;
 };

@@ -1,5 +1,5 @@
 import { SimpleTable } from 'bibliotheca/components/SimpleTable';
-import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
+import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
 import { Box, Button, Form, FormField, Image } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
@@ -25,14 +25,14 @@ export const BookRegisterView = () => {
         <FormField
           type="text"
           name="title"
-          value={title || ''}
+          value={title}
           onChange={e => changeFormValue('title', e.target.value)}
         />
       ),
     },
     {
       label: '画像',
-      render: () => <Image fit="contain" src={coverUrl(isbn!)} />,
+      render: () => (isbn ? <Image fit="contain" src={coverUrl(isbn)} /> : <div>not found</div>),
     },
     {
       label: 'ISBN (or JAN)',
@@ -40,7 +40,7 @@ export const BookRegisterView = () => {
         <FormField
           type="text"
           name="isbn"
-          value={isbn || ''}
+          value={isbn!}
           onChange={e => changeFormValue('isbn', e.target.value)}
         />
       ),
@@ -50,7 +50,7 @@ export const BookRegisterView = () => {
     <>
       蔵書登録フォーム
       <Box align="center" justify="center">
-        <BarcodeLoaderModule />
+        <BarcodeLoaderView />
         <Form>
           <SimpleTable rows={rows} />
           <Button type="button" primary label="登録" onClick={submit} />

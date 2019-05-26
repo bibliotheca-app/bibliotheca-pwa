@@ -1,5 +1,5 @@
 import { BookDetail } from 'bibliotheca/components/BookDetail';
-import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
+import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
 import { Book } from 'bibliotheca/types';
 import { Button } from 'grommet';
 import React from 'react';
@@ -8,10 +8,10 @@ import React from 'react';
 export const RegistrationFromCamera = (props: { targetBook?: Book; submit: () => void }) => {
   return (
     <>
-      <BarcodeLoaderModule />
+      <BarcodeLoaderView />
       {props.targetBook ? (
         <>
-          <BookDetail book={props.targetBook} />
+          <BookDetail book={props.targetBook} isProcessingBook={false} />
           <Button type="button" primary label="登録" onClick={props.submit} />
         </>
       ) : null}

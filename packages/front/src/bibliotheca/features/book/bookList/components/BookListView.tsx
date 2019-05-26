@@ -9,7 +9,7 @@ import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 
 export const BookListView = () => {
-  const { books } = useMappedState(state => state.bookList);
+  const { books, isProcessingBook } = useMappedState(state => state.bookList);
   const userId = useMappedState(s => userIdQuery(s.global));
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
@@ -43,6 +43,7 @@ export const BookListView = () => {
                 userId={userId}
                 onBorrow={borrowBookById}
                 onReturn={returnBookById}
+                disabled={isProcessingBook}
               />
             ),
           },

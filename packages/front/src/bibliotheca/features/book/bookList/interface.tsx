@@ -14,6 +14,7 @@ export const BookListActions = createActions(MODULE, {
 // --- Types ---
 export interface BookListState {
   books: Book[];
+  isProcessingBook: boolean;
 }
 
 declare module 'typeless/types' {

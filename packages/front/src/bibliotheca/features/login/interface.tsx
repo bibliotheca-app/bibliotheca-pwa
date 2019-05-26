@@ -15,7 +15,6 @@ export const routeEntry: RouteEntry = {
 };
 
 // --- Types ---
-// tslint:disable-next-line:no-empty-interface
 export interface LoginState {}
 
 declare module 'typeless/types' {

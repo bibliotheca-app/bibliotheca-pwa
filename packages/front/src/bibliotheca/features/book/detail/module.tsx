@@ -36,9 +36,12 @@ export const epic = createEpic(MODULE)
   });
 
 // --- Reducer ---
-const initialState: BookDetailState = {};
+const initialState: BookDetailState = { isProcessingBook: false };
 
 export const reducer = createReducer(initialState)
+  .on(BookDetailActions.$mounted, state => {
+    state.isProcessingBook = false;
+  })
   .on(BookDetailActions.$unmounting, state => {
     state.selectedBook = undefined;
     state.findBookError = undefined;
@@ -49,6 +52,9 @@ export const reducer = createReducer(initialState)
   .on(BookDetailActions.findBookByIdFailure, (state, { error }) => {
     state.findBookError = error;
   })
+  .onMany([BookActions.borrowBookById, BookActions.returnBookById, BookActions.editBook], state => {
+    state.isProcessingBook = true;
+  })
   .onMany(
     [
       BookActions.borrowBookByIdFulfilled,
@@ -56,6 +62,7 @@ export const reducer = createReducer(initialState)
       BookActions.editBookFulfilled,
     ],
     (state, { book }) => {
+      state.isProcessingBook = false;
       state.selectedBook = book;
     },
   );
