@@ -21,7 +21,6 @@ export const Video: React.FC = () => {
       },
       (err: any) => {
         if (err) {
-          // tslint:disable-next-line:no-console
           console.log(err);
           return;
         }
