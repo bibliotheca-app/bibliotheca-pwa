@@ -1,5 +1,5 @@
 import { SimpleTable } from 'bibliotheca/components/SimpleTable';
-import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
+import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
 import { Box, Button, Form, FormField, Image } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
@@ -50,7 +50,7 @@ export const BookRegisterView = () => {
     <>
       蔵書登録フォーム
       <Box align="center" justify="center">
-        <BarcodeLoaderModule />
+        <BarcodeLoaderView />
         <Form>
           <SimpleTable rows={rows} />
           <Button type="button" primary label="登録" onClick={submit} />

@@ -1,4 +1,4 @@
-import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
+import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Box } from 'grommet';
 import React from 'react';
@@ -14,7 +14,7 @@ export const BorrowOrReturnView = () => {
   }));
   return (
     <>
-      <BarcodeLoaderModule />
+      <BarcodeLoaderView />
       {isCameraEnabled ? null : (
         <Box justify="center" align="center" fill>
           <div>
