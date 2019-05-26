@@ -32,8 +32,7 @@ export const BookRegisterView = () => {
     },
     {
       label: '画像',
-      render: () =>
-        isbn ? <Image fit="contain" src={coverUrl(isbn)} /> : <div>image not found</div>,
+      render: () => (isbn ? <Image fit="contain" src={coverUrl(isbn)} /> : <div>not found</div>),
     },
     {
       label: 'ISBN (or JAN)',

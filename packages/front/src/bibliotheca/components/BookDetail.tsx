@@ -16,7 +16,13 @@ import { useActions, useMappedState } from 'typeless';
 import { BookDataEditTable, BookDataViewTable } from './BookDataTable';
 import { useConfirmWithData } from 'bibliotheca/hooks/useConfirmWithData';
 
-export const BookDetail = ({ book }: { book: Book }) => {
+export const BookDetail = ({
+  book,
+  isProcessingBook,
+}: {
+  isProcessingBook: boolean;
+  book: Book;
+}) => {
   const { borrowBookById, returnBookById, deleteBookById, editBook } = useActions(BookActions);
   const userId = useMappedState(s => userIdQuery(s.global));
 
@@ -70,6 +76,7 @@ export const BookDetail = ({ book }: { book: Book }) => {
               onReturn={returnBookById}
               book={book}
               userId={userId}
+              disabled={isProcessingBook}
             />
           </>
         ) : (

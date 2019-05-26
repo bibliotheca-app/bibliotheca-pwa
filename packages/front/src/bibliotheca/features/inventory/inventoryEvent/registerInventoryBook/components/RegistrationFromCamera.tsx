@@ -11,7 +11,7 @@ export const RegistrationFromCamera = (props: { targetBook?: Book; submit: () =>
       <BarcodeLoaderView />
       {props.targetBook ? (
         <>
-          <BookDetail book={props.targetBook} />
+          <BookDetail book={props.targetBook} isProcessingBook={false} />
           <Button type="button" primary label="登録" onClick={props.submit} />
         </>
       ) : null}
