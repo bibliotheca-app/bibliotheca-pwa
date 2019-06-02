@@ -3,22 +3,25 @@ import { createActions } from 'typeless';
 import { lazy } from 'navi';
 
 // --- Constants ---
-export const MODULE = '{{name}}';
+export const MODULE = 'management';
 
 // --- Actions ---
-export const {{pascalCase name}}Actions = createActions(MODULE, {});
+export const ManagementActions = createActions(MODULE, {
+  downloadBookListAsCsv: null,
+  downloadBookListAsCsvFulfilled: null,
+});
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {
-  path: '/{{name}}',
+  path: '/management',
   routes: lazy(() => import('./routes')),
 };
 
 // --- Types ---
-export interface {{pascalCase name}}State {}
+export interface ManagementState {}
 
 declare module 'typeless/types' {
   export interface DefaultState {
-    {{name}}: {{pascalCase name}}State;
+    management: ManagementState;
   }
 }

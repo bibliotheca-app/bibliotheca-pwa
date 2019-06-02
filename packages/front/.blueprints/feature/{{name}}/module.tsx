@@ -7,9 +7,7 @@ import { {{pascalCase name}}Actions, {{pascalCase name}}State, MODULE } from './
 export const epic = createEpic(MODULE);
 
 // --- Reducer ---
-const initialState: {{pascalCase name}}State = {
-  foo: 'bar',
-};
+const initialState: {{pascalCase name}}State = {};
 
 export const reducer = createReducer(initialState);
 
