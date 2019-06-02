@@ -1,18 +1,17 @@
-import { BookDetail } from 'bibliotheca/components/BookDetail';
+import { BookDataViewTable } from 'bibliotheca/components/BookDataTable';
 import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
 import { Book } from 'bibliotheca/types';
 import { Button } from 'grommet';
 import React from 'react';
 
-// todo: combine register form's `RegistrationFromCamera` Component
 export const RegistrationFromCamera = (props: { targetBook?: Book; submit: () => void }) => {
   return (
     <>
       <BarcodeLoaderView />
       {props.targetBook ? (
         <>
-          <BookDetail book={props.targetBook} isProcessingBook={false} />
-          <Button type="button" primary label="登録" onClick={props.submit} />
+          <BookDataViewTable book={props.targetBook} />
+          <Button type="button" fill primary label="チェック" onClick={props.submit} />
         </>
       ) : null}
     </>
