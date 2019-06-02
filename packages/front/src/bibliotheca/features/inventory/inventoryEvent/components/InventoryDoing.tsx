@@ -41,7 +41,7 @@ export const InventoryDoing = () => {
   );
   return (
     <>
-      <Link href={`/inventory-event/register-register`}>
+      <Link href={`/inventory-event/register-book`}>
         <Button label="本を棚卸す" />
       </Link>
       <Button
