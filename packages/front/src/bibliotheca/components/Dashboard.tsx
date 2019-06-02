@@ -2,7 +2,12 @@ import { Progress } from 'bibliotheca/features/global/components/Progress';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
 import { Box, Heading, Menu, ResponsiveContext, Tab, Tabs, ButtonProps } from 'grommet';
-import { List as ListIcon, Logout as LogoutIcon, Add as AddIcon } from 'grommet-icons';
+import {
+  List as ListIcon,
+  Logout as LogoutIcon,
+  Add as AddIcon,
+  Configure as ManagementIcon,
+} from 'grommet-icons';
 import * as React from 'react';
 import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
@@ -57,6 +62,11 @@ export const Dashboard = (props: DashboardProps) => {
       icon: <ListIcon />,
       label: '棚卸し',
       onClick: () => navigate('/inventory-event'),
+    },
+    {
+      icon: <ManagementIcon />,
+      label: '管理',
+      onClick: () => navigate('/management'),
     },
     {
       icon: <LogoutIcon />,
