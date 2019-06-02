@@ -1,5 +1,3 @@
-import React from 'react';
-import { DefaultSuspense } from 'bibliotheca/components/DefaultSuspense';
 import { RouteEntry } from 'bibliotheca/types';
 import { createActions } from 'typeless';
 import { lazy } from 'navi';
@@ -17,9 +15,7 @@ export const routeEntry: RouteEntry = {
 };
 
 // --- Types ---
-export interface {{pascalCase name}}State {
-  foo: string;
-}
+export interface {{pascalCase name}}State {}
 
 declare module 'typeless/types' {
   export interface DefaultState {
