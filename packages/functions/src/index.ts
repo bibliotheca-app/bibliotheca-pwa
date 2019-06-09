@@ -1,6 +1,6 @@
 import * as functions from 'firebase-functions';
 import { initOnBookListUpdateTime, initOnBookWrite } from './bookList';
-import { onBookBorrowOrReturn } from './notify-slack';
+import { onBookBorrowOrReturn, onBookWrite } from './notify-slack';
 import * as admin from 'firebase-admin';
 
 admin.initializeApp();
@@ -21,3 +21,8 @@ export const notifySlack = functions
   .region('asia-northeast1')
   .firestore.document('books/{bookId}')
   .onUpdate(onBookBorrowOrReturn);
+
+export const writeNotifySlack = functions
+  .region('asia-northeast1')
+  .firestore.document('books/{bookId}')
+  .onWrite(onBookWrite);
