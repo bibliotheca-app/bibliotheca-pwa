@@ -60,7 +60,7 @@ export const reducer = createReducer(initialState)
     state.registeredBook = undefined;
   })
   .on(BookRegisterActions.changeFormValue, (state, { key, value }) => {
-    state.bookData[key] = value;
+    state.bookData[key] = value as any;
   })
   .on(BookRegisterActions.fetchBookFromOpenBd, state => {
     state.bookData = {};
