@@ -13,6 +13,7 @@ const config = (() => {
         projectId: 'bibliotheca-238406',
         storageBucket: 'bibliotheca-238406.appspot.com',
         messagingSenderId: '27494100207',
+        appId: '1:27494100207:web:90ca4fa048f8caa9',
       };
     default:
       return {
@@ -22,6 +23,7 @@ const config = (() => {
         projectId: 'bibliotheca-test',
         storageBucket: 'bibliotheca-test.appspot.com',
         messagingSenderId: '236517784800',
+        appId: '1:236517784800:web:dc5eee4041fbf1ce',
       };
   }
 })();
