@@ -5,6 +5,8 @@
   "scripts": {
     "build": "tsc -b .",
     "build:prod": "npm run build",
+    "config:prod": "firebase -P prod functions:config:set fn=\"$(cat config.prod.json)\"",
+    "config:test": "firebase -P test functions:config:set fn=\"$(cat config.test.json)\"",
     "serve": "npm run build && firebase serve --only functions",
     "shell": "npm run build && firebase functions:shell",
     "start": "npm run shell",

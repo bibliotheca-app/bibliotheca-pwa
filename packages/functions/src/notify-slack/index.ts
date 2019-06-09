@@ -1,13 +1,9 @@
 import { DocumentSnapshot } from '@google-cloud/firestore';
 import axios from 'axios';
-import { Change, EventContext } from 'firebase-functions';
+import { Change, EventContext, config as firebaseConfig } from 'firebase-functions';
 import { SlackClient } from './slack-client';
 
-function getEnvVar(target: string) {
-  const value = process.env[target];
-  if (!value) throw new Error(`you must set environment variavle: ${target}`);
-  return value;
-}
+const SLACK_CONFIG: { token: string; notify_slack_webhook_url: string } = firebaseConfig().fn.slack;
 
 type BorrowOrReturn = 'borrow' | 'return';
 
@@ -91,10 +87,10 @@ export async function onBookBorrowOrReturn(
     return;
   }
 
-  const slackClient = new SlackClient(getEnvVar('SLACK_TOKEN'));
+  const slackClient = new SlackClient(SLACK_CONFIG.token);
   const text = await buildMessage(slackClient, before, after);
   await axios.post(
-    getEnvVar('NOTIFY_SLACK_WEBHOOK_URL'),
+    SLACK_CONFIG.notify_slack_webhook_url,
     { text },
     { headers: { 'Content-type': 'application/json' } },
   );

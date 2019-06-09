@@ -1,0 +1,6 @@
+{
+  "slack": {
+    "token": "YOUR_SLACK_TOKEN",
+    "notify_slack_webhook_url": "SLACK_WEBHOOK_URL"
+  }
+}
