@@ -18,6 +18,7 @@ async function main() {
   await insertBooks(db);
   // await read(db);
   await writeAllBook(db);
+  await insertInventoryEventLogs(db);
 }
 
 async function insertInventoryEvent(db: FirebaseFirestore.Firestore) {
@@ -78,6 +79,17 @@ async function insertBooks(db: FirebaseFirestore.Firestore) {
     await batch.commit();
   });
   await Promise.all(promises);
+}
+
+async function insertInventoryEventLogs(db: FirebaseFirestore.Firestore) {
+  // todo: insert seed data
+  const collection = db.collection('inventoryEventLogs');
+  {
+    const batch = db.batch();
+    const logs = await collection.get();
+    logs.docs.forEach(doc => batch.delete(doc.ref));
+    await batch.commit();
+  }
 }
 
 main().catch(e => console.log(e));
