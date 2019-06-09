@@ -1,8 +1,25 @@
 # bibliotheca-pwa
 
+## Description
+
+GSuite のドメイン単位で蔵書を管理するためのウェブアプリ
+(TODO: 現状はドメインや Firebase プロジェクトが決め打ちになっている部分を差し替え可能にする)
+
+- TypeScript
+- React
+  - Typeless
+  - navi
+- lerna
+- Firebase
+  - Auth
+  - Hosting
+  - Functions
+  - Firestore
+
 ## Requirements
 
 - Node.js 8.x (Cloud Functions for Firebase のため)
+- yarn
 
 ## Development
 
@@ -22,7 +39,7 @@ $ firebase use test
 $ firebase use prod
 ```
 
-## デプロイ
+## デプロイ(test 環境)
 
 ```bash
 $ yarn build
