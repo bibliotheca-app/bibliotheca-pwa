@@ -7,11 +7,12 @@ import {
   Logout as LogoutIcon,
   Add as AddIcon,
   Configure as ManagementIcon,
+  User as UserIcon,
 } from 'grommet-icons';
 import * as React from 'react';
 import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
-import { useActions } from 'typeless';
+import { useActions, useMappedState } from 'typeless';
 import icon from './bookshelf-64.png';
 
 const Main = styled.main`
@@ -42,6 +43,7 @@ export const Dashboard = (props: DashboardProps) => {
   const { logout } = useActions(GlobalActions);
   const { navigate } = useActions(RouterActions);
   const route = useCurrentRoute();
+  const userId = useMappedState(state => state.global.user!.email);
 
   const links = [
     { link: '/books', title: '書籍一覧' },
@@ -67,6 +69,11 @@ export const Dashboard = (props: DashboardProps) => {
       icon: <ManagementIcon />,
       label: '管理',
       onClick: () => navigate('/management'),
+    },
+    {
+      icon: <UserIcon />,
+      label: 'ユーザー',
+      onClick: () => navigate(`/user/${userId}`),
     },
     {
       icon: <LogoutIcon />,

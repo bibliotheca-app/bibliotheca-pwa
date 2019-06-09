@@ -73,6 +73,12 @@ export class BookRepository {
     return querySnapshot.docs.map(bookFromDoc);
   };
 
+  findBorrowedBooksByUserid = async (userId: string): Promise<Book[]> => {
+    const querySnapshot = await this.collection.where('borrowedBy', '==', userId).get();
+
+    return querySnapshot.docs.map(bookFromDoc);
+  };
+
   borrowBookById = async (id: string, userId: string): Promise<Book> => {
     const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
       const ref = this.mkBookRefById(id);
