@@ -17,6 +17,7 @@ export interface RouteEntry<
 
 export interface User {
   firebaseAuth: FirebaseUser;
+  email: string;
 }
 
 export interface Book {

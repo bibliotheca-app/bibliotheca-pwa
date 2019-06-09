@@ -22,7 +22,7 @@ const initialState: GlobalState = {
 export const reducer = createReducer(initialState)
   .on(GlobalActions.loggedIn, (state, { user }) => {
     state.isLoaded = true;
-    state.user = user == null ? null : { firebaseAuth: user };
+    state.user = user == null ? null : { firebaseAuth: user, email: user.email! };
   })
   .on(GlobalActions.logout, state => {
     state.user = null;

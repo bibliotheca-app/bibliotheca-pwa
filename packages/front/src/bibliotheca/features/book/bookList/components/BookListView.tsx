@@ -26,7 +26,7 @@ export const BookListView = () => {
             search: true,
             render: (book: Book) => {
               return (
-                <Link href={`/books/detail/${book.id}`}>
+                <Link href={`/books/${book.id}`}>
                   <Text>{book.title}</Text>
                 </Link>
               );

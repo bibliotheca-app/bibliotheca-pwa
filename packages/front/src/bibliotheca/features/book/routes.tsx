@@ -13,7 +13,7 @@ export default withAuthentication(
       title: '書籍一覧 - Bibliotheca',
       view: <BookListModule />,
     }),
-    '/detail/:bookId': route({
+    '/:bookId': route({
       title: '書籍詳細 - Bibliotheca',
       view: <BookDetailModule />,
     }),

@@ -81,7 +81,7 @@ export const InventoryDoing = () => {
             search: true,
             render: (book: { id: string; title: string }) => {
               return (
-                <Link href={`/books/detail/${book.id}`}>
+                <Link href={`/books/${book.id}`}>
                   <Text>{book.title}</Text>
                 </Link>
               );

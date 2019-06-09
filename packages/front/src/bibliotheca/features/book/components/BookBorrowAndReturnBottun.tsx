@@ -1,5 +1,7 @@
 import { Book } from 'bibliotheca/types';
-import { Button } from 'grommet';
+import { Button, Text } from 'grommet';
+import { Link } from 'react-navi';
+import { User as UserIcon } from 'grommet-icons';
 import React from 'react';
 
 const extractName = (email: string): string => email.split('@')[0];
@@ -27,6 +29,11 @@ export const BookBorrowAndReturnButton: React.SFC<Props> = ({
     return <Button label="借りる" onClick={() => onBorrow(book.id)} disabled={disabled} />;
   } else {
     // 借りられている時
-    return <Button disabled label={`${extractName(book.borrowedBy)} が借りています`} />;
+    return (
+      <Link href={`/user/${book.borrowedBy}`}>
+        <UserIcon />
+        <Text>{`${extractName(book.borrowedBy)} が借りています`}</Text>
+      </Link>
+    );
   }
 };
