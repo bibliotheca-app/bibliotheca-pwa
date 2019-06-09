@@ -6,6 +6,8 @@ export const MODULE = 'InventoryEvent';
 // --- Actions ---
 export const InventoryEventActions = createActions(MODULE, {
   changeView: (type: ViewType) => ({ payload: { type } }),
+  toMissingAll: null,
+  submitInventory: null,
 });
 
 // --- Types ---

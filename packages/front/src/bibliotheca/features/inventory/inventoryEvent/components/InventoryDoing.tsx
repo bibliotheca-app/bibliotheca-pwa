@@ -4,11 +4,17 @@ import { Button, DataTable, RadioButton, Text } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { InventoryEventActions } from '../interface';
+import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 
 export const InventoryDoing = () => {
-  const { changeView } = useActions(InventoryEventActions);
-  const { books, viewType } = useMappedState(
+  const { changeView, toMissingAll, submitInventory } = useActions(InventoryEventActions);
+  const { canChangeMissingAll, books, viewType } = useMappedState(
     ({ inventoryBookModule: { booksInList, event }, InventoryEvent }) => {
+      const uncheckedBooks = findUncheckedOnlyList(
+        (event as InventoryEventDoing).inventoryBooks,
+        booksInList,
+      );
+      const canChangeMissingAll = uncheckedBooks.length === 0;
       const books = ((e: InventoryEventDoing) => {
         switch (InventoryEvent.viewType) {
           case 'checkedOnly':
@@ -26,29 +32,30 @@ export const InventoryDoing = () => {
               }
             });
           case 'uncheckedOnly': {
-            const checked = new Set(e.inventoryBooks.map(b => b.bookId));
-
-            return booksInList
-              .filter(b => !checked.has(b.id))
-              .map(b => ({ status: 'unchecked', ...b }));
+            return uncheckedBooks;
           }
           default:
             throw new Error('unknown mode');
         }
       })(event as InventoryEventDoing);
-      return { ...InventoryEvent, books: books.map((b, i) => ({ ...b, key: i })) };
+      return {
+        ...InventoryEvent,
+        books: books.map((b, i) => ({ ...b, key: i })),
+        canChangeMissingAll,
+      };
     },
   );
   return (
     <>
-      <Link href={`/inventory-event/register-register`}>
+      <Link href={`/inventory-event/register-book`}>
         <Button label="本を棚卸す" />
       </Link>
       <Button
         label="未チェックを全て紛失ステータスへ変更する"
-        onClick={() => alert('todo: 未実装')}
+        disabled={canChangeMissingAll}
+        onClick={toMissingAll}
       />
-      <Button label="棚卸しを完了する" onClick={() => alert('todo: 未実装')} />
+      <Button label="棚卸しを完了する" onClick={submitInventory} />
       <RadioButton
         label="棚卸し済のみ"
         name="viewType"
@@ -88,7 +95,10 @@ export const InventoryDoing = () => {
             },
           },
           { property: 'isbn', header: 'ISBN' },
+          // todo: localization status
           { property: 'status', header: '棚卸しステータス' },
+          // todo: can change book status(`missing` or `checked`) from list
+          // todo: display borrowedBy
         ]}
         sortable
       />

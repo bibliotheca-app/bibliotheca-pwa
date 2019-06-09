@@ -7,7 +7,7 @@ export const MODULE = 'registerInventoryBook';
 // --- Actions ---
 export const RegisterInventoryBookActions = createActions(MODULE, {
   $unmounting: null,
-  fetchBookFullfilled: (book: Book) => ({ payload: { book } }),
+  fetchBookFullfilled: (book: Book, checkedAll: boolean) => ({ payload: { book, checkedAll } }),
   submit: null,
   submitFullfilled: null,
 });
@@ -15,6 +15,7 @@ export const RegisterInventoryBookActions = createActions(MODULE, {
 // --- Types ---
 export interface RegisterInventoryBookState {
   registerBook?: Book;
+  checkedAll: boolean;
   // todo: implements loading state
   isProcessingBook: boolean;
 }

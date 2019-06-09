@@ -27,6 +27,7 @@ export interface Book {
   borrowedBy: string | null;
   updatedAt: Date;
   createdAt: Date;
+  deletedAt?: Date;
 }
 
 export type BookData = Omit<Book, 'id'>;
@@ -37,7 +38,7 @@ export interface BookEditData {
   title: string;
 }
 
-type InventoryStatus = 'checked' | 'missing';
+export type InventoryStatus = 'checked' | 'missing';
 
 export interface InventoryEventDone {
   status: typeof InventoryEventStatus.Done;
@@ -64,14 +65,20 @@ export type InventoryEventStatus = typeof InventoryEventStatus[keyof typeof Inve
 export const isDoneEvent = (e: InventoryEvent): e is InventoryEventDone =>
   e.status === InventoryEventStatus.Done;
 
+interface InventoriedBook extends Book {
+  status: InventoryStatus;
+}
 export interface InventoryEventLog extends InventoryEventLogBody {
   id: string;
 }
 
 export interface InventoryEventLogBody {
   date: Date;
+  // todo
+  // eventDate: Date
+  // eventCompletionDate: Date
   status: typeof InventoryEventStatus.Done;
-  // books: InventoryBook[] // todo
+  books: InventoriedBook[];
 }
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;

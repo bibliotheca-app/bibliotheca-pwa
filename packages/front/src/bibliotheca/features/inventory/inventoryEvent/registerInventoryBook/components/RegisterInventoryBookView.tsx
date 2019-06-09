@@ -5,7 +5,7 @@ import { RegisterInventoryBookActions } from '../interface';
 import { RegistrationFromCamera } from './RegistrationFromCamera';
 
 export const RegisterInventoryBookView = () => {
-  const { registerBook, event } = useMappedState(
+  const { checkedAll, registerBook, event } = useMappedState(
     ({ registerInventoryBook, inventoryBookModule }) => ({
       ...registerInventoryBook,
       ...inventoryBookModule,
@@ -19,7 +19,13 @@ export const RegisterInventoryBookView = () => {
     }
     switch (event.status) {
       case InventoryEventStatus.Doing:
-        return <RegistrationFromCamera targetBook={registerBook} submit={submit} />;
+        return (
+          <RegistrationFromCamera
+            targetBook={registerBook}
+            checkedAll={checkedAll}
+            submit={submit}
+          />
+        );
       case InventoryEventStatus.Done:
         return '棚卸し作業は棚卸しを開始状態にしてから実施してください';
       default:

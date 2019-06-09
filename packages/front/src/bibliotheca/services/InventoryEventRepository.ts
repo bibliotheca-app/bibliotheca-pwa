@@ -67,16 +67,19 @@ export class InventoryEventRepository {
     return this.eventRef.get().then(inventoryEventFromDoc);
   };
 
-  addInventoryBook = async (inventoryBook: InventoryBook) => {
+  addInventoryBook = async (addition: InventoryBook | InventoryBook[]) => {
     await this.db.runTransaction(async tx => {
       const presentEvent = await tx.get(this.eventRef).then(inventoryEventFromDoc);
       if (isDoneEvent(presentEvent)) {
         throw new Error('Invalid update `InventoryEvent`: cannot add book when inventory is done');
       }
       // todo: throw if duplicate book id
-
+      const inventoryBooks = [
+        ...presentEvent.inventoryBooks,
+        ...(Array.isArray(addition) ? addition : [addition]),
+      ];
       const newEvent: Pick<InventoryEventDoing, 'inventoryBooks'> = {
-        inventoryBooks: [...presentEvent.inventoryBooks, inventoryBook],
+        inventoryBooks,
       };
       tx.update(this.eventRef, newEvent);
       return;
