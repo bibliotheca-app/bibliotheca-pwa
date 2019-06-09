@@ -18,7 +18,7 @@ export const BookListView = () => {
       <StyledDataTable
         size="large"
         primaryKey="id"
-        data={books}
+        data={books.filter(b => b.deletedAt == null)}
         columns={[
           {
             property: 'title',

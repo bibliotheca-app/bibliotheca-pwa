@@ -40,6 +40,7 @@ export const epic = createEpic(MODULE)
       inventoryEventRepository.addInventoryBook({ status: 'checked', bookId: registerBook!.id }),
     ).pipe(
       Rx.tap(() => {
+        // todo: remove registerBook when checked
         alert('とうろくしました');
       }),
       Rx.ignoreElements(),

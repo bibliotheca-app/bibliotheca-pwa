@@ -7,7 +7,7 @@ import { InventoryEventActions } from '../interface';
 import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 
 export const InventoryDoing = () => {
-  const { changeView, toMissingAll } = useActions(InventoryEventActions);
+  const { changeView, toMissingAll, submitInventory } = useActions(InventoryEventActions);
   const { canChangeMissingAll, books, viewType } = useMappedState(
     ({ inventoryBookModule: { booksInList, event }, InventoryEvent }) => {
       const uncheckedBooks = findUncheckedOnlyList(
@@ -55,7 +55,7 @@ export const InventoryDoing = () => {
         disabled={canChangeMissingAll}
         onClick={toMissingAll}
       />
-      <Button label="棚卸しを完了する" onClick={() => alert('todo: 未実装')} />
+      <Button label="棚卸しを完了する" onClick={submitInventory} />
       <RadioButton
         label="棚卸し済のみ"
         name="viewType"
@@ -95,7 +95,10 @@ export const InventoryDoing = () => {
             },
           },
           { property: 'isbn', header: 'ISBN' },
+          // todo: localization status
           { property: 'status', header: '棚卸しステータス' },
+          // todo: can change book status(`missing` or `checked`) from list
+          // todo: display borrowedBy
         ]}
         sortable
       />

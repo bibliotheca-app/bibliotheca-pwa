@@ -28,6 +28,7 @@ const bookFromEntry = (entry: BookEntry): Book => {
     borrowedBy: data.borrowedBy,
     updatedAt: data.updatedAt.toDate(),
     createdAt: data.createdAt.toDate(),
+    ...(data.deletedAt ? { deletedAt: data.deletedAt.toDate() } : {}),
   };
 };
 
@@ -37,6 +38,7 @@ export class BookRepository {
 
   constructor(private db: firestore.Firestore) {}
 
+  // todo: filter deletedAt
   findAllCachedBooks = async (): Promise<Book[]> => {
     const querySnapshot = await this.bookListsCollection.get();
 
@@ -48,6 +50,7 @@ export class BookRepository {
     );
   };
 
+  // todo: filter deletedAt
   findAllBooks = async (): Promise<Book[]> => {
     const querySnapshot = await this.collection.get();
 
@@ -192,6 +195,29 @@ export class BookRepository {
     });
 
     return bookRef.get().then(bookFromDoc);
+  };
+
+  bulkUpdate = async (books: Book[]) => {
+    const batch = this.db.batch();
+    const before = await this.collection.get();
+    books.forEach(({ id, ...bookBody }) => {
+      const targetDoc = before.docs.find(doc => doc.id === id);
+      if (targetDoc !== undefined) {
+        const { isbn, title, borrowedBy, createdAt, deletedAt } = bookBody;
+        const updateData = Object.entries({
+          isbn,
+          title,
+          borrowedBy,
+          updatedAt: new Date(),
+          createdAt,
+          deletedAt,
+        })
+          .filter(([_, v]) => v !== undefined)
+          .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as Partial<Book>);
+        batch.set(targetDoc.ref, updateData);
+      }
+    });
+    await batch.commit();
   };
 
   private mkBookRefById = (bookId: string): firestore.DocumentReference =>
