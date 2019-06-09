@@ -17,18 +17,18 @@ export const epic = createEpic(MODULE)
         if (books.length === 0) {
           return NotificationActions.notifyMessage('蔵書に存在しない本です');
         } else {
-          // todo: filter books that has already registered
           // todo: can update status `missing` -> `checked`
           const { event, booksInList } = getState().inventoryBookModule;
 
           const checkedBookIds = (event as InventoryEventDoing).inventoryBooks.map(b => b.bookId);
-          const checked = checkedBookIds
+          const checkedBooks = checkedBookIds
             .map(bid => booksInList.find(b => b.id === bid)!)
-            .filter(b => b != null);
-          const checkedBooks = checked.filter(b => b.isbn === barcode);
+            .filter(b => b != null && b.isbn === barcode);
 
           const checkedAll = books.length === checkedBooks.length;
-          return RegisterInventoryBookActions.fetchBookFullfilled(books[0], checkedAll);
+          const uncheckedBook = books.find(b => checkedBookIds.find(bid => bid !== b.id));
+          const target = uncheckedBook ? uncheckedBook : books[0];
+          return RegisterInventoryBookActions.fetchBookFullfilled(target, checkedAll);
         }
       }),
     ),
