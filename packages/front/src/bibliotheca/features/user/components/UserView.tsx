@@ -2,6 +2,7 @@ import { BookActions } from 'bibliotheca/features/book/interface';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { Box, Heading, Button } from 'grommet';
+import { Link } from 'react-navi';
 
 const BookReturnButton = ({ onBookReturn }: { onBookReturn: () => void }) => (
   <Button primary label="返す" onClick={onBookReturn} />
@@ -22,7 +23,7 @@ export const UserView = ({ userId: targetUserId }: { userId: string }) => {
         <ol>
           {borrowedBooks.map(book => (
             <li key={book.id}>
-              {book.title}
+              <Link href={`/books/${book.id}`}>{book.title}</Link>
               {userId === targetUserId && (
                 <BookReturnButton onBookReturn={() => returnBookById(book.id)} />
               )}
