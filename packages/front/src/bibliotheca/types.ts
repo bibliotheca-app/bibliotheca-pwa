@@ -30,6 +30,19 @@ export interface Book {
   deletedAt?: Date;
 }
 
+export const isBook = (book: any): book is Book => {
+  if (book == null) {
+    return false;
+  }
+
+  return (
+    typeof book.id === 'string' &&
+    typeof book.title === 'string' &&
+    book.updatedAt &&
+    book.createdAt
+  );
+};
+
 export type BookData = Omit<Book, 'id'>;
 
 export interface BookEditData {
