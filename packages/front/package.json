@@ -2,6 +2,7 @@
   "name": "front",
   "version": "1.0.0",
   "description": "",
+  "license": "MIT",
   "keywords": [],
   "dependencies": {
     "@material/react-linear-progress": "^0.13.0",
