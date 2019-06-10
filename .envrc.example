@@ -1,0 +1,12 @@
+export REACT_APP_FIREBASE_CONFIG="$(cat <<EOF
+{
+  "apiKey": "XXXXX",
+  "authDomain": "XXXXX.firebaseapp.com",
+  "databaseURL": "https://XXXXX.firebaseio.com",
+  "projectId": "XXXXX",
+  "storageBucket": "XXXXX.appspot.com",
+  "messagingSenderId": "XXXXX",
+  "appId": "XXXXX"
+}
+EOF
+)"
