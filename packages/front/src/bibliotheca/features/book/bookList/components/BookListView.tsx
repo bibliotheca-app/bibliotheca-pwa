@@ -3,9 +3,9 @@ import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
-import { Book } from 'bibliotheca/types';
-import { Text } from 'grommet';
-import React from 'react';
+import { Book, isBook } from 'bibliotheca/types';
+import { Box, CheckBox, Text, ResponsiveContext } from 'grommet';
+import React, { useState } from 'react';
 import { useActions, useMappedState } from 'typeless';
 
 export const BookListView = () => {
@@ -13,49 +13,69 @@ export const BookListView = () => {
   const userId = useMappedState(s => userIdQuery(s.global));
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
+  const [groupBy, setGroupBy] = useState<string | undefined>();
+  const groupByBorrowedUser = () => setGroupBy('borrowedBy');
+  const unsetGroupBy = () => setGroupBy(undefined);
+
   return (
-    <>
+    <Box>
+      <ResponsiveContext.Consumer>
+        {size =>
+          // StyledDataTable の MediaQuery と若干ずれてしまうのでそのうちどちらかに寄せる必要がありそう
+          (size === 'large' || size === 'medium') && (
+            <CheckBox
+              checked={groupBy !== undefined}
+              onChange={(ev: any) => (ev.target.checked ? groupByBorrowedUser() : unsetGroupBy())}
+              label="ユーザーでグループ化"
+            />
+          )
+        }
+      </ResponsiveContext.Consumer>
       <StyledDataTable
-        size="large"
+        size={groupBy ? '' : 'large'} // groupBy の際にこの項目が指定されていると適切に表を表示するために各セルの width を自前で調整する必要が出てきてしまう
         primaryKey="id"
         data={books.filter(b => b.deletedAt == null)}
+        groupBy={groupBy}
         columns={[
           {
             property: 'title',
             header: 'タイトル',
             search: true,
-            render: (book: Book) => {
-              return (
+            render: (book: Partial<Book>) =>
+              isBook(book) && (
                 <Link href={`/books/${book.id}`}>
                   <Text>{book.title}</Text>
                 </Link>
-              );
-            },
+              ),
           },
           { property: 'isbn', header: 'ISBN' },
           {
             property: 'borrowedBy',
             header: 'ユーザー',
             search: true,
-            render: (book: Book) => (
-              <BookBorrowAndReturnButton
-                book={book}
-                userId={userId}
-                onBorrow={borrowBookById}
-                onReturn={returnBookById}
-                disabled={isProcessingBook}
-              />
-            ),
+            render: (book: Partial<Book>) =>
+              !isBook(book) ? (
+                book.borrowedBy // groupBy の際に使われる
+              ) : (
+                <BookBorrowAndReturnButton
+                  book={book}
+                  userId={userId}
+                  onBorrow={borrowBookById}
+                  onReturn={returnBookById}
+                  disabled={isProcessingBook}
+                />
+              ),
           },
           {
             property: 'createdAt',
             header: '登録日',
             render: ({ createdAt }: Book) =>
+              createdAt &&
               `${createdAt.getFullYear()}/${createdAt.getMonth() + 1}/${createdAt.getDate()}`,
           },
         ]}
         sortable
       />
-    </>
+    </Box>
   );
 };

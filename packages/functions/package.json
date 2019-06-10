@@ -2,6 +2,7 @@
   "name": "functions",
   "typings": "./lib/index.d.ts",
   "version": "0.1.0",
+  "license": "MIT",
   "scripts": {
     "build": "tsc -b .",
     "build:prod": "npm run build",
