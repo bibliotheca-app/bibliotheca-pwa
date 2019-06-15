@@ -1,12 +1,10 @@
 import { Book, RouteEntry, BookEditData } from 'bibliotheca/types';
 import { lazy } from 'navi';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('book');
+import { BookSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE).withActions({
+const modules = createModule(BookSymbol).withActions({
   borrowBookById: (bookId: string) => ({ payload: { bookId } }),
   borrowBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
   borrowBookByIsbn: (isbn: string) => ({ payload: { isbn } }),

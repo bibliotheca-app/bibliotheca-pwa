@@ -1,11 +1,9 @@
 import { Book, BookData } from 'bibliotheca/types';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('book/register');
+import { BookRegisterSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(BookRegisterSymbol)
   .withActions({
     $mounted: null,
     changeFormValue: (key: keyof BookData, value: string) => ({ payload: { key, value } }),

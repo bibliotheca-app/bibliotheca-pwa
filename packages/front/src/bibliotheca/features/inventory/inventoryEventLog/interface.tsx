@@ -1,11 +1,9 @@
 import { InventoryEventLog } from 'bibliotheca/types';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('InventoryEventLog');
+import { InventoryEventLogSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(InventoryEventLogSymbol)
   .withActions({
     $mounted: null,
     fetchEventListFullfilled: (inventoryEvents: InventoryEventLog[]) => ({

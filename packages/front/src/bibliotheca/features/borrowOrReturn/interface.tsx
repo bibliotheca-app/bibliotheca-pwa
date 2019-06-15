@@ -1,12 +1,10 @@
 import { Book, RouteEntry } from 'bibliotheca/types';
 import { lazy } from 'navi';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('borrowOrReturn');
+import { BorrowOrReturnSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(BorrowOrReturnSymbol)
   .withActions({
     $mounted: null,
     fetchBookFromBarcode: (code: string) => ({ payload: { code } }),

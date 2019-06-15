@@ -1,12 +1,10 @@
 import { RouteEntry } from 'bibliotheca/types';
 import { lazy } from 'navi';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('login');
+import { LoginSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE).withActions({ auth: null });
+const modules = createModule(LoginSymbol).withActions({ auth: null });
 export const handle = modules[0];
 export const LoginActions = modules[1];
 

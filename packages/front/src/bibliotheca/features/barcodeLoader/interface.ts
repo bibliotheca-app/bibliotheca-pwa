@@ -1,10 +1,8 @@
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('barcodeLoader');
+import { BarcodeLoaderSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(BarcodeLoaderSymbol)
   .withActions({
     $mounted: null,
     enableCamera: null,

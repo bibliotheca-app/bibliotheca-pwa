@@ -1,11 +1,9 @@
 import { NaviRequest, URLDescriptor } from 'navi';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('@@router');
+import { RouterSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(RouterSymbol)
   .withActions({
     $mounted: null,
     navigate: (url: RouterNavigation) => ({ payload: { url } }),

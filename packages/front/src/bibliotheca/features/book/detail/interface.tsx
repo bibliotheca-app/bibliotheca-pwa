@@ -1,11 +1,9 @@
 import { Book } from 'bibliotheca/types';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('book/detail');
+import { BookDetailSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(BookDetailSymbol)
   .withActions({
     $mounted: null,
     $unmounting: null,

@@ -1,12 +1,10 @@
 import { RouteEntry } from 'bibliotheca/types';
 import { createModule } from 'typeless';
 import { lazy } from 'navi';
-
-// --- Constants ---
-export const MODULE = Symbol('management');
+import { ManagementSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE).withActions({
+const modules = createModule(ManagementSymbol).withActions({
   downloadBookListAsCsv: null,
   downloadBookListAsCsvFulfilled: null,
 });

@@ -1,11 +1,9 @@
 import { Book } from 'bibliotheca/types';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('bookList');
+import { BookListSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(BookListSymbol)
   .withActions({
     fetchBookList: null,
     fetchBookListFulfilled: (books: Book[]) => ({ payload: { books } }),

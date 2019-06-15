@@ -1,10 +1,8 @@
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('InventoryEvent');
+import { InventoryEventSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(InventoryEventSymbol)
   .withActions({
     changeView: (type: ViewType) => ({ payload: { type } }),
     toMissingAll: null,

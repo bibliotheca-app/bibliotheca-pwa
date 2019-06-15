@@ -1,10 +1,8 @@
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('notification');
+import { NotificationSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE).withActions({
+const modules = createModule(NotificationSymbol).withActions({
   notifyMessage: (message: string) => ({ payload: { message } }),
 });
 

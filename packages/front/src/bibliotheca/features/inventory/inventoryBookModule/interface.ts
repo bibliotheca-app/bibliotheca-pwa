@@ -1,11 +1,9 @@
 import { Book, InventoryEvent } from 'bibliotheca/types';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('inventoryBookModule');
+import { InventoryBookModuleSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(InventoryBookModuleSymbol)
   .withActions({
     $mounted: null,
     setEventBooksSubscription: null,

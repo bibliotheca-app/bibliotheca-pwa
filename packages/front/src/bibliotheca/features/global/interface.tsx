@@ -1,12 +1,10 @@
 import { User } from 'bibliotheca/types';
 import { User as FirebaseUser } from 'firebase/app';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('global');
+import { GlobalSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(GlobalSymbol)
   .withActions({
     $mounted: null,
     logout: null,

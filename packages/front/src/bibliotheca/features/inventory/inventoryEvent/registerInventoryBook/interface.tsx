@@ -1,11 +1,9 @@
 import { Book } from 'bibliotheca/types';
 import { createModule } from 'typeless';
-
-// --- Constants ---
-export const MODULE = Symbol('registerInventoryBook');
+import { RegisterInventoryBookSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(MODULE)
+const modules = createModule(RegisterInventoryBookSymbol)
   .withActions({
     $unmounting: null,
     fetchBookFullfilled: (book: Book, checkedAll: boolean) => ({ payload: { book, checkedAll } }),
