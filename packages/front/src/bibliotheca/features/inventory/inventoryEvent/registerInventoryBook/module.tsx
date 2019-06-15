@@ -1,23 +1,29 @@
+import { NotificationActions } from 'bibliotheca/features/notification/interface';
 import { bookRepository, inventoryEventRepository } from 'bibliotheca/services/ServiceContainer';
+import { InventoryEventDoing } from 'bibliotheca/types';
 import React from 'react';
-import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { BarcodeLoaderActions } from '../../../barcodeLoader/interface';
 import { useInventoryBookModule } from '../../inventoryBookModule/module';
 import { RegisterInventoryBookView } from './components/RegisterInventoryBookView';
-import { MODULE, RegisterInventoryBookActions, RegisterInventoryBookState } from './interface';
-import { NotificationActions } from 'bibliotheca/features/notification/interface';
-import { InventoryEventDoing } from 'bibliotheca/types';
+import {
+  handle,
+  RegisterInventoryBookActions,
+  RegisterInventoryBookState,
+  getRegisterInventoryBookState,
+} from './interface';
+import { getInventoryBookModuleState } from '../../inventoryBookModule/interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
-  .on(BarcodeLoaderActions.emitBarcode, ({ barcode }, { getState }) =>
+export const epic = handle
+  .epic()
+  .on(BarcodeLoaderActions.emitBarcode, ({ barcode }) =>
     Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
       Rx.map(books => {
         if (books.length === 0) {
           return NotificationActions.notifyMessage('蔵書に存在しない本です');
         } else {
-          const { event, booksInList } = getState().inventoryBookModule;
+          const { event, booksInList } = getInventoryBookModuleState();
 
           const checkedBookIds = (event as InventoryEventDoing).inventoryBooks
             .filter(b => b.status === 'checked')
@@ -34,8 +40,8 @@ export const epic = createEpic(MODULE)
       }),
     ),
   )
-  .on(RegisterInventoryBookActions.submit, (_, { getState }) => {
-    const { registerBook } = getState().registerInventoryBook;
+  .on(RegisterInventoryBookActions.submit, () => {
+    const { registerBook } = getRegisterInventoryBookState();
     return Rx.fromPromise(
       inventoryEventRepository.addInventoryBook({ status: 'checked', bookId: registerBook!.id }),
     ).pipe(
@@ -53,7 +59,8 @@ const initialState: RegisterInventoryBookState = {
   checkedAll: false,
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(RegisterInventoryBookActions.fetchBookFullfilled, (state, { book, checkedAll }) => {
     state.registerBook = book;
     state.checkedAll = checkedAll;
@@ -68,11 +75,6 @@ export const reducer = createReducer(initialState)
 // --- Module ---
 export const RegisterInventoryBookModule = () => {
   useInventoryBookModule();
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['registerInventoryBook'],
-    actions: RegisterInventoryBookActions,
-  });
+  handle();
   return <RegisterInventoryBookView />;
 };

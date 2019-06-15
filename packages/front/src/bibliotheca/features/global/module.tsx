@@ -1,11 +1,10 @@
 import { authService } from 'bibliotheca/services/ServiceContainer';
-import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { RouterActions } from '../router/interface';
-import { GlobalActions, GlobalState, MODULE } from './interface';
+import { GlobalActions, GlobalState, handle } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE).on(GlobalActions.logout, () => {
+export const epic = handle.epic().on(GlobalActions.logout, () => {
   return Rx.concatObs(
     Rx.of(RouterActions.navigate('/login')),
     Rx.fromPromise(authService.logout()).pipe(Rx.ignoreElements()),
@@ -19,7 +18,8 @@ const initialState: GlobalState = {
   progress: false,
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(GlobalActions.loggedIn, (state, { user }) => {
     state.isLoaded = true;
     state.user = user == null ? null : { firebaseAuth: user, email: user.email! };
@@ -35,10 +35,4 @@ export const reducer = createReducer(initialState)
   });
 
 // --- Module ---
-export const useGlobalModule = () =>
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['global'],
-    actions: GlobalActions,
-  });
+export const useGlobalModule = () => handle();

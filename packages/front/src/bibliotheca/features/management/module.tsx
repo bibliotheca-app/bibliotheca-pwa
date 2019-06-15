@@ -1,11 +1,10 @@
-import React from 'react';
-import { createEpic, createReducer, useModule } from 'typeless';
-import * as Rx from 'typeless/rx';
-import { ManagementView } from './components/ManagementView';
-import { ManagementActions, ManagementState, MODULE } from './interface';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import { Book } from 'bibliotheca/types';
 import * as Papa from 'papaparse';
+import React from 'react';
+import * as Rx from 'typeless/rx';
+import { ManagementView } from './components/ManagementView';
+import { handle, ManagementActions } from './interface';
 
 const fields = ['id', 'isbn', 'title', 'borrowedBy', 'updatedAt', 'createdAt'] as Array<keyof Book>;
 
@@ -27,7 +26,7 @@ const downloadFile = (args: { content: string; type: string; fileName: string })
 };
 
 // --- Epic ---
-export const epic = createEpic(MODULE).on(ManagementActions.downloadBookListAsCsv, () => {
+export const epic = handle.epic().on(ManagementActions.downloadBookListAsCsv, () => {
   return Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
     Rx.map(books => {
       const csv = Papa.unparse({ fields: fields, data: books });
@@ -42,18 +41,8 @@ export const epic = createEpic(MODULE).on(ManagementActions.downloadBookListAsCs
   );
 });
 
-// --- Reducer ---
-const initialState: ManagementState = {};
-
-export const reducer = createReducer(initialState);
-
 // --- Module ---
 export const ManagementModule = () => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['management'],
-    actions: ManagementActions,
-  });
+  handle();
   return <ManagementView />;
 };

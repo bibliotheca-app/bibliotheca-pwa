@@ -1,10 +1,10 @@
 import { cameraRepository } from 'bibliotheca/services/CameraRepository';
-import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
-import { BarcodeLoaderActions, BarcodeLoaderState, MODULE } from './interface';
+import { BarcodeLoaderActions, BarcodeLoaderState, handle } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
+export const epic = handle
+  .epic()
   .on(BarcodeLoaderActions.enableCamera, () => {
     cameraRepository.grantCameraPermission();
     return Rx.empty();
@@ -27,7 +27,8 @@ const initialState: BarcodeLoaderState = {
   isCameraEnabled: cameraRepository.isCameraPermissionGranted(),
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(BarcodeLoaderActions.$mounted, state => {
     state.isCameraSupported = navigator.mediaDevices && !!navigator.mediaDevices.getUserMedia;
     state.isCameraEnabled = false;
@@ -40,11 +41,4 @@ export const reducer = createReducer(initialState)
   });
 
 // --- Module ---
-export const useBarcodeLoaderModule = () => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['barcodeLoader'],
-    actions: BarcodeLoaderActions,
-  });
-};
+export const useBarcodeLoaderModule = () => handle();

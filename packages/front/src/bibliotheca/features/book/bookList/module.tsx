@@ -2,13 +2,13 @@ import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import { Book } from 'bibliotheca/types';
 import React from 'react';
-import { createEpic, createReducer, useModule } from 'typeless';
 import { BookActions } from '../interface';
 import { BookListView } from './components/BookListView';
-import { BookListActions, BookListState, MODULE } from './interface';
+import { BookListActions, BookListState, handle } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
+export const epic = handle
+  .epic()
   .on(BookListActions.$mounted, () => BookListActions.fetchBookList())
   .on(BookListActions.fetchBookList, () =>
     Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
@@ -34,7 +34,8 @@ const startBookProcess = (state: BookListState) => {
   state.isProcessingBook = true;
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(BookListActions.$mounted, state => {
     state.isProcessingBook = false;
   })
@@ -52,11 +53,6 @@ export const reducer = createReducer(initialState)
 
 // --- Module ---
 export const BookListModule = () => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['bookList'],
-    actions: BookListActions,
-  });
+  handle();
   return <BookListView />;
 };
