@@ -1,22 +1,23 @@
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import React from 'react';
-import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { BarcodeLoaderActions } from '../barcodeLoader/interface';
 import { BookActions } from '../book/interface';
 import { userIdQuery } from '../global/query';
-import { BorrowOrReturnView } from './components/BorrowOrReturnView';
-import { BorrowOrReturnActions, BorrowOrReturnState, MODULE } from './interface';
 import { NotificationActions } from '../notification/interface';
+import { BorrowOrReturnView } from './components/BorrowOrReturnView';
+import { BorrowOrReturnActions, BorrowOrReturnState, handle } from './interface';
+import { getGlobalState } from '../global/interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
-  .on(BarcodeLoaderActions.emitBarcode, ({ barcode }, { getState }) => {
+export const epic = handle
+  .epic()
+  .on(BarcodeLoaderActions.emitBarcode, ({ barcode }) => {
     return Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
       Rx.map(books =>
         BorrowOrReturnActions.fetchBookFromBarcodeFullfilled(
           books,
-          userIdQuery(getState().global),
+          userIdQuery(getGlobalState()),
           barcode,
         ),
       ),
@@ -35,7 +36,8 @@ const initialState: BorrowOrReturnState = {
   isProcessingBook: false,
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(BorrowOrReturnActions.$mounted, state => {
     state.target = undefined;
     state.isProcessingBook = false;
@@ -65,11 +67,6 @@ export const reducer = createReducer(initialState)
 
 // --- Module ---
 export const BorrowOrReturnModule = () => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['borrowOrReturn'],
-    actions: BorrowOrReturnActions,
-  });
+  handle();
   return <BorrowOrReturnView />;
 };

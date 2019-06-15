@@ -1,12 +1,14 @@
 import { InventoryEventStatus } from 'bibliotheca/types';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
-import { RegisterInventoryBookActions } from '../interface';
+import { RegisterInventoryBookActions, getRegisterInventoryBookState } from '../interface';
 import { RegistrationFromCamera } from './RegistrationFromCamera';
+import { getInventoryBookModuleState } from 'bibliotheca/features/inventory/inventoryBookModule/interface';
 
 export const RegisterInventoryBookView = () => {
   const { checkedAll, registerBook, event } = useMappedState(
-    ({ registerInventoryBook, inventoryBookModule }) => ({
+    [getRegisterInventoryBookState, getInventoryBookModuleState],
+    (registerInventoryBook, inventoryBookModule) => ({
       ...registerInventoryBook,
       ...inventoryBookModule,
     }),

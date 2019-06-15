@@ -1,18 +1,18 @@
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { NotificationActions } from 'bibliotheca/features/notification/interface';
-import { RouterActions } from 'bibliotheca/features/router/interface';
+import { RouterActions, getRouterState } from 'bibliotheca/features/router/interface';
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import React from 'react';
-import { createEpic, createReducer, useModule } from 'typeless';
 import { BookDetailView } from './components/BookDetailView';
-import { BookDetailActions, BookDetailState, MODULE } from './interface';
+import { BookDetailActions, BookDetailState, handle } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
-  .on(BookDetailActions.$mounted, (_, { getState }) => {
-    const location = getState().router.location!;
+export const epic = handle
+  .epic()
+  .on(BookDetailActions.$mounted, () => {
+    const location = getRouterState().location!;
     const bookId = location.request!.params.bookId;
     return !bookId
       ? Rx.of(RouterActions.navigate('/'))
@@ -38,7 +38,8 @@ export const epic = createEpic(MODULE)
 // --- Reducer ---
 const initialState: BookDetailState = { isProcessingBook: false };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(BookDetailActions.$mounted, state => {
     state.isProcessingBook = false;
   })
@@ -69,11 +70,6 @@ export const reducer = createReducer(initialState)
 
 // --- Module ---
 export const BookDetailModule = () => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['bookDetail'],
-    actions: BookDetailActions,
-  });
+  handle();
   return <BookDetailView />;
 };

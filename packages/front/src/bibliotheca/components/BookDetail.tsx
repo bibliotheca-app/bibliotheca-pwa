@@ -1,8 +1,10 @@
 import { Form } from 'bibliotheca/components/Form';
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
+import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { useConfirm } from 'bibliotheca/hooks/useConfirm';
+import { useConfirmWithData } from 'bibliotheca/hooks/useConfirmWithData';
 import { Book, BookEditData, Omit } from 'bibliotheca/types';
 import { Box, Button } from 'grommet';
 import {
@@ -12,9 +14,8 @@ import {
   Trash as DeleteIcon,
 } from 'grommet-icons';
 import React, { useState } from 'react';
-import { useActions, useMappedState } from 'typeless';
+import { useActions } from 'typeless';
 import { BookDataEditTable, BookDataViewTable } from './BookDataTable';
-import { useConfirmWithData } from 'bibliotheca/hooks/useConfirmWithData';
 
 export const BookDetail = ({
   book,
@@ -24,7 +25,7 @@ export const BookDetail = ({
   book: Book;
 }) => {
   const { borrowBookById, returnBookById, deleteBookById, editBook } = useActions(BookActions);
-  const userId = useMappedState(s => userIdQuery(s.global));
+  const userId = userIdQuery(getGlobalState.useState());
 
   const { show: showDeleteConfirm, render: renderDeleteConfirm } = useConfirm({
     cancelButton: '取り消し',

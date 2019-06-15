@@ -4,12 +4,12 @@ import { RouterActions } from 'bibliotheca/features/router/interface';
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import React, { useEffect } from 'react';
-import { createEpic, createReducer, useModule, useActions } from 'typeless';
+import { useActions } from 'typeless';
 import { UserView } from './components/UserView';
-import { MODULE, UserActions, UserState } from './interface';
+import { handle, UserActions, UserState } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE).on(UserActions.fetchBorrowedBooksByUserId, ({ userId }) => {
+export const epic = handle.epic().on(UserActions.fetchBorrowedBooksByUserId, ({ userId }) => {
   return Rx.fromPromise(bookRepository.findBorrowedBooksByUserid(userId)).pipe(
     Rx.map(UserActions.fetchBorrowedBooksByUserIdFulfilled),
     Rx.catchLog(e => Rx.of(UserActions.fetchBorrowedBooksByUserIdFailure(e))),
@@ -22,7 +22,8 @@ const initialState: UserState = {
   borrowedBooks: [],
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(RouterActions.locationChange, state => {
     state.borrowedBooks = [];
   })
@@ -35,12 +36,7 @@ export const reducer = createReducer(initialState)
 
 // --- Module ---
 export const UserModule = ({ userId }: { userId: string }) => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['user'],
-    actions: UserActions,
-  });
+  handle();
 
   const { fetchBorrowedBooksByUserId } = useActions(UserActions);
   const { progressShow } = useActions(GlobalActions);

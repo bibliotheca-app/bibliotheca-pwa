@@ -1,10 +1,10 @@
 import { bookRepository, inventoryEventRepository } from 'bibliotheca/services/ServiceContainer';
-import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
-import { InventoryBookModuleActions, InventoryBookModuleState, MODULE } from './interface';
+import { handle, InventoryBookModuleActions, InventoryBookModuleState } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
+export const epic = handle
+  .epic()
   .on(InventoryBookModuleActions.$mounted, () =>
     Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
       Rx.map(books => InventoryBookModuleActions.fetchBookListFullfilled(books)),
@@ -33,7 +33,8 @@ const initialState: InventoryBookModuleState = {
   booksInList: [],
 };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(InventoryBookModuleActions.fetchInventoryEventFullfilled, (state, { event }) => {
     state.event = event;
   })
@@ -42,10 +43,4 @@ export const reducer = createReducer(initialState)
   });
 
 // --- Module ---
-export const useInventoryBookModule = () =>
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['inventoryBookModule'],
-    actions: InventoryBookModuleActions,
-  });
+export const useInventoryBookModule = () => handle();

@@ -1,27 +1,19 @@
 import { RouteEntry } from 'bibliotheca/types';
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 import { lazy } from 'navi';
-
-// --- Constants ---
-export const MODULE = 'management';
+import { ManagementSymbol } from './symbol';
 
 // --- Actions ---
-export const ManagementActions = createActions(MODULE, {
+const modules = createModule(ManagementSymbol).withActions({
   downloadBookListAsCsv: null,
   downloadBookListAsCsvFulfilled: null,
 });
+
+export const handle = modules[0];
+export const ManagementActions = modules[1];
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {
   path: '/management',
   routes: lazy(() => import('./routes')),
 };
-
-// --- Types ---
-export interface ManagementState {}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    management: ManagementState;
-  }
-}

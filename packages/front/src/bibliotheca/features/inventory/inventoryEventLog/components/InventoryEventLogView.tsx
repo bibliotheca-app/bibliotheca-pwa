@@ -2,10 +2,10 @@ import { InventoryEventLog } from 'bibliotheca/types';
 import { format } from 'date-fns';
 import { DataTable, Text } from 'grommet';
 import React from 'react';
-import { useMappedState } from 'typeless';
+import { getInventoryEventLogState } from '../interface';
 
 export const InventoryEventLogView = () => {
-  const { inventoryEventLogs } = useMappedState(state => state.InventoryEventLog);
+  const { inventoryEventLogs } = getInventoryEventLogState.useState();
   return (
     <>
       棚卸し

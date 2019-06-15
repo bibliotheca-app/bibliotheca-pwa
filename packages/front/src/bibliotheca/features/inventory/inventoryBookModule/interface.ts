@@ -1,26 +1,24 @@
 import { Book, InventoryEvent } from 'bibliotheca/types';
-import { createActions } from 'typeless';
-
-// --- Constants ---
-export const MODULE = 'inventoryBookModule';
+import { createModule } from 'typeless';
+import { InventoryBookModuleSymbol } from './symbol';
 
 // --- Actions ---
-export const InventoryBookModuleActions = createActions(MODULE, {
-  $mounted: null,
-  setEventBooksSubscription: null,
-  fetchBookListFullfilled: (books: Book[]) => ({ payload: { books } }),
-  fetchInventoryEventFullfilled: (event: InventoryEvent) => ({ payload: { event } }),
-  start: null,
-});
+const modules = createModule(InventoryBookModuleSymbol)
+  .withActions({
+    $mounted: null,
+    setEventBooksSubscription: null,
+    fetchBookListFullfilled: (books: Book[]) => ({ payload: { books } }),
+    fetchInventoryEventFullfilled: (event: InventoryEvent) => ({ payload: { event } }),
+    start: null,
+  })
+  .withState<InventoryBookModuleState>();
+
+export const handle = modules[0];
+export const InventoryBookModuleActions = modules[1];
+export const getInventoryBookModuleState = modules[2];
 
 // --- Types ---
 export interface InventoryBookModuleState {
   booksInList: Book[];
   event?: InventoryEvent;
-}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    inventoryBookModule: InventoryBookModuleState;
-  }
 }

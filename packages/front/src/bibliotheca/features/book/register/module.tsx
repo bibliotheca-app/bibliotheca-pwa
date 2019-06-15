@@ -4,16 +4,16 @@ import { RouterActions } from 'bibliotheca/features/router/interface';
 import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
 import { isBookInformation } from 'bibliotheca/types';
 import React from 'react';
-import { createEpic, createReducer, useModule } from 'typeless';
 import * as Rx from 'typeless/rx';
 import { BookActions } from '../interface';
 import { BookRegisterView } from './components/BookRegisterView';
-import { BookRegisterActions, BookRegisterState, MODULE } from './interface';
+import { BookRegisterActions, BookRegisterState, handle, getBookRegisterState } from './interface';
 
 // --- Epic ---
-export const epic = createEpic(MODULE)
-  .on(BarcodeLoaderActions.emitBarcode, ({ barcode }, { getState }) => {
-    if (getState().bookRegister.isProcessingBook) {
+export const epic = handle
+  .epic()
+  .on(BarcodeLoaderActions.emitBarcode, ({ barcode }) => {
+    if (getBookRegisterState().isProcessingBook) {
       return Rx.empty();
     } else {
       return BookRegisterActions.fetchBookFromOpenBd(barcode);
@@ -37,8 +37,8 @@ export const epic = createEpic(MODULE)
       }),
     );
   })
-  .on(BookRegisterActions.submit, (_, { getState }) => {
-    const { isbn, title } = getState().bookRegister.bookData;
+  .on(BookRegisterActions.submit, () => {
+    const { isbn, title } = getBookRegisterState().bookData;
     if (title && title !== '') {
       return BookActions.registerBook({ title, isbn: isbn === undefined ? null : isbn });
     } else {
@@ -55,7 +55,8 @@ export const epic = createEpic(MODULE)
 // --- Reducer ---
 const initialState: BookRegisterState = { isProcessingBook: false, bookData: {} };
 
-export const reducer = createReducer(initialState)
+export const reducer = handle
+  .reducer(initialState)
   .on(BookRegisterActions.$mounted, state => {
     state.registeredBook = undefined;
   })
@@ -76,11 +77,6 @@ export const reducer = createReducer(initialState)
 
 // --- Module ---
 export const BookRegisterModule = () => {
-  useModule({
-    epic,
-    reducer,
-    reducerPath: ['bookRegister'],
-    actions: BookRegisterActions,
-  });
+  handle();
   return <BookRegisterView />;
 };

@@ -1,17 +1,22 @@
 import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
+import { getBarcodeLoaderState } from 'bibliotheca/features/barcodeLoader/interface';
+import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Box } from 'grommet';
 import React from 'react';
-import * as R from 'remeda';
 import { useMappedState } from 'typeless';
+import { getBorrowOrReturnState } from '../interface';
 import { TargetBook } from './TargetBook';
 
 export const BorrowOrReturnView = () => {
-  const { target, userId, isProcessingBook, isCameraEnabled } = useMappedState(state => ({
-    ...R.pick(state.barcodeLoader, ['isCameraEnabled']),
-    ...state.borrowOrReturn,
-    userId: userIdQuery(state.global),
-  }));
+  const { target, userId, isProcessingBook, isCameraEnabled } = useMappedState(
+    [getBorrowOrReturnState, getBarcodeLoaderState, getGlobalState],
+    (borrowOrReturn, { isCameraEnabled }, global) => ({
+      isCameraEnabled,
+      ...borrowOrReturn,
+      userId: userIdQuery(global),
+    }),
+  );
   return (
     <>
       <BarcodeLoaderView />

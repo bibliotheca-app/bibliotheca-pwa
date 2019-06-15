@@ -1,16 +1,20 @@
 import { Book } from 'bibliotheca/types';
-import { createActions } from 'typeless';
-
-// --- Constants ---
-export const MODULE = 'registerInventoryBook';
+import { createModule } from 'typeless';
+import { RegisterInventoryBookSymbol } from './symbol';
 
 // --- Actions ---
-export const RegisterInventoryBookActions = createActions(MODULE, {
-  $unmounting: null,
-  fetchBookFullfilled: (book: Book, checkedAll: boolean) => ({ payload: { book, checkedAll } }),
-  submit: null,
-  submitFullfilled: null,
-});
+const modules = createModule(RegisterInventoryBookSymbol)
+  .withActions({
+    $unmounting: null,
+    fetchBookFullfilled: (book: Book, checkedAll: boolean) => ({ payload: { book, checkedAll } }),
+    submit: null,
+    submitFullfilled: null,
+  })
+  .withState<RegisterInventoryBookState>();
+
+export const handle = modules[0];
+export const RegisterInventoryBookActions = modules[1];
+export const getRegisterInventoryBookState = modules[2];
 
 // --- Types ---
 export interface RegisterInventoryBookState {
@@ -18,10 +22,4 @@ export interface RegisterInventoryBookState {
   checkedAll: boolean;
   // todo: implements loading state
   isProcessingBook: boolean;
-}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    registerInventoryBook: RegisterInventoryBookState;
-  }
 }

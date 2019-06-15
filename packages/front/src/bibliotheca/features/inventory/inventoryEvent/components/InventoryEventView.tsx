@@ -1,12 +1,12 @@
 import { Link } from 'bibliotheca/components/Link';
 import { InventoryEventStatus } from 'bibliotheca/types';
 import React from 'react';
-import { useMappedState } from 'typeless';
+import { getInventoryBookModuleState } from '../../inventoryBookModule/interface';
 import { InventoryDoing } from './InventoryDoing';
 import { InventoryDone } from './InventoryDone';
 
 export const InventoryEventView = () => {
-  const { event } = useMappedState(state => state.inventoryBookModule);
+  const { event } = getInventoryBookModuleState.useState();
 
   const component = (() => {
     if (event == null) {
