@@ -95,6 +95,7 @@ export interface InventoryEventLogBody {
 }
 
 export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
+export type Nullable<T> = T | null;
 export type Parameters<T> = T extends (...args: infer T) => any ? T : never;
 export type ReturnType<T> = T extends (...args: any[]) => infer T ? T : never;
 
