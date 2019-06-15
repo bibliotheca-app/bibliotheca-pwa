@@ -1,18 +1,12 @@
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'notification';
+export const MODULE = Symbol('notification');
 
 // --- Actions ---
-export const NotificationActions = createActions(MODULE, {
+const modules = createModule(MODULE).withActions({
   notifyMessage: (message: string) => ({ payload: { message } }),
 });
 
-// --- Types ---
-export interface NotificationState {}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    notification: NotificationState;
-  }
-}
+export const handle = modules[0];
+export const NotificationActions = modules[1];

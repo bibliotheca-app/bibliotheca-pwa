@@ -1,24 +1,17 @@
 import { RouteEntry } from 'bibliotheca/types';
 import { lazy } from 'navi';
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'login';
+export const MODULE = Symbol('login');
 
 // --- Actions ---
-export const LoginActions = createActions(MODULE, { auth: null });
+const modules = createModule(MODULE).withActions({ auth: null });
+export const handle = modules[0];
+export const LoginActions = modules[1];
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {
   path: '/login',
   routes: lazy(() => import('./routes')),
 };
-
-// --- Types ---
-export interface LoginState {}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    ['login']: LoginState;
-  }
-}

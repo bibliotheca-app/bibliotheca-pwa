@@ -1,24 +1,24 @@
 import { Book } from 'bibliotheca/types';
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'bookList';
+export const MODULE = Symbol('bookList');
 
 // --- Actions ---
-export const BookListActions = createActions(MODULE, {
-  fetchBookList: null,
-  fetchBookListFulfilled: (books: Book[]) => ({ payload: { books } }),
-  $mounted: null,
-});
+const modules = createModule(MODULE)
+  .withActions({
+    fetchBookList: null,
+    fetchBookListFulfilled: (books: Book[]) => ({ payload: { books } }),
+    $mounted: null,
+  })
+  .withState<BookListState>();
+
+export const handle = modules[0];
+export const BookListActions = modules[1];
+export const getBookListState = modules[2];
 
 // --- Types ---
 export interface BookListState {
   books: Book[];
   isProcessingBook: boolean;
-}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    bookList: BookListState;
-  }
 }

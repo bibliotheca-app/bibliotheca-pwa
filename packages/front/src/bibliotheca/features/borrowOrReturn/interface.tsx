@@ -1,24 +1,30 @@
 import { Book, RouteEntry } from 'bibliotheca/types';
 import { lazy } from 'navi';
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'borrowOrReturn';
+export const MODULE = Symbol('borrowOrReturn');
 
 // --- Actions ---
-export const BorrowOrReturnActions = createActions(MODULE, {
-  $mounted: null,
-  fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
-  fetchBookFromBarcodeFullfilled: (books: Book[], userId: string, loadedCode: string) => ({
-    payload: { books, userId, loadedCode },
-  }),
-});
+const modules = createModule(MODULE)
+  .withActions({
+    $mounted: null,
+    fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
+    fetchBookFromBarcodeFullfilled: (books: Book[], userId: string, loadedCode: string) => ({
+      payload: { books, userId, loadedCode },
+    }),
+  })
+  .withState<BorrowOrReturnState>();
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {
   path: '/borrow-or-return',
   routes: lazy(() => import('./routes')),
 };
+
+export const handle = modules[0];
+export const BorrowOrReturnActions = modules[1];
+export const getBorrowOrReturnState = modules[2];
 
 // --- Types ---
 export interface BorrowOrReturnState {
@@ -35,9 +41,4 @@ interface NotExistBookInList {
 interface ExistBookInList {
   loadedCode: string;
   book: Book;
-}
-declare module 'typeless/types' {
-  export interface DefaultState {
-    borrowOrReturn: BorrowOrReturnState;
-  }
 }

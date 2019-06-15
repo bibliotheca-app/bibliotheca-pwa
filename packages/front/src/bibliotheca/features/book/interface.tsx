@@ -1,12 +1,12 @@
 import { Book, RouteEntry, BookEditData } from 'bibliotheca/types';
 import { lazy } from 'navi';
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'book';
+export const MODULE = Symbol('book');
 
 // --- Actions ---
-export const BookActions = createActions(MODULE, {
+const modules = createModule(MODULE).withActions({
   borrowBookById: (bookId: string) => ({ payload: { bookId } }),
   borrowBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
   borrowBookByIsbn: (isbn: string) => ({ payload: { isbn } }),
@@ -25,17 +25,11 @@ export const BookActions = createActions(MODULE, {
   editBookFulfilled: (book: Book) => ({ payload: { book } }),
 });
 
+export const handle = modules[0];
+export const BookActions = modules[1];
+
 // --- Routing ---
 export const routeEntry: RouteEntry = {
   path: '/books',
   routes: lazy(() => import('./routes')),
 };
-
-// --- Types ---
-export interface BookState {}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    book: BookState;
-  }
-}

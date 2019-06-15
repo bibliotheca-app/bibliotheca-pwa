@@ -1,27 +1,27 @@
 import { Book, BookData } from 'bibliotheca/types';
-import { createActions } from 'typeless';
+import { createModule } from 'typeless';
 
 // --- Constants ---
-export const MODULE = 'book/register';
+export const MODULE = Symbol('book/register');
 
 // --- Actions ---
-export const BookRegisterActions = createActions(MODULE, {
-  $mounted: null,
-  changeFormValue: (key: keyof BookData, value: string) => ({ payload: { key, value } }),
-  fetchBookFromOpenBd: (barcode: string) => ({ payload: { barcode } }),
-  fetchBookFromOpenBdFullfilled: (bookData: Partial<BookData>) => ({ payload: { bookData } }),
-  submit: null,
-});
+const modules = createModule(MODULE)
+  .withActions({
+    $mounted: null,
+    changeFormValue: (key: keyof BookData, value: string) => ({ payload: { key, value } }),
+    fetchBookFromOpenBd: (barcode: string) => ({ payload: { barcode } }),
+    fetchBookFromOpenBdFullfilled: (bookData: Partial<BookData>) => ({ payload: { bookData } }),
+    submit: null,
+  })
+  .withState<BookRegisterState>();
+
+export const handle = modules[0];
+export const BookRegisterActions = modules[1];
+export const getBookRegisterState = modules[2];
 
 // --- Types ---
 export interface BookRegisterState {
   registeredBook?: Book;
   isProcessingBook: boolean;
   bookData: Partial<BookData>;
-}
-
-declare module 'typeless/types' {
-  export interface DefaultState {
-    bookRegister: BookRegisterState;
-  }
 }
