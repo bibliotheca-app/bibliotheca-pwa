@@ -6,6 +6,7 @@ import { InventoryBookModuleSymbol } from './symbol';
 const modules = createModule(InventoryBookModuleSymbol)
   .withActions({
     $mounted: null,
+    $unmounting: null,
     setEventBooksSubscription: null,
     fetchBookListFullfilled: (books: Book[]) => ({ payload: { books } }),
     fetchInventoryEventFullfilled: (event: InventoryEvent) => ({ payload: { event } }),

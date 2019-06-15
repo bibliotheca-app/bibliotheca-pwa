@@ -1,6 +1,9 @@
 import { bookRepository, inventoryEventRepository } from 'bibliotheca/services/ServiceContainer';
 import * as Rx from 'typeless/rx';
 import { handle, InventoryBookModuleActions, InventoryBookModuleState } from './interface';
+import { Nullable } from 'bibliotheca/types';
+
+let unsubscriber: Nullable<() => void> = null;
 
 // --- Epic ---
 export const epic = handle
@@ -16,12 +19,16 @@ export const epic = handle
   .on(
     InventoryBookModuleActions.setEventBooksSubscription,
     () =>
-      new Rx.Observable(subscriber =>
-        inventoryEventRepository.subscribeInventoryBooks(event => {
+      new Rx.Observable(subscriber => {
+        unsubscriber = inventoryEventRepository.subscribeInventoryBooks(event => {
           subscriber.next(InventoryBookModuleActions.fetchInventoryEventFullfilled(event));
-        }),
-      ),
+        });
+      }),
   )
+  .on(InventoryBookModuleActions.$unmounting, () => {
+    if (unsubscriber) unsubscriber();
+    return Rx.empty();
+  })
   .on(InventoryBookModuleActions.start, () =>
     Rx.fromPromise(inventoryEventRepository.start()).pipe(
       Rx.map(event => InventoryBookModuleActions.fetchInventoryEventFullfilled(event)),
