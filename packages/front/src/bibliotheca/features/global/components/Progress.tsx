@@ -3,10 +3,10 @@ import '@material/react-linear-progress/dist/linear-progress.css';
 import { Delay } from 'bibliotheca/components/Delay';
 import React from 'react';
 import { useLoadingRoute } from 'react-navi';
-import { useMappedState } from 'typeless';
+import { getGlobalState } from '../interface';
 
 export const Progress = () => {
-  const progress = useMappedState(state => state.global.progress);
+  const { progress } = getGlobalState.useState();
   const loadingRoute = useLoadingRoute();
 
   return progress || loadingRoute ? (

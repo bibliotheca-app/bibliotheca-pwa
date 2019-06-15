@@ -2,12 +2,12 @@ import { Box, Button } from 'grommet';
 import { Clear } from 'grommet-icons';
 import React, { Suspense } from 'react';
 import { ArrowDown, Camera } from 'react-feather';
-import { useActions, useMappedState } from 'typeless';
-import { BarcodeLoaderActions } from '../interface';
+import { useActions } from 'typeless';
+import { BarcodeLoaderActions, getBarcodeLoaderState } from '../interface';
 import { Video } from './Video';
 
 export const BarcodeLoaderView = () => {
-  const { isCameraEnabled, isCameraSupported } = useMappedState(state => state.barcodeLoader);
+  const { isCameraEnabled, isCameraSupported } = getBarcodeLoaderState.useState();
   const { enableCamera, disableCamela } = useActions(BarcodeLoaderActions);
 
   if (!isCameraSupported) {

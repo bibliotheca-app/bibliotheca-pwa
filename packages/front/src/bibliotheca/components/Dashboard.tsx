@@ -1,18 +1,18 @@
 import { Progress } from 'bibliotheca/features/global/components/Progress';
-import { GlobalActions } from 'bibliotheca/features/global/interface';
+import { getGlobalState, GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
-import { Box, Heading, Menu, ResponsiveContext, Tab, Tabs, ButtonProps } from 'grommet';
+import { Box, ButtonProps, Heading, Menu, ResponsiveContext, Tab, Tabs } from 'grommet';
 import {
-  List as ListIcon,
-  Logout as LogoutIcon,
   Add as AddIcon,
   Configure as ManagementIcon,
+  List as ListIcon,
+  Logout as LogoutIcon,
   User as UserIcon,
 } from 'grommet-icons';
 import * as React from 'react';
 import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
-import { useActions, useMappedState } from 'typeless';
+import { useActions } from 'typeless';
 import icon from './bookshelf-64.png';
 
 const Main = styled.main`
@@ -43,7 +43,7 @@ export const Dashboard = (props: DashboardProps) => {
   const { logout } = useActions(GlobalActions);
   const { navigate } = useActions(RouterActions);
   const route = useCurrentRoute();
-  const userId = useMappedState(state => state.global.user!.email);
+  const userId = getGlobalState.useState().user!.email;
 
   const links = [
     { link: '/books', title: '書籍一覧' },

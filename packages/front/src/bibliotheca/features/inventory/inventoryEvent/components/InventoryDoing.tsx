@@ -3,20 +3,22 @@ import { InventoryEventDoing } from 'bibliotheca/types';
 import { Button, DataTable, RadioButton, Text } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
-import { InventoryEventActions } from '../interface';
+import { InventoryEventActions, getInventoryEventState } from '../interface';
 import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
+import { getInventoryBookModuleState } from '../../inventoryBookModule/interface';
 
 export const InventoryDoing = () => {
   const { changeView, toMissingAll, submitInventory } = useActions(InventoryEventActions);
   const { canChangeMissingAll, books, viewType } = useMappedState(
-    ({ inventoryBookModule: { booksInList, event }, InventoryEvent }) => {
+    [getInventoryBookModuleState, getInventoryEventState],
+    ({ booksInList, event }, { viewType }) => {
       const uncheckedBooks = findUncheckedOnlyList(
         (event as InventoryEventDoing).inventoryBooks,
         booksInList,
       );
       const canChangeMissingAll = uncheckedBooks.length === 0;
       const books = ((e: InventoryEventDoing) => {
-        switch (InventoryEvent.viewType) {
+        switch (viewType) {
           case 'checkedOnly':
             return e.inventoryBooks.map(({ status, bookId }) => ({
               status,
@@ -39,7 +41,7 @@ export const InventoryDoing = () => {
         }
       })(event as InventoryEventDoing);
       return {
-        ...InventoryEvent,
+        viewType,
         books: books.map((b, i) => ({ ...b, key: i })),
         canChangeMissingAll,
       };

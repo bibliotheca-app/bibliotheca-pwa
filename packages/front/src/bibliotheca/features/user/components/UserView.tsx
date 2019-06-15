@@ -3,16 +3,21 @@ import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { Box, Heading, Button } from 'grommet';
 import { Link } from 'react-navi';
+import { getGlobalState } from 'bibliotheca/features/global/interface';
+import { getUserState } from '../interface';
 
 const BookReturnButton = ({ onBookReturn }: { onBookReturn: () => void }) => (
   <Button primary label="返す" onClick={onBookReturn} />
 );
 
 export const UserView = ({ userId: targetUserId }: { userId: string }) => {
-  const { userId, borrowedBooks } = useMappedState(state => ({
-    userId: state.global.user!.email,
-    borrowedBooks: state.user.borrowedBooks,
-  }));
+  const { userId, borrowedBooks } = useMappedState(
+    [getGlobalState, getUserState],
+    (global, user) => ({
+      userId: global.user!.email,
+      borrowedBooks: user.borrowedBooks,
+    }),
+  );
   const { returnBookById } = useActions(BookActions);
 
   return (

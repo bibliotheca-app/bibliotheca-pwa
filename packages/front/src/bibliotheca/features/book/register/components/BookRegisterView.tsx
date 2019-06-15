@@ -2,8 +2,8 @@ import { SimpleTable } from 'bibliotheca/components/SimpleTable';
 import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
 import { Box, Button, Form, FormField, Image } from 'grommet';
 import React from 'react';
-import { useActions, useMappedState } from 'typeless';
-import { BookRegisterActions } from '../interface';
+import { useActions } from 'typeless';
+import { BookRegisterActions, getBookRegisterState } from '../interface';
 
 const coverUrl = (isbn: string | null) => {
   if (isbn === null) {
@@ -15,7 +15,7 @@ const coverUrl = (isbn: string | null) => {
 export const BookRegisterView = () => {
   const {
     bookData: { title, isbn },
-  } = useMappedState(state => state.bookRegister);
+  } = getBookRegisterState.useState();
   const { changeFormValue, submit } = useActions(BookRegisterActions);
 
   const rows = [

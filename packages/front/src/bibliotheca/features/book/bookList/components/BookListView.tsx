@@ -2,15 +2,17 @@ import { Link } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
+import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book, isBook } from 'bibliotheca/types';
-import { Box, CheckBox, Text, ResponsiveContext } from 'grommet';
+import { Box, CheckBox, ResponsiveContext, Text } from 'grommet';
 import React, { useState } from 'react';
-import { useActions, useMappedState } from 'typeless';
+import { useActions } from 'typeless';
+import { getBookListState } from '../interface';
 
 export const BookListView = () => {
-  const { books, isProcessingBook } = useMappedState(state => state.bookList);
-  const userId = useMappedState(s => userIdQuery(s.global));
+  const { books, isProcessingBook } = getBookListState.useState();
+  const userId = userIdQuery(getGlobalState.useState());
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
   const [groupBy, setGroupBy] = useState<string | undefined>();
