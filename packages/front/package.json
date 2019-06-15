@@ -7,6 +7,7 @@
   "dependencies": {
     "@material/react-linear-progress": "^0.15.0",
     "@types/history": "^4.7.2",
+    "@types/jest": "^24.0.17",
     "@types/papaparse": "^5.0.1",
     "@types/react": "16.9.1",
     "@types/react-dom": "16.8.5",
@@ -44,7 +45,7 @@
     "start": "react-app-rewired start",
     "build": "REACT_APP_BRANCH=$(git rev-parse --abbrev-ref HEAD) REACT_APP_VERSION=$(git rev-parse --short=10 HEAD) react-app-rewired build",
     "build:prod": "REACT_APP_TARGET=prod yarn run build",
-    "test": "echo \"no test \" # react-app-rewired test --env=jsdom # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))",
+    "test": "react-app-rewired test",
     "eject": "react-app-rewired eject",
     "deploy": "firebase deploy --only hosting:bibliotheca-site",
     "g": "plop feature"
@@ -73,6 +74,7 @@
     "arrowParens": "avoid"
   },
   "devDependencies": {
+    "babel-plugin-require-context-hook": "^1.0.0",
     "date-fns": "^1.30.1",
     "firebase": "^6.3.5",
     "plop": "^2.4.0",

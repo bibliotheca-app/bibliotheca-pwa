@@ -2,7 +2,7 @@ import { useBookModule } from 'bibliotheca/features/book/module';
 import { useGlobalModule } from 'bibliotheca/features/global/module';
 import { useNotificationModule } from 'bibliotheca/features/notification/module';
 import { useRouterModule } from 'bibliotheca/features/router/module';
-import { navigation } from 'bibliotheca/routes';
+import { getNavigation } from 'bibliotheca/routes';
 import { NotFoundError } from 'navi';
 import React, { Suspense } from 'react';
 import { NotFoundBoundary, Router, View } from 'react-navi';
@@ -27,7 +27,7 @@ export const App = () => {
   useNotificationModule();
 
   return (
-    <Router navigation={navigation}>
+    <Router navigation={getNavigation()}>
       <NotFoundBoundary render={NotFound}>
         <Suspense fallback={<FullScreenSpinner />}>
           <View />
