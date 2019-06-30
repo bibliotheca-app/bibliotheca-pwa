@@ -42,7 +42,7 @@
     "format": "yarn prettier-format && yarn lint-fix",
     "format-check": "yarn prettier-check && yarn lint",
     "start": "react-app-rewired start",
-    "build": "react-app-rewired build",
+    "build": "REACT_APP_BRANCH=$(git rev-parse --abbrev-ref HEAD) REACT_APP_VERSION=$(git rev-parse --short=10 HEAD) react-app-rewired build",
     "build:prod": "REACT_APP_TARGET=prod yarn run build",
     "test": "echo \"no test \" # react-app-rewired test --env=jsdom # fixme: compilerOptions.baseUrl must not be set (absolute imports are not supported (yet))",
     "eject": "react-app-rewired eject",
