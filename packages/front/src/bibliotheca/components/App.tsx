@@ -15,6 +15,16 @@ import { useActions } from 'typeless';
 import { Dashboard } from './Dashboard';
 import { FullScreenSpinner } from './FullScreenSpinner';
 
+const setGlobalValue = () => {
+  if (process.env.NODE_ENV === 'production') {
+    (window as any).__bibliotheca_version = {
+      revision: process.env.REACT_APP_VERSION,
+      branch: process.env.REACT_APP_BRANCH,
+    };
+  }
+};
+setGlobalValue();
+
 interface LayoutProps {
   isLoggedIn: boolean;
   children: React.ReactElement;
