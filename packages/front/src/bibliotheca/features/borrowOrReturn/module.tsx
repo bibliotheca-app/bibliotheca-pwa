@@ -8,6 +8,7 @@ import { NotificationActions } from '../notification/interface';
 import { BorrowOrReturnView } from './components/BorrowOrReturnView';
 import { BorrowOrReturnActions, BorrowOrReturnState, handle } from './interface';
 import { getGlobalState } from '../global/interface';
+import { useBarcodeLoaderModule } from '../barcodeLoader/module';
 
 // --- Epic ---
 export const epic = handle
@@ -68,5 +69,6 @@ export const reducer = handle
 // --- Module ---
 export const BorrowOrReturnModule = () => {
   handle();
+  useBarcodeLoaderModule();
   return <BorrowOrReturnView />;
 };
