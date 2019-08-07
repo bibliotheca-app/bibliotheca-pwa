@@ -1,6 +1,8 @@
 import { cameraRepository } from 'bibliotheca/services/CameraRepository';
+import React from 'react';
 import * as Rx from 'typeless/rx';
 import { BarcodeLoaderActions, BarcodeLoaderState, handle } from './interface';
+import { BarcodeLoaderView } from './components/BarcodeLoaderView';
 
 // --- Epic ---
 export const epic = handle
@@ -42,3 +44,7 @@ export const reducer = handle
 
 // --- Module ---
 export const useBarcodeLoaderModule = () => handle();
+export const BarcodeLoaderModule = () => {
+  handle();
+  return <BarcodeLoaderView />;
+};

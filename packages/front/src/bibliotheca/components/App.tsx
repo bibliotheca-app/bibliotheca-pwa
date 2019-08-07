@@ -1,5 +1,4 @@
 import { defer, Deffered } from 'bibliotheca/defer';
-import { useBarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 import { useBookModule } from 'bibliotheca/features/book/module';
 import { getGlobalState, GlobalActions } from 'bibliotheca/features/global/interface';
 import { useGlobalModule } from 'bibliotheca/features/global/module';
@@ -45,7 +44,6 @@ export const App = () => {
   useGlobalModule();
   useBookModule();
   useNotificationModule();
-  useBarcodeLoaderModule();
 
   const { loggedIn } = useActions(GlobalActions);
   useEffect(() => authService.subscribe(authUser => loggedIn(authUser)), [loggedIn]);

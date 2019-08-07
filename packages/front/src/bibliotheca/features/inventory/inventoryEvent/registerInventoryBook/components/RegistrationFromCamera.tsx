@@ -1,5 +1,5 @@
 import { BookDataViewTable } from 'bibliotheca/components/BookDataTable';
-import { BarcodeLoaderView } from 'bibliotheca/features/barcodeLoader/components/BarcodeLoaderView';
+import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 import { Book } from 'bibliotheca/types';
 import { Button } from 'grommet';
 import React from 'react';
@@ -12,7 +12,7 @@ export const RegistrationFromCamera = (props: {
   const label = props.checkedAll ? 'この書籍は全てチェック済みです' : 'チェックする';
   return (
     <>
-      <BarcodeLoaderView />
+      <BarcodeLoaderModule />
       {props.targetBook ? (
         <>
           <BookDataViewTable book={props.targetBook} />
