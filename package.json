@@ -8,7 +8,7 @@
     "packages/*"
   ],
   "devDependencies": {
-    "lerna": "^3.14.1"
+    "lerna": "^3.16.4"
   },
   "scripts": {
     "tsc": "tsc -b packages/front/tsconfig.build.json packages/functions packages/seed",
