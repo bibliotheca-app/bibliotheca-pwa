@@ -22,6 +22,9 @@ commands:
   setup:
     steps:
       - checkout
+      - run:
+          name: setup .firebaserc
+          command: cp .firebaserc.example .firebaserc
       - restore_cache:
           keys:
             - bibliotheca-pwa-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}

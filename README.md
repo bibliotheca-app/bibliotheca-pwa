@@ -23,6 +23,12 @@ GSuite のドメイン単位で蔵書を管理するためのウェブアプリ
 
 ## Development
 
+Firebase プロジェクトを切り替えできるように `.firebaserc.example` を参考に `.firebaserc` を作成する
+
+```bash
+$ cp .firebaserc{.example,}
+```
+
 どのパッケージで開発する場合も、プロジェクトルートで `yarn tsc-w` を実行すること  
 (TypeScript でコンパイルが通るかどうかをチェックできる)
 
