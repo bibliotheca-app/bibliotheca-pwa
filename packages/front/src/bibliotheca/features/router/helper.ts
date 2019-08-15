@@ -9,12 +9,12 @@ export const getDefaultRoute = () => {
 const loginPathRegex = /^\/login\/?/;
 
 export const makeLoginUrlForRedirectFromRequest = (request: NaviRequest): string => {
-  if (!request.pathname || request.pathname === '/login') {
+  if (!request.mountpath || request.mountpath === '/login') {
     return '/login';
   }
 
-  if (loginPathRegex.test(request.pathname)) {
-    return request.pathname;
+  if (loginPathRegex.test(request.mountpath)) {
+    return request.mountpath;
   }
 
   return '/login?redirectTo=' + encodeURIComponent(request.mountpath + request.search);

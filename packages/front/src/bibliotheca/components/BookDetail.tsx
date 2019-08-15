@@ -1,4 +1,3 @@
-import { Form } from 'bibliotheca/components/Form';
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { getGlobalState } from 'bibliotheca/features/global/interface';
@@ -6,7 +5,7 @@ import { userIdQuery } from 'bibliotheca/features/global/query';
 import { useConfirm } from 'bibliotheca/hooks/useConfirm';
 import { useConfirmWithData } from 'bibliotheca/hooks/useConfirmWithData';
 import { Book, BookEditData, Omit } from 'bibliotheca/types';
-import { Box, Button } from 'grommet';
+import { Box, Button, Form } from 'grommet';
 import {
   Close as CloseIcon,
   Edit as EditIcon,
