@@ -13,13 +13,15 @@ export const epic = handle
   })
   .on(BarcodeLoaderActions.onDetect, ({ data }) => {
     const prefixWhitelists = ['978', '491'];
+    const { code } = data.codeResult;
     const disallowed =
-      prefixWhitelists.find(prefix => data.codeResult.code.indexOf(prefix) !== -1) === undefined;
+      prefixWhitelists.find(prefix => code.indexOf(prefix) !== -1) === undefined &&
+      code.length !== 10;
 
     if (disallowed) {
       return Rx.empty();
     } else {
-      return Rx.of(BarcodeLoaderActions.emitBarcode(data.codeResult.code));
+      return Rx.of(BarcodeLoaderActions.emitBarcode(code));
     }
   });
 

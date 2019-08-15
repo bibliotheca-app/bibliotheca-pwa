@@ -4,13 +4,7 @@ import { Box, Button, Form, FormField, Image } from 'grommet';
 import React from 'react';
 import { useActions } from 'typeless';
 import { BookRegisterActions, getBookRegisterState } from '../interface';
-
-const coverUrl = (isbn: string | null) => {
-  if (isbn === null) {
-    return '';
-  }
-  return `https://cover.openbd.jp/${isbn}.jpg`;
-};
+import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
 
 export const BookRegisterView = () => {
   const {
@@ -33,7 +27,8 @@ export const BookRegisterView = () => {
     },
     {
       label: '画像',
-      render: () => (isbn ? <Image fit="contain" src={coverUrl(isbn)} /> : <div>not found</div>),
+      render: () =>
+        isbn ? <Image fit="contain" src={openBdRepository.coverUrl(isbn)} /> : <div>not found</div>,
     },
     {
       label: 'ISBN (or JAN)',
