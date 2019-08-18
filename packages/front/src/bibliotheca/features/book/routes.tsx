@@ -1,14 +1,15 @@
+import { Dashboard } from 'bibliotheca/components/Dashboard';
+import { withAuthentication } from 'bibliotheca/routes';
+import { AppContext } from 'bibliotheca/types';
 import { mount, route } from 'navi';
 import React from 'react';
-import { withAuthentication } from 'bibliotheca/routes';
 import { BookListModule } from './bookList/module';
 import { BookDetailModule } from './detail/module';
 import { BookRegisterModule } from './register/module';
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 
 // --- Routing ---
 export default withAuthentication(
-  mount({
+  mount<AppContext>({
     '/': route({
       title: '書籍一覧 - Bibliotheca',
       view: (

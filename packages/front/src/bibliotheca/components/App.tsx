@@ -7,6 +7,8 @@ import { NotFoundError } from 'navi';
 import React, { Suspense } from 'react';
 import { NotFoundBoundary, Router, View } from 'react-navi';
 import { FullScreenSpinner } from './FullScreenSpinner';
+import { getGlobalState } from 'bibliotheca/features/global/interface';
+import { Deffered, defer } from 'bibliotheca/defer';
 
 const setGlobalValue = () => {
   if (process.env.NODE_ENV === 'production') {
@@ -26,8 +28,17 @@ export const App = () => {
   useBookModule();
   useNotificationModule();
 
+  const { isLoaded } = getGlobalState.useState();
+
+  const isLoadedAsyncRef = React.useRef<Deffered<void>>(defer());
+  if (isLoaded) {
+    isLoadedAsyncRef.current.resolve();
+  }
   return (
-    <Router navigation={getNavigation()}>
+    <Router
+      navigation={getNavigation()}
+      context={{ isLoadedAsync: isLoadedAsyncRef.current.promise }}
+    >
       <NotFoundBoundary render={NotFound}>
         <Suspense fallback={<FullScreenSpinner />}>
           <View />
