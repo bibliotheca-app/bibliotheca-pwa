@@ -1,11 +1,12 @@
 import { Link } from 'bibliotheca/components/Link';
+import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
+import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 import { InventoryEventDoing } from 'bibliotheca/types';
-import { Button, DataTable, RadioButton, Text } from 'grommet';
+import { Button, RadioButton, Text } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
-import { InventoryEventActions, getInventoryEventState } from '../interface';
-import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 import { getInventoryBookModuleState } from '../../inventoryBookModule/interface';
+import { getInventoryEventState, InventoryEventActions } from '../interface';
 
 export const InventoryDoing = () => {
   const { changeView, toMissingAll, submitInventory } = useActions(InventoryEventActions);
@@ -79,7 +80,7 @@ export const InventoryDoing = () => {
         checked={viewType === 'uncheckedOnly'}
         onChange={() => changeView('uncheckedOnly')}
       />
-      <DataTable
+      <StyledDataTable
         size="large"
         primaryKey="key"
         data={books}
