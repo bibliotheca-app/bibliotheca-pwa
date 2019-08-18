@@ -1,6 +1,5 @@
 import { BarcodeLoaderActions } from 'bibliotheca/features/barcodeLoader/interface';
 import { NotificationActions } from 'bibliotheca/features/notification/interface';
-import { RouterActions } from 'bibliotheca/features/router/interface';
 import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
 import { isBookInformation } from 'bibliotheca/types';
 import React from 'react';
@@ -47,16 +46,32 @@ export const epic = handle
   })
   .on(BookActions.registerBookFulfilled, ({ book }) => {
     return [
-      RouterActions.navigate('/books'),
       NotificationActions.notifyMessage(`${book.title}を登録しました`),
+      BookRegisterActions.resetForm(),
     ];
+  })
+  .on(BookRegisterActions.resetForm, () => {
+    const resetButton = getBookRegisterState().resetButtonRef.current;
+    if (resetButton) {
+      resetButton.click();
+    }
+    return Rx.empty();
   });
 
 // --- Reducer ---
-const initialState: BookRegisterState = { isProcessingBook: false, bookData: {} };
+const initialState: BookRegisterState = {
+  isProcessingBook: false,
+  bookData: {},
+  resetButtonRef: React.createRef(),
+};
 
 export const reducer = handle
   .reducer(initialState)
+  .on(BookRegisterActions.resetForm, state => {
+    state.isProcessingBook = false;
+    state.bookData = { isbn: '', title: '' };
+    state.registeredBook = undefined;
+  })
   .on(BookRegisterActions.$mounted, state => {
     state.registeredBook = undefined;
   })
