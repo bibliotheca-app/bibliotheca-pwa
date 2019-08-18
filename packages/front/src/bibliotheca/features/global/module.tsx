@@ -21,7 +21,10 @@ export const epic = handle
   })
   .on(GlobalActions.logout, () => {
     if (subscribe) subscribe();
-    return Rx.from(authService.logout()).pipe(Rx.ignoreElements());
+    return Rx.concatObs(
+      Rx.from(authService.logout()).pipe(Rx.ignoreElements()),
+      Rx.of(RouterActions.navigate('/login')),
+    );
   });
 
 // --- Reducer ---
@@ -36,6 +39,9 @@ export const reducer = handle
   .on(GlobalActions.loggedIn, (state, { user }) => {
     state.isLoaded = true;
     state.user = user == null ? null : { firebaseAuth: user, email: user.email! };
+  })
+  .on(GlobalActions.logout, state => {
+    state.user = null;
   })
   .on(GlobalActions.progressShow, state => {
     state.progress = true;

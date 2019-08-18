@@ -1,7 +1,7 @@
 import { Progress } from 'bibliotheca/features/global/components/Progress';
 import { getGlobalState, GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
-import { Box, ButtonProps, Heading, Menu, ResponsiveContext, Tab, Tabs } from 'grommet';
+import { Box, ButtonProps, Heading, Menu, ResponsiveContext, Tab, Tabs, Grommet } from 'grommet';
 import {
   Add as AddIcon,
   Configure as ManagementIcon,
@@ -97,7 +97,7 @@ export const Dashboard = (props: DashboardProps) => {
   return (
     <ResponsiveContext.Consumer>
       {size => (
-        <>
+        <Grommet plain>
           <Progress />
           <AppBar>
             <Heading level="3" margin="none">
@@ -119,7 +119,7 @@ export const Dashboard = (props: DashboardProps) => {
             </Box>
           </AppBar>
           <Main>{children}</Main>
-        </>
+        </Grommet>
       )}
     </ResponsiveContext.Consumer>
   );
