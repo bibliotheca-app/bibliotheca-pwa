@@ -3,6 +3,8 @@ import 'firebase/auth';
 import 'firebase/firestore';
 import 'firebase/performance';
 
+export { _firebase as firebase };
+
 interface FirebaseConfig {
   apikey: string;
   authdomain: string;
@@ -13,9 +15,11 @@ interface FirebaseConfig {
   appid?: string;
 }
 
-const config: FirebaseConfig = JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG as any);
+try {
+  const config: FirebaseConfig = JSON.parse(process.env.REACT_APP_FIREBASE_CONFIG as any);
+  _firebase.initializeApp(config);
+} catch {
+  alert('firebaseの初期化に失敗しました。管理者まで連絡してください');
+}
 
-_firebase.initializeApp(config);
-
-export const firebase = _firebase;
 export const perf = _firebase.performance();

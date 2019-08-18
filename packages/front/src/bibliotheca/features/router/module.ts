@@ -1,4 +1,4 @@
-import { navigation } from 'bibliotheca/routes';
+import { getNavigation } from 'bibliotheca/routes';
 import { Route } from 'navi';
 import * as Rx from 'typeless/rx';
 import { handle, RouterActions, RouterLocation, RouterState } from './interface';
@@ -25,14 +25,14 @@ export const epic = handle
       new Rx.Observable(subscriber => {
         const emitter = (location: RouterLocation) =>
           subscriber.next(RouterActions.locationChange(location));
-        emitLocationChageIfNeeded(navigation.getCurrentValue(), emitter);
-        return navigation.subscribe(route => {
+        emitLocationChageIfNeeded(getNavigation().getCurrentValue(), emitter);
+        return getNavigation().subscribe(route => {
           emitLocationChageIfNeeded(route, emitter);
         });
       }),
   )
   .on(RouterActions.navigate, ({ url }) => {
-    return Rx.fromPromise(navigation.navigate(url)).pipe(
+    return Rx.fromPromise(getNavigation().navigate(url)).pipe(
       Rx.map(route => RouterActions.locationChange(toRouterLocation(route))),
     );
   });

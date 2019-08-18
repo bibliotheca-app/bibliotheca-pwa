@@ -1,5 +1,5 @@
 import { RouteEntry } from 'bibliotheca/types';
-import { createBrowserNavigation, map, Matcher, mount, redirect } from 'navi';
+import { createBrowserNavigation, map, Matcher, mount, redirect, Navigation } from 'navi';
 import { getGlobalState } from './features/global/interface';
 import {
   decideRedirectUrlFromRequest,
@@ -11,7 +11,7 @@ const staticRoute: Record<string, Matcher<any>> = {
   '/': redirect(getDefaultRoute()),
 };
 
-const resolveRoutes = () => {
+export const resolveRoutes = () => {
   const req = require.context('./features', true, /interface.tsx?$/);
   const targetModules = req.keys().map(key => req(key));
   const matcherEntry = targetModules.reduce((acc, module) => {
@@ -27,8 +27,14 @@ const resolveRoutes = () => {
   return mount({ ...matcherEntry, ...staticRoute });
 };
 
-const routes = resolveRoutes();
-export const navigation = createBrowserNavigation({ routes });
+let navigation: Navigation;
+export const getNavigation = () => {
+  if (navigation) {
+    return navigation;
+  }
+  navigation = createBrowserNavigation({ routes: resolveRoutes() });
+  return navigation;
+};
 
 export function withAuthentication(matcher: Matcher<any, any>) {
   return map(request => {
