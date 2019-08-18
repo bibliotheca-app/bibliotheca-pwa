@@ -1,7 +1,11 @@
 import { RouteEntry } from 'bibliotheca/types';
 import { createBrowserNavigation, map, Matcher, mount, redirect } from 'navi';
 import { getGlobalState } from './features/global/interface';
-import { decideRedirectUrlFromRequest, getDefaultRoute, makeLoginUrlForRedirectFromRequest } from './features/router/helper';
+import {
+  decideRedirectUrlFromRequest,
+  getDefaultRoute,
+  makeLoginUrlForRedirectFromRequest,
+} from './features/router/helper';
 
 const staticRoute: Record<string, Matcher<any>> = {
   '/': redirect(getDefaultRoute()),
