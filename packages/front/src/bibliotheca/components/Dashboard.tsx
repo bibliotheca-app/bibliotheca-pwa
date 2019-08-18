@@ -43,7 +43,8 @@ export const Dashboard = (props: DashboardProps) => {
   const { logout } = useActions(GlobalActions);
   const { navigate } = useActions(RouterActions);
   const route = useCurrentRoute();
-  const userId = getGlobalState.useState().user!.email;
+  const { user } = getGlobalState.useState();
+  const userId = user == null ? '' : user.email;
 
   const links = [
     { link: '/books', title: '書籍一覧' },

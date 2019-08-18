@@ -1,5 +1,4 @@
 import { withAuthentication } from 'bibliotheca/routes';
-import { AppContext } from 'bibliotheca/types';
 import { mount, route } from 'navi';
 import React from 'react';
 import { InventoryEventModule } from './inventoryEvent/module';
@@ -8,7 +7,7 @@ import { InventoryEventLogModule } from './inventoryEventLog/module';
 
 // --- Routing ---
 export default withAuthentication(
-  mount<AppContext>({
+  mount({
     '/': route({
       title: '棚卸し - Bibliotheca',
       view: <InventoryEventModule />,

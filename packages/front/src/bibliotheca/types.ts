@@ -2,17 +2,9 @@ import { User as FirebaseUser } from 'firebase/app';
 import { Matcher } from 'navi';
 import React from 'react';
 
-export interface AppContext {
-  user: User | null;
-  isLoadedAsync: Promise<void>;
-}
-
-export interface RouteEntry<
-  Context extends object = AppContext,
-  ChildContext extends object = Context
-> {
+export interface RouteEntry {
   path: string;
-  routes: Matcher<Context, ChildContext>;
+  routes: Matcher<object>;
 }
 
 export interface User {
