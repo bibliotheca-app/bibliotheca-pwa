@@ -1,5 +1,5 @@
 import { RouteEntry } from 'bibliotheca/types';
-import { createBrowserNavigation, map, Matcher, mount, redirect } from 'navi';
+import { createBrowserNavigation, map, Matcher, mount, redirect, Navigation } from 'navi';
 import { getGlobalState } from './features/global/interface';
 import {
   decideRedirectUrlFromRequest,
@@ -27,7 +27,14 @@ export const resolveRoutes = () => {
   return mount({ ...matcherEntry, ...staticRoute });
 };
 
-export const getNavigation = () => createBrowserNavigation({ routes: resolveRoutes() });
+let navigation: Navigation;
+export const getNavigation = () => {
+  if (navigation) {
+    return navigation;
+  }
+  navigation = createBrowserNavigation({ routes: resolveRoutes() });
+  return navigation;
+};
 
 export function withAuthentication(matcher: Matcher<any, any>) {
   return map(request => {
