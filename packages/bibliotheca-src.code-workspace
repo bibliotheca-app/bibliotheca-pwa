@@ -10,5 +10,7 @@
 		"path": "seed"
 	}
 ],
-  "settings": {}
+  "settings": {
+    "editor.formatOnSave": true
+  }
 }

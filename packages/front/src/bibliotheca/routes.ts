@@ -1,12 +1,13 @@
-import { AppContext, RouteEntry } from 'bibliotheca/types';
+import { RouteEntry } from 'bibliotheca/types';
 import { createBrowserNavigation, map, Matcher, mount, redirect } from 'navi';
+import { getGlobalState } from './features/global/interface';
 import {
   decideRedirectUrlFromRequest,
   getDefaultRoute,
   makeLoginUrlForRedirectFromRequest,
 } from './features/router/helper';
 
-const staticRoute: Record<string, Matcher<AppContext>> = {
+const staticRoute: Record<string, Matcher<any>> = {
   '/': redirect(getDefaultRoute()),
 };
 
@@ -23,25 +24,22 @@ const resolveRoutes = () => {
     return { ...acc, ...{ [routeEntry.path]: routeEntry.routes } };
   }, {});
 
-  return mount<AppContext>({ ...matcherEntry, ...staticRoute });
+  return mount({ ...matcherEntry, ...staticRoute });
 };
 
 const routes = resolveRoutes();
-export const navigation = createBrowserNavigation<AppContext>({ routes });
+export const navigation = createBrowserNavigation({ routes });
 
-export function withAuthentication(matcher: Matcher<AppContext>) {
-  return map<AppContext>(async (request, context) => {
-    // wait for global state
-    await context.isLoadedAsync;
-
-    return context.user ? matcher : redirect(makeLoginUrlForRedirectFromRequest(request));
+export function withAuthentication(matcher: Matcher<any, any>) {
+  return map(request => {
+    const { user } = getGlobalState();
+    return user ? matcher : redirect(makeLoginUrlForRedirectFromRequest(request));
   });
 }
 
-export const withRedirectIfLoggedIn = (matcher: Matcher<AppContext>) => {
-  return map<AppContext>(async (request, context) => {
-    await context.isLoadedAsync;
-
-    return context.user ? redirect(decideRedirectUrlFromRequest(request)) : matcher;
+export const withRedirectIfLoggedIn = (matcher: Matcher<any, any>) => {
+  return map(request => {
+    const { user } = getGlobalState();
+    return user ? redirect(decideRedirectUrlFromRequest(request)) : matcher;
   });
 };

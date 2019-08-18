@@ -1,15 +1,31 @@
 import { authService } from 'bibliotheca/services/ServiceContainer';
 import * as Rx from 'typeless/rx';
-import { RouterActions } from '../router/interface';
 import { GlobalActions, GlobalState, handle } from './interface';
+import { RouterActions } from '../router/interface';
+import { getDefaultRoute } from '../router/helper';
 
 // --- Epic ---
-export const epic = handle.epic().on(GlobalActions.logout, () => {
-  return Rx.concatObs(
-    Rx.of(RouterActions.navigate('/login')),
-    Rx.fromPromise(authService.logout()).pipe(Rx.ignoreElements()),
-  );
-});
+let subscribe: (() => void) | null = null;
+export const epic = handle
+  .epic()
+  .on(GlobalActions.$mounted, () => {
+    return new Rx.Observable(subscriber => {
+      subscribe = authService.subscribe(authUser => {
+        subscriber.next(GlobalActions.loggedIn(authUser));
+      });
+    });
+  })
+  .on(GlobalActions.loggedIn, ({ user }) => {
+    const route = user == null ? '/login' : getDefaultRoute();
+    return RouterActions.navigate(route);
+  })
+  .on(GlobalActions.logout, () => {
+    if (subscribe) subscribe();
+    return Rx.concatObs(
+      Rx.from(authService.logout()).pipe(Rx.ignoreElements()),
+      Rx.of(RouterActions.navigate('/login')),
+    );
+  });
 
 // --- Reducer ---
 const initialState: GlobalState = {

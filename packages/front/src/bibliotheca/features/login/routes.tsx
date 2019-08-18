@@ -1,11 +1,10 @@
 import { withRedirectIfLoggedIn } from 'bibliotheca/routes';
-import { AppContext } from 'bibliotheca/types';
 import { mount, route } from 'navi';
 import React from 'react';
 import { LoginModule } from './module';
 
 // --- Routing ---
-export default mount<AppContext>({
+export default mount({
   '/': withRedirectIfLoggedIn(
     route({
       title: 'ログイン - Bibliotheca',
