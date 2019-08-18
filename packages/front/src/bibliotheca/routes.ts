@@ -1,5 +1,5 @@
-import { RouteEntry } from 'bibliotheca/types';
-import { createBrowserNavigation, map, Matcher, mount, redirect, Navigation } from 'navi';
+import { AppContext, RouteEntry } from 'bibliotheca/types';
+import { createBrowserNavigation, map, Matcher, mount, Navigation, redirect } from 'navi';
 import { getGlobalState } from './features/global/interface';
 import {
   decideRedirectUrlFromRequest,
@@ -37,14 +37,16 @@ export const getNavigation = () => {
 };
 
 export function withAuthentication(matcher: Matcher<any, any>) {
-  return map(request => {
+  return map<AppContext>(async (request, context) => {
+    await context.isLoadedAsync;
     const { user } = getGlobalState();
     return user ? matcher : redirect(makeLoginUrlForRedirectFromRequest(request));
   });
 }
 
 export const withRedirectIfLoggedIn = (matcher: Matcher<any, any>) => {
-  return map(request => {
+  return map<AppContext>(async (request, context) => {
+    await context.isLoadedAsync;
     const { user } = getGlobalState();
     return user ? redirect(decideRedirectUrlFromRequest(request)) : matcher;
   });

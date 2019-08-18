@@ -1,8 +1,7 @@
 import { authService } from 'bibliotheca/services/ServiceContainer';
 import * as Rx from 'typeless/rx';
-import { GlobalActions, GlobalState, handle } from './interface';
 import { RouterActions } from '../router/interface';
-import { getDefaultRoute } from '../router/helper';
+import { GlobalActions, GlobalState, handle } from './interface';
 
 // --- Epic ---
 let subscribe: (() => void) | null = null;
@@ -14,10 +13,6 @@ export const epic = handle
         subscriber.next(GlobalActions.loggedIn(authUser));
       });
     });
-  })
-  .on(GlobalActions.loggedIn, ({ user }) => {
-    const route = user == null ? '/login' : getDefaultRoute();
-    return RouterActions.navigate(route);
   })
   .on(GlobalActions.logout, () => {
     if (subscribe) subscribe();

@@ -1,11 +1,12 @@
+import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { withAuthentication } from 'bibliotheca/routes';
+import { AppContext } from 'bibliotheca/types';
 import { mount, route } from 'navi';
 import React from 'react';
 import { UserModule } from './module';
-import { Dashboard } from 'bibliotheca/components/Dashboard';
 
 export default withAuthentication(
-  mount({
+  mount<AppContext>({
     '/:userId': route({
       title: 'ユーザ - Bibliotheca',
       getView: req => (

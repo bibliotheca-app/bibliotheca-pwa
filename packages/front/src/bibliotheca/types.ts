@@ -7,6 +7,10 @@ export interface RouteEntry {
   routes: Matcher<object>;
 }
 
+export interface AppContext {
+  isLoadedAsync: Promise<void>;
+}
+
 export interface User {
   firebaseAuth: FirebaseUser;
   email: string;
