@@ -17,7 +17,6 @@ const render = () => {
       <DefaultTypelessProvider>
         <App />
       </DefaultTypelessProvider>
-      ,
     </Hmr>,
     MOUNT_NODE,
   );
