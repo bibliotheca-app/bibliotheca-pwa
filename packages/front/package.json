@@ -80,6 +80,7 @@
     "plop": "^2.4.0",
     "quagga": "^0.12.1",
     "react-feather": "^2.0.3",
+    "ts-jest": "^24.0.2",
     "typescript": "^3.5.3"
   }
 }
