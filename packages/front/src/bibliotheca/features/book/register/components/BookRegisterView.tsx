@@ -15,6 +15,7 @@ const coverUrl = (isbn: string | null) => {
 export const BookRegisterView = () => {
   const {
     bookData: { title, isbn },
+    resetButtonRef,
   } = getBookRegisterState.useState();
   const { changeFormValue, submit } = useActions(BookRegisterActions);
 
@@ -54,6 +55,7 @@ export const BookRegisterView = () => {
         <Form>
           <SimpleTable rows={rows} />
           <Button type="button" primary label="登録" onClick={submit} />
+          <button type="reset" ref={resetButtonRef} style={{ display: 'none' }} />
         </Form>
       </Box>
     </>
