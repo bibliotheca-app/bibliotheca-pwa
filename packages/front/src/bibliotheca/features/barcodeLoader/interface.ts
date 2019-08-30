@@ -11,6 +11,7 @@ const modules = createModule(BarcodeLoaderSymbol)
       payload: { data },
     }),
     emitBarcode: (barcode: string) => ({ payload: { barcode } }),
+    visibilityChange: null,
   })
   .withState<BarcodeLoaderState>();
 
@@ -22,4 +23,5 @@ export const getBarcodeLoaderState = modules[2];
 export interface BarcodeLoaderState {
   isCameraSupported: boolean;
   isCameraEnabled: boolean;
+  visibilityState: string;
 }
