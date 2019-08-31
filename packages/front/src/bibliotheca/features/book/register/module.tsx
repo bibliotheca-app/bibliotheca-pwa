@@ -23,18 +23,29 @@ export const epic = handle
       Rx.mergeMap(res => {
         if (isBookInformation(res)) {
           const { summary } = res[0];
-          return [BookRegisterActions.fetchBookFromOpenBdFullfilled(summary)];
+          return [
+            BookRegisterActions.resetForm(),
+            BookRegisterActions.fetchBookFromOpenBdFullfilled(summary),
+          ];
         } else {
           return [
-            BookRegisterActions.fetchBookFromOpenBdFullfilled({
-              isbn: barcode,
-              title: '',
-            }),
+            BookRegisterActions.fetchBookFromOpenBdFullfilled(null),
             NotificationActions.notifyMessage('ISBNコードから書籍データを取得できませんでした'),
           ];
         }
       }),
     );
+  })
+  .on(BookRegisterActions.changeFormValue, ({ key, value }) => {
+    if (
+      !getBookRegisterState().isProcessingBook &&
+      key === 'isbn' &&
+      [10, 13].includes(value.length)
+    ) {
+      return BookRegisterActions.fetchBookFromOpenBd(value);
+    } else {
+      return Rx.empty();
+    }
   })
   .on(BookRegisterActions.submit, () => {
     const { isbn, title } = getBookRegisterState().bookData;
@@ -72,6 +83,9 @@ export const reducer = handle
     state.bookData = { isbn: '', title: '' };
     state.registeredBook = undefined;
   })
+  .on(BarcodeLoaderActions.emitBarcode, (state, { barcode }) => {
+    state.bookData.isbn = barcode;
+  })
   .on(BookRegisterActions.$mounted, state => {
     state.registeredBook = undefined;
   })
@@ -79,14 +93,15 @@ export const reducer = handle
     state.bookData[key] = value as any;
   })
   .on(BookRegisterActions.fetchBookFromOpenBd, state => {
-    state.bookData = {};
     state.isProcessingBook = true;
   })
   .on(BookActions.registerBookFulfilled, (state, { book }) => {
     state.registeredBook = book;
   })
   .on(BookRegisterActions.fetchBookFromOpenBdFullfilled, (state, { bookData }) => {
-    state.bookData = bookData;
+    if (bookData !== null) {
+      state.bookData = bookData;
+    }
     state.isProcessingBook = false;
   });
 
