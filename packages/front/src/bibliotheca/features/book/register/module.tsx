@@ -29,11 +29,7 @@ export const epic = handle
           ];
         } else {
           return [
-            BookRegisterActions.resetForm(),
-            BookRegisterActions.fetchBookFromOpenBdFullfilled({
-              isbn: barcode,
-              title: '',
-            }),
+            BookRegisterActions.fetchBookFromOpenBdFullfilled(null),
             NotificationActions.notifyMessage('ISBNコードから書籍データを取得できませんでした'),
           ];
         }
@@ -87,6 +83,9 @@ export const reducer = handle
     state.bookData = { isbn: '', title: '' };
     state.registeredBook = undefined;
   })
+  .on(BarcodeLoaderActions.emitBarcode, (state, { barcode }) => {
+    state.bookData.isbn = barcode;
+  })
   .on(BookRegisterActions.$mounted, state => {
     state.registeredBook = undefined;
   })
@@ -100,10 +99,9 @@ export const reducer = handle
     state.registeredBook = book;
   })
   .on(BookRegisterActions.fetchBookFromOpenBdFullfilled, (state, { bookData }) => {
-    if (bookData.title === '') {
-      Object.assign(bookData, { title: state.bookData.title });
+    if (bookData !== null) {
+      state.bookData = bookData;
     }
-    state.bookData = bookData;
     state.isProcessingBook = false;
   });
 

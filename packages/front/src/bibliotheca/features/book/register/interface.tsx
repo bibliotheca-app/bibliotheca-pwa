@@ -10,7 +10,9 @@ const modules = createModule(BookRegisterSymbol)
     resetForm: null,
     changeFormValue: (key: keyof BookData, value: string) => ({ payload: { key, value } }),
     fetchBookFromOpenBd: (barcode: string) => ({ payload: { barcode } }),
-    fetchBookFromOpenBdFullfilled: (bookData: Partial<BookData>) => ({ payload: { bookData } }),
+    fetchBookFromOpenBdFullfilled: (bookData: Partial<BookData> | null) => ({
+      payload: { bookData },
+    }),
     submit: null,
   })
   .withState<BookRegisterState>();
