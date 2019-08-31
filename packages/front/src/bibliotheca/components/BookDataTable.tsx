@@ -2,13 +2,7 @@ import { BookData } from 'bibliotheca/types';
 import { FormField, Image } from 'grommet';
 import React, { useState } from 'react';
 import { SimpleTable } from './SimpleTable';
-
-const coverUrl = (isbn: string | null) => {
-  if (isbn === null) {
-    return '';
-  }
-  return `https://cover.openbd.jp/${isbn}.jpg`;
-};
+import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
 
 type ViewProps = {
   book: Partial<BookData>;
@@ -24,7 +18,7 @@ export const BookDataViewTable: React.FC<ViewProps> = ({ book }) => {
     },
     {
       label: '画像',
-      render: () => <Image fit="contain" src={coverUrl(book.isbn!)} />,
+      render: () => <Image fit="contain" src={openBdRepository.coverUrl(book.isbn!)} />,
     },
     {
       label: 'ISBN (or JAN)',
@@ -65,7 +59,7 @@ export const BookDataEditTable: React.FC<ViewProps & EditProps> = ({ book }) => 
     },
     {
       label: '画像',
-      render: () => <Image fit="contain" src={isbn.length === 13 ? coverUrl(isbn) : ''} />,
+      render: () => <Image fit="contain" src={openBdRepository.coverUrl(isbn)} />,
     },
     {
       label: 'ISBN (or JAN)',
