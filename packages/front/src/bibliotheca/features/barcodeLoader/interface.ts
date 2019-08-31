@@ -5,6 +5,7 @@ import { BarcodeLoaderSymbol } from './symbol';
 const modules = createModule(BarcodeLoaderSymbol)
   .withActions({
     $mounted: null,
+    $unmounting: null,
     enableCamera: null,
     disableCamela: null,
     onDetect: (data: QuaggaJSResultObject) => ({

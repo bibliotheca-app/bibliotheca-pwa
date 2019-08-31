@@ -8,9 +8,7 @@ import { Video } from './Video';
 
 export const BarcodeLoaderView = () => {
   const { isCameraEnabled, isCameraSupported } = getBarcodeLoaderState.useState();
-  const { enableCamera, disableCamela, visibilityChange } = useActions(BarcodeLoaderActions);
-
-  document.addEventListener('visibilitychange', visibilityChange);
+  const { enableCamera, disableCamela } = useActions(BarcodeLoaderActions);
 
   if (!isCameraSupported) {
     return (

@@ -8,10 +8,26 @@ import {
   getBarcodeLoaderState,
 } from './interface';
 import { BarcodeLoaderView } from './components/BarcodeLoaderView';
+import { Nullable } from 'bibliotheca/types';
+
+let listener: Nullable<() => void> = null;
 
 // --- Epic ---
 export const epic = handle
   .epic()
+  .on(BarcodeLoaderActions.$mounted, () => {
+    return new Rx.Observable(subscriber => {
+      listener = () => subscriber.next(BarcodeLoaderActions.visibilityChange());
+      document.addEventListener('visibilitychange', listener);
+    });
+  })
+  .on(BarcodeLoaderActions.$unmounting, () => {
+    if (listener) {
+      document.removeEventListener('visibilitychange', listener);
+      listener = null;
+    }
+    return Rx.empty();
+  })
   .on(BarcodeLoaderActions.enableCamera, () => {
     cameraRepository.grantCameraPermission();
     return Rx.empty();
