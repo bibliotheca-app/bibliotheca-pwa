@@ -5,12 +5,14 @@ import { BarcodeLoaderSymbol } from './symbol';
 const modules = createModule(BarcodeLoaderSymbol)
   .withActions({
     $mounted: null,
+    $unmounting: null,
     enableCamera: null,
     disableCamela: null,
     onDetect: (data: QuaggaJSResultObject) => ({
       payload: { data },
     }),
     emitBarcode: (barcode: string) => ({ payload: { barcode } }),
+    visibilityChange: null,
   })
   .withState<BarcodeLoaderState>();
 
@@ -22,4 +24,5 @@ export const getBarcodeLoaderState = modules[2];
 export interface BarcodeLoaderState {
   isCameraSupported: boolean;
   isCameraEnabled: boolean;
+  visibilityState: string;
 }
