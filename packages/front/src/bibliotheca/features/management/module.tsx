@@ -27,7 +27,7 @@ const downloadFile = (args: { content: string; type: string; fileName: string })
 
 // --- Epic ---
 export const epic = handle.epic().on(ManagementActions.downloadBookListAsCsv, () => {
-  return Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
+  return Rx.from(bookRepository.findAllCachedBooks()).pipe(
     Rx.map(books => {
       const csv = Papa.unparse({ fields: fields, data: books });
       downloadFile({

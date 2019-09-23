@@ -9,7 +9,7 @@ let unsubscriber: Nullable<() => void> = null;
 export const epic = handle
   .epic()
   .on(InventoryBookModuleActions.$mounted, () =>
-    Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
+    Rx.from(bookRepository.findAllCachedBooks()).pipe(
       Rx.map(books => InventoryBookModuleActions.fetchBookListFullfilled(books)),
     ),
   )
@@ -30,7 +30,7 @@ export const epic = handle
     return Rx.empty();
   })
   .on(InventoryBookModuleActions.start, () =>
-    Rx.fromPromise(inventoryEventRepository.start()).pipe(
+    Rx.from(inventoryEventRepository.start()).pipe(
       Rx.map(event => InventoryBookModuleActions.fetchInventoryEventFullfilled(event)),
     ),
   );

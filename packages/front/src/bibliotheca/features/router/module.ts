@@ -32,7 +32,7 @@ export const epic = handle
       }),
   )
   .on(RouterActions.navigate, ({ url }) => {
-    return Rx.fromPromise(getNavigation().navigate(url)).pipe(
+    return Rx.from(getNavigation().navigate(url)).pipe(
       Rx.map(route => RouterActions.locationChange(toRouterLocation(route))),
     );
   });

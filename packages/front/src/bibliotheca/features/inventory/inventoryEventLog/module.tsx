@@ -6,7 +6,7 @@ import { handle, InventoryEventLogActions, InventoryEventLogState } from './inte
 
 // --- Epic ---
 export const epic = handle.epic().on(InventoryEventLogActions.$mounted, () => {
-  return Rx.fromPromise(inventoryLogRepository.findAllEvents()).pipe(
+  return Rx.from(inventoryLogRepository.findAllEvents()).pipe(
     Rx.map(res => {
       return InventoryEventLogActions.fetchEventListFullfilled(res);
     }),

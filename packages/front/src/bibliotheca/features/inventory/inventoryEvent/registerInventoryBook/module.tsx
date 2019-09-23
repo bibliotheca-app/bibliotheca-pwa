@@ -18,7 +18,7 @@ import { getInventoryBookModuleState } from '../../inventoryBookModule/interface
 export const epic = handle
   .epic()
   .on(BarcodeLoaderActions.emitBarcode, ({ barcode }) =>
-    Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
+    Rx.from(bookRepository.findBooksByIsbn(barcode)).pipe(
       Rx.map(books => {
         if (books.length === 0) {
           return NotificationActions.notifyMessage('蔵書に存在しない本です');
@@ -42,7 +42,7 @@ export const epic = handle
   )
   .on(RegisterInventoryBookActions.submit, () => {
     const { registerBook } = getRegisterInventoryBookState();
-    return Rx.fromPromise(
+    return Rx.from(
       inventoryEventRepository.addInventoryBook({ status: 'checked', bookId: registerBook!.id }),
     ).pipe(
       Rx.tap(() => {
