@@ -1,10 +1,10 @@
-import { RouteEntry, Book } from 'bibliotheca/types';
-import { createModule } from 'typeless';
+import { Book, RouteEntry } from 'bibliotheca/types';
 import { lazy } from 'navi';
+import { createModule } from 'typeless';
 import { UserSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(UserSymbol)
+export const [handle, UserActions, getUserState] = createModule(UserSymbol)
   .withActions({
     $mounted: null,
     fetchBorrowedBooksByUserId: (userId: string) => ({ payload: { userId } }),
@@ -12,10 +12,6 @@ const modules = createModule(UserSymbol)
     fetchBorrowedBooksByUserIdFailure: (error: any) => ({ payload: { error } }),
   })
   .withState<UserState>();
-
-export const handle = modules[0];
-export const UserActions = modules[1];
-export const getUserState = modules[2];
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {

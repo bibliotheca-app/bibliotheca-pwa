@@ -3,7 +3,9 @@ import { createModule } from 'typeless';
 import { InventoryBookModuleSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(InventoryBookModuleSymbol)
+export const [handle, InventoryBookModuleActions, getInventoryBookModuleState] = createModule(
+  InventoryBookModuleSymbol,
+)
   .withActions({
     $mounted: null,
     $unmounting: null,
@@ -13,10 +15,6 @@ const modules = createModule(InventoryBookModuleSymbol)
     start: null,
   })
   .withState<InventoryBookModuleState>();
-
-export const handle = modules[0];
-export const InventoryBookModuleActions = modules[1];
-export const getInventoryBookModuleState = modules[2];
 
 // --- Types ---
 export interface InventoryBookModuleState {

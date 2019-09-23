@@ -2,7 +2,9 @@ import { createModule } from 'typeless';
 import { BarcodeLoaderSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(BarcodeLoaderSymbol)
+export const [handle, BarcodeLoaderActions, getBarcodeLoaderState] = createModule(
+  BarcodeLoaderSymbol,
+)
   .withActions({
     $mounted: null,
     $unmounting: null,
@@ -15,10 +17,6 @@ const modules = createModule(BarcodeLoaderSymbol)
     visibilityChange: null,
   })
   .withState<BarcodeLoaderState>();
-
-export const handle = modules[0];
-export const BarcodeLoaderActions = modules[1];
-export const getBarcodeLoaderState = modules[2];
 
 // --- Types ---
 export interface BarcodeLoaderState {

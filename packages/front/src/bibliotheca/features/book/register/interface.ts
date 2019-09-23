@@ -4,7 +4,7 @@ import { BookRegisterSymbol } from './symbol';
 import { RefObject } from 'react';
 
 // --- Actions ---
-const modules = createModule(BookRegisterSymbol)
+export const [handle, BookRegisterActions, getBookRegisterState] = createModule(BookRegisterSymbol)
   .withActions({
     $mounted: null,
     resetForm: null,
@@ -16,10 +16,6 @@ const modules = createModule(BookRegisterSymbol)
     submit: null,
   })
   .withState<BookRegisterState>();
-
-export const handle = modules[0];
-export const BookRegisterActions = modules[1];
-export const getBookRegisterState = modules[2];
 
 // --- Types ---
 export interface BookRegisterState {

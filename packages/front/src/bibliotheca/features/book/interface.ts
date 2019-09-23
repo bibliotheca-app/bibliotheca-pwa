@@ -4,7 +4,7 @@ import { createModule } from 'typeless';
 import { BookSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(BookSymbol).withActions({
+export const [handle, BookActions] = createModule(BookSymbol).withActions({
   borrowBookById: (bookId: string) => ({ payload: { bookId } }),
   borrowBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
   borrowBookByIsbn: (isbn: string) => ({ payload: { isbn } }),
@@ -22,9 +22,6 @@ const modules = createModule(BookSymbol).withActions({
   editBook: (bookEdit: BookEditData) => ({ payload: { bookEdit } }),
   editBookFulfilled: (book: Book) => ({ payload: { book } }),
 });
-
-export const handle = modules[0];
-export const BookActions = modules[1];
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {
