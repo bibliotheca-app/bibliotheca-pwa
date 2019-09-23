@@ -14638,10 +14638,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typeless@^1.1.1:
-  version "1.1.1"
-  resolved "https://registry.yarnpkg.com/typeless/-/typeless-1.1.1.tgz#df50e6fa3722476df7b6548fc655ab05cbe4917b"
-  integrity sha512-XP2gJDWUbFW1PgDlThsxHDkHZVzhj8/4v7t3hMMOSmDTKwpuMV3TqLDctNTZzrzosXlS6Z2EIFkvn4vc4KIsbg==
+typeless@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/typeless/-/typeless-1.2.0.tgz#26d04ebfb5d45e481e100ce74b9746184acda1a4"
+  integrity sha512-eZ8GvzLa09KQWAYs/01I19Nb8UkHRTIhcNY7eH7egbtPtsMn1x+epKsJ7ematYZ2wTTqH9JFY0J33ulf3PsvnA==
   dependencies:
     immer "^1.8.0"
 
