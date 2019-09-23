@@ -3,7 +3,7 @@ import { createModule } from 'typeless';
 import { BookDetailSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(BookDetailSymbol)
+export const [handle, BookDetailActions, getBookDetailState] = createModule(BookDetailSymbol)
   .withActions({
     $mounted: null,
     $unmounting: null,
@@ -12,10 +12,6 @@ const modules = createModule(BookDetailSymbol)
     findBookByIdFailure: (error: any) => ({ payload: { error } }),
   })
   .withState<BookDetailState>();
-
-export const handle = modules[0];
-export const BookDetailActions = modules[1];
-export const getBookDetailState = modules[2];
 
 // --- Types ---
 export interface BookDetailState {

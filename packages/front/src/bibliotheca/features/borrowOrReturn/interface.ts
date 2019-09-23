@@ -4,7 +4,9 @@ import { createModule } from 'typeless';
 import { BorrowOrReturnSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(BorrowOrReturnSymbol)
+export const [handle, BorrowOrReturnActions, getBorrowOrReturnState] = createModule(
+  BorrowOrReturnSymbol,
+)
   .withActions({
     $mounted: null,
     fetchBookFromBarcode: (code: string) => ({ payload: { code } }),
@@ -19,10 +21,6 @@ export const routeEntry: RouteEntry = {
   path: '/borrow-or-return',
   routes: lazy(() => import('./routes')),
 };
-
-export const handle = modules[0];
-export const BorrowOrReturnActions = modules[1];
-export const getBorrowOrReturnState = modules[2];
 
 // --- Types ---
 export interface BorrowOrReturnState {

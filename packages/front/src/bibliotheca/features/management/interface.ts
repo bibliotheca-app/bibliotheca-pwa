@@ -4,13 +4,10 @@ import { lazy } from 'navi';
 import { ManagementSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(ManagementSymbol).withActions({
+export const [handle, ManagementActions] = createModule(ManagementSymbol).withActions({
   downloadBookListAsCsv: null,
   downloadBookListAsCsvFulfilled: null,
 });
-
-export const handle = modules[0];
-export const ManagementActions = modules[1];
 
 // --- Routing ---
 export const routeEntry: RouteEntry = {

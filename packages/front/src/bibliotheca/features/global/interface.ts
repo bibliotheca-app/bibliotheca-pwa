@@ -4,7 +4,7 @@ import { createModule } from 'typeless';
 import { GlobalSymbol } from './symbol';
 
 // --- Actions ---
-const modules = createModule(GlobalSymbol)
+export const [handle, GlobalActions, getGlobalState] = createModule(GlobalSymbol)
   .withActions({
     $mounted: null,
     logout: null,
@@ -13,10 +13,6 @@ const modules = createModule(GlobalSymbol)
     progressHide: null,
   })
   .withState<GlobalState>();
-
-export const handle = modules[0];
-export const GlobalActions = modules[1];
-export const getGlobalState = modules[2];
 
 // --- Types ---
 export interface GlobalState {
