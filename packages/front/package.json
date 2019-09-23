@@ -32,7 +32,7 @@
     "remeda": "^0.0.11",
     "rxjs": "^6.5.2",
     "styled-components": "^4.3.2",
-    "typeless": "^1.1.1"
+    "typeless": "^1.2.0"
   },
   "scripts": {
     "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
