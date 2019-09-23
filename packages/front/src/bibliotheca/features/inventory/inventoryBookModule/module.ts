@@ -1,7 +1,7 @@
 import { bookRepository, inventoryEventRepository } from 'bibliotheca/services/ServiceContainer';
+import { Nullable } from 'bibliotheca/types';
 import * as Rx from 'typeless/rx';
 import { handle, InventoryBookModuleActions, InventoryBookModuleState } from './interface';
-import { Nullable } from 'bibliotheca/types';
 
 let unsubscriber: Nullable<() => void> = null;
 
