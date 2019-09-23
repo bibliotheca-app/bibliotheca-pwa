@@ -19,7 +19,7 @@ export const epic = handle
       : Rx.of(BookDetailActions.findBookById(bookId), GlobalActions.progressShow());
   })
   .on(BookDetailActions.findBookById, ({ bookId }) => {
-    return Rx.fromPromise(bookRepository.findBookById(bookId)).pipe(
+    return Rx.from(bookRepository.findBookById(bookId)).pipe(
       Rx.map(BookDetailActions.findBookByIdFulfilled),
       Rx.catchLog(e => Rx.of(BookDetailActions.findBookByIdFailure(e))),
       Rx.flatMap(fulfilledOrError => Rx.of(fulfilledOrError, GlobalActions.progressHide())),

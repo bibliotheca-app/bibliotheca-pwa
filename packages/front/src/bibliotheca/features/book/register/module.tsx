@@ -19,7 +19,7 @@ export const epic = handle
     }
   })
   .on(BookRegisterActions.fetchBookFromOpenBd, ({ barcode }) => {
-    return Rx.fromPromise(openBdRepository.findBookByIsbn(barcode)).pipe(
+    return Rx.from(openBdRepository.findBookByIsbn(barcode)).pipe(
       Rx.mergeMap(res => {
         if (isBookInformation(res)) {
           const { summary } = res[0];

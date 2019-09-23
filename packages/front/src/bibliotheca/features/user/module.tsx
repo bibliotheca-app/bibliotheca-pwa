@@ -10,7 +10,7 @@ import { handle, UserActions, UserState } from './interface';
 
 // --- Epic ---
 export const epic = handle.epic().on(UserActions.fetchBorrowedBooksByUserId, ({ userId }) => {
-  return Rx.fromPromise(bookRepository.findBorrowedBooksByUserid(userId)).pipe(
+  return Rx.from(bookRepository.findBorrowedBooksByUserid(userId)).pipe(
     Rx.map(UserActions.fetchBorrowedBooksByUserIdFulfilled),
     Rx.catchLog(e => Rx.of(UserActions.fetchBorrowedBooksByUserIdFailure(e))),
     Rx.flatMap(fulfilledOrError => Rx.of(fulfilledOrError, GlobalActions.progressHide())),

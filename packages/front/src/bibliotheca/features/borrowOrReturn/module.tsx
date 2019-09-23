@@ -14,7 +14,7 @@ import { useBarcodeLoaderModule } from '../barcodeLoader/module';
 export const epic = handle
   .epic()
   .on(BarcodeLoaderActions.emitBarcode, ({ barcode }) => {
-    return Rx.fromPromise(bookRepository.findBooksByIsbn(barcode)).pipe(
+    return Rx.from(bookRepository.findBooksByIsbn(barcode)).pipe(
       Rx.map(books =>
         BorrowOrReturnActions.fetchBookFromBarcodeFullfilled(
           books,

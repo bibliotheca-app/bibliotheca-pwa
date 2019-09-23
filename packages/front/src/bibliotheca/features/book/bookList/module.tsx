@@ -11,7 +11,7 @@ export const epic = handle
   .epic()
   .on(BookListActions.$mounted, () => BookListActions.fetchBookList())
   .on(BookListActions.fetchBookList, () =>
-    Rx.fromPromise(bookRepository.findAllCachedBooks()).pipe(
+    Rx.from(bookRepository.findAllCachedBooks()).pipe(
       Rx.map(BookListActions.fetchBookListFulfilled),
     ),
   );
