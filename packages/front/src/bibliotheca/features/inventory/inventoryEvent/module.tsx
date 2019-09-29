@@ -43,6 +43,21 @@ export const epic = handle
       return Rx.empty();
     }
   })
+  .on(InventoryEventActions.toCheckStatus, async ({ book }) => {
+    const { event } = getInventoryBookModuleState();
+    const target = (event as InventoryEventDoing).inventoryBooks.find(ib => ib.bookId === book.id);
+
+    if (target && target.status === 'checked') {
+      return null;
+    }
+    const msg = `${book.title} をチェック状態にします。よろしいですか？`;
+    if (window.confirm(msg)) {
+      await inventoryEventRepository.upsertInventoryBook({ status: 'checked', bookId: book.id });
+      return NotificationActions.notifyMessage(`${book.title} をチェック状態にしました`);
+    } else {
+      return null;
+    }
+  })
   .on(InventoryEventActions.submitInventory, () => {
     const msg =
       '棚卸しを完了します。\n＊＊全ての紛失ステータスの書籍が削除されます＊＊\nよろしいですか？';

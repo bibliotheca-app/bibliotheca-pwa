@@ -1,7 +1,7 @@
 import { Link } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
-import { InventoryEventDoing } from 'bibliotheca/types';
+import { InventoryEventDoing, Book } from 'bibliotheca/types';
 import { Button, RadioButton, Text } from 'grommet';
 import React from 'react';
 import { useActions, useMappedState } from 'typeless';
@@ -9,7 +9,9 @@ import { getInventoryBookModuleState } from '../../inventoryBookModule/interface
 import { getInventoryEventState, InventoryEventActions } from '../interface';
 
 export const InventoryDoing = () => {
-  const { changeView, toMissingAll, submitInventory } = useActions(InventoryEventActions);
+  const { changeView, toMissingAll, submitInventory, toCheckStatus } = useActions(
+    InventoryEventActions,
+  );
   const { canChangeMissingAll, books, viewType } = useMappedState(
     [getInventoryBookModuleState, getInventoryEventState],
     ({ booksInList, event }, { viewType }) => {
@@ -101,6 +103,13 @@ export const InventoryDoing = () => {
           // todo: localization status
           { property: 'status', header: '棚卸しステータス' },
           // todo: can change book status(`missing` or `checked`) from list
+          {
+            property: '',
+            header: '操作',
+            render: (book: Book) => {
+              return <Button label="チェックする" onClick={() => toCheckStatus(book)}></Button>;
+            },
+          },
           // todo: display borrowedBy
         ]}
         sortable
