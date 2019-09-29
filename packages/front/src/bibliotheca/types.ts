@@ -47,7 +47,7 @@ export interface BookEditData {
   title: string;
 }
 
-export type InventoryStatus = 'checked' | 'missing';
+export type InventoryStatus = 'checked' | 'missing' | 'unchecked';
 
 export interface InventoryEventDone {
   status: typeof InventoryEventStatus.Done;
