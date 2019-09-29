@@ -64,7 +64,7 @@ export const InventoryDoing = ({
             property: 'title',
             header: 'タイトル',
             search: true,
-            render: (book: { id: string; title: string }) => {
+            render: (book: BookForTable) => {
               return (
                 <Link href={`/books/${book.id}`}>
                   <Text>{book.title}</Text>
