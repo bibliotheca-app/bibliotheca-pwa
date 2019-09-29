@@ -1,11 +1,11 @@
 import { Link } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
-import { Book, InventoryStatus, InventoryStatusText, isBook } from 'bibliotheca/types';
-import { Button, RadioButton, Text, Box } from 'grommet';
+import { Book, InventoryStatus, InventoryStatusText } from 'bibliotheca/types';
+import { Box, Button, RadioButton, Text } from 'grommet';
+import { FormCheckmark as FormCheckmarkIcon, FormClose as FormCloseIcon } from 'grommet-icons';
 import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions, ViewType } from '../interface';
-import { FormCheckmark as FormCheckmarkIcon, FormClose as FormCloseIcon } from 'grommet-icons';
 
 type BookForTable = Book & { status: InventoryStatus; key: number };
 type InventoryEventDoingProps = {
