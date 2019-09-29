@@ -1,6 +1,6 @@
 import { Link } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
-import { Book, InventoryStatus, InventoryStatusText } from 'bibliotheca/types';
+import { Book, InventoryStatus, InventoryStatusText, isBook } from 'bibliotheca/types';
 import { Button, RadioButton, Text, Box } from 'grommet';
 import React from 'react';
 import { useActions } from 'typeless';
@@ -106,7 +106,11 @@ export const InventoryDoing = ({
               );
             },
           },
-          // todo: display borrowedBy
+          {
+            property: 'borrowedBy',
+            header: '借りてる人',
+            render: (book: Partial<Book>) => book.borrowedBy,
+          },
         ]}
         sortable
       />
