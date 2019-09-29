@@ -5,7 +5,7 @@ import {
   inventoryEventRepository,
   inventoryLogRepository,
 } from 'bibliotheca/services/ServiceContainer';
-import { InventoryEventDoing } from 'bibliotheca/types';
+import { InventoryEventDoing, InventoryStatusText } from 'bibliotheca/types';
 import React from 'react';
 import { getInventoryBookModuleState } from '../inventoryBookModule/interface';
 import { useInventoryBookModule } from '../inventoryBookModule/module';
@@ -37,17 +37,19 @@ export const epic = handle
       return null;
     }
   })
-  .on(InventoryEventActions.toCheckStatus, async ({ book }) => {
+  .on(InventoryEventActions.changeStatus, async ({ book, status }) => {
     const { event } = getInventoryBookModuleState();
     const target = (event as InventoryEventDoing).inventoryBooks.find(ib => ib.bookId === book.id);
 
-    if (target && target.status === 'checked') {
+    if (target && target.status === status) {
       return null;
     }
-    const msg = `${book.title} をチェック状態にします。よろしいですか？`;
+    const msg = `${book.title} を${InventoryStatusText[status]}状態にします。よろしいですか？`;
     if (window.confirm(msg)) {
-      await inventoryEventRepository.upsertInventoryBook({ status: 'checked', bookId: book.id });
-      return NotificationActions.notifyMessage(`${book.title} をチェック状態にしました`);
+      await inventoryEventRepository.upsertInventoryBook({ status, bookId: book.id });
+      return NotificationActions.notifyMessage(
+        `${book.title} を${InventoryStatusText[status]}状態にしました`,
+      );
     } else {
       return null;
     }

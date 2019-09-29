@@ -1,10 +1,11 @@
 import { Link } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
-import { Book, InventoryStatus } from 'bibliotheca/types';
-import { Button, RadioButton, Text } from 'grommet';
+import { Book, InventoryStatus, InventoryStatusText } from 'bibliotheca/types';
+import { Button, RadioButton, Text, Box } from 'grommet';
 import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions, ViewType } from '../interface';
+import { FormCheckmark as FormCheckmarkIcon, FormClose as FormCloseIcon } from 'grommet-icons';
 
 type BookForTable = Book & { status: InventoryStatus; key: number };
 type InventoryEventDoingProps = {
@@ -18,7 +19,7 @@ export const InventoryDoing = ({
   viewType,
   books,
 }: InventoryEventDoingProps) => {
-  const { changeView, toMissingAll, submitInventory, toCheckStatus } = useActions(
+  const { changeView, toMissingAll, submitInventory, changeStatus } = useActions(
     InventoryEventActions,
   );
 
@@ -72,14 +73,37 @@ export const InventoryDoing = ({
             },
           },
           { property: 'isbn', header: 'ISBN' },
-          // todo: localization status
-          { property: 'status', header: '棚卸しステータス' },
-          // todo: can change book status(`missing` or `checked`) from list
+          {
+            property: 'status',
+            header: '棚卸しステータス',
+            render: (book: BookForTable) => {
+              return (
+                <Text color={book.status === 'missing' ? 'status-critical' : ''}>
+                  {InventoryStatusText[book.status]}
+                </Text>
+              );
+            },
+          },
           {
             property: '',
             header: '操作',
-            render: (book: Book) => {
-              return <Button label="チェックする" onClick={() => toCheckStatus(book)}></Button>;
+            render: (book: BookForTable) => {
+              return (
+                <Box gap="xsmall" direction="row">
+                  <Button
+                    icon={<FormCheckmarkIcon />}
+                    plain={false}
+                    disabled={book.status === 'checked'}
+                    onClick={() => changeStatus(book, 'checked')}
+                  />
+                  <Button
+                    icon={<FormCloseIcon />}
+                    plain={false}
+                    disabled={book.status === 'missing'}
+                    onClick={() => changeStatus(book, 'missing')}
+                  />
+                </Box>
+              );
             },
           },
           // todo: display borrowedBy
