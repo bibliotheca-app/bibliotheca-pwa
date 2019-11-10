@@ -12,8 +12,9 @@ export const InventoryEventView = () => {
   const states = useMappedState(
     [getInventoryBookModuleState, getInventoryEventState],
     ({ booksInList, event }, { viewType }) => {
-      if (!event) {
-        return { event };
+      if (!event) return undefined;
+      if (event.status === 'done') {
+        return { eventStatus: event.status };
       }
 
       const uncheckedBooks = findUncheckedOnlyList(
@@ -45,7 +46,7 @@ export const InventoryEventView = () => {
         }
       })(event as InventoryEventDoing);
       return {
-        event,
+        eventStatus: event.status,
         viewType,
         books: books.map((b, i) => ({ ...b, key: i })),
         canChangeMissingAll,
@@ -54,12 +55,12 @@ export const InventoryEventView = () => {
   );
 
   let component: JSX.Element | string;
-  if (states.event == null) {
+  if (states === undefined) {
     component = 'Loading...';
   } else {
-    switch (states.event.status) {
+    switch (states.eventStatus) {
       case InventoryEventStatus.Doing:
-        const { event: _, ...props } = states;
+        const { eventStatus: _, ...props } = states;
         component = <InventoryDoing {...props} />;
         break;
       case InventoryEventStatus.Done:
