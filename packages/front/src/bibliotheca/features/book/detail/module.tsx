@@ -1,19 +1,18 @@
 import { BookActions } from 'bibliotheca/features/book/interface';
 import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { NotificationActions } from 'bibliotheca/features/notification/interface';
-import { RouterActions, getRouterState } from 'bibliotheca/features/router/interface';
+import { RouterActions } from 'bibliotheca/features/router/interface';
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import React from 'react';
 import { BookDetailView } from './components/BookDetailView';
 import { BookDetailActions, BookDetailState, handle } from './interface';
+import { useActions } from 'typeless';
 
 // --- Epic ---
 export const epic = handle
   .epic()
-  .on(BookDetailActions.$mounted, () => {
-    const location = getRouterState().location!;
-    const bookId = location.request!.params.bookId;
+  .on(BookDetailActions.init, ({ bookId }) => {
     return !bookId
       ? Rx.of(RouterActions.navigate('/'))
       : Rx.of(BookDetailActions.findBookById(bookId), GlobalActions.progressShow());
@@ -69,7 +68,11 @@ export const reducer = handle
   );
 
 // --- Module ---
-export const BookDetailModule = () => {
+export const BookDetailModule = ({ bookId }: { bookId: string }) => {
   handle();
+
+  const { init } = useActions(BookDetailActions);
+  init(bookId);
+
   return <BookDetailView />;
 };

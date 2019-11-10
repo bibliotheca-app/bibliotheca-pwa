@@ -18,13 +18,15 @@ export default withAuthentication(
         </Dashboard>
       ),
     }),
-    '/:bookId': route({
-      title: '書籍詳細 - Bibliotheca',
-      view: (
-        <Dashboard>
-          <BookDetailModule />
-        </Dashboard>
-      ),
+    '/:bookId': route(async req => {
+      return {
+        title: '書籍詳細 - Bibliotheca',
+        view: (
+          <Dashboard>
+            <BookDetailModule bookId={req.params.bookId} />
+          </Dashboard>
+        ),
+      };
     }),
     '/register': route({
       title: '書籍登録 - Bibliotheca',
