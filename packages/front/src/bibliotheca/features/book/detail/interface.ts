@@ -7,6 +7,7 @@ export const [handle, BookDetailActions, getBookDetailState] = createModule(Book
   .withActions({
     $mounted: null,
     $unmounting: null,
+    init: (bookId: string) => ({ payload: { bookId } }),
     findBookById: (bookId: string) => ({ payload: { bookId } }),
     findBookByIdFulfilled: (book: Book) => ({ payload: { book } }),
     findBookByIdFailure: (error: any) => ({ payload: { error } }),

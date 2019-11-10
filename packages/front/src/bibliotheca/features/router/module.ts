@@ -3,16 +3,22 @@ import { Route } from 'navi';
 import * as Rx from 'typeless/rx';
 import { handle, RouterActions, RouterLocation, RouterState } from './interface';
 
+const pick = (route: Route) => ({
+  state: route.state,
+  url: route.url,
+});
+
 const toRouterLocation = (route: Route): RouterLocation => {
-  const { url, state } = route;
-  const requests = route.chunks.filter(chunk => chunk.request).map(chunk => chunk.request);
+  const requests = route.chunks
+    .filter(chunk => chunk.type === 'view' && chunk.request)
+    .map(chunk => chunk.request);
   const request = requests.length === 0 ? undefined : requests[requests.length - 1];
-  return { url, state, request };
+  return { ...pick(route), request };
 };
 
-const emitLocationChageIfNeeded = (route: Route, fn: (location: RouterLocation) => void) => {
+const emitLocationChageIfNeeded = (route: Route, emitter: (location: RouterLocation) => void) => {
   if (route.type === 'ready') {
-    fn(toRouterLocation(route));
+    emitter(toRouterLocation(route));
   }
 };
 
@@ -32,9 +38,8 @@ export const epic = handle
       }),
   )
   .on(RouterActions.navigate, ({ url }) => {
-    return Rx.from(getNavigation().navigate(url)).pipe(
-      Rx.map(route => RouterActions.locationChange(toRouterLocation(route))),
-    );
+    getNavigation().navigate(url);
+    return Rx.empty();
   });
 
 // --- Reducer ---
