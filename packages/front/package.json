@@ -81,6 +81,6 @@
     "quagga": "^0.12.1",
     "react-feather": "^2.0.3",
     "ts-jest": "^24.0.2",
-    "typescript": "^3.5.3"
+    "typescript": "^3.7.2"
   }
 }
