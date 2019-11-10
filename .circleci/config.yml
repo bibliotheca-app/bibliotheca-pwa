@@ -53,6 +53,8 @@ jobs:
   deploy:
     executor:
       name: default
+    environment:
+      REACT_APP_GSUITE_DOMAIN: opt.ne.jp
     steps:
       - setup
       - run: yarn build:prod
