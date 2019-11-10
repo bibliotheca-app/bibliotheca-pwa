@@ -1,1 +1,3 @@
 export REACT_APP_FIREBASE_CONFIG="$(cat ./firebase-config.json)"
+export REACT_APP_GSUITE_DOMAIN="opt.ne.jp"
+
