@@ -17,10 +17,7 @@ export const InventoryEventView = () => {
         return { eventStatus: event.status };
       }
 
-      const uncheckedBooks = findUncheckedOnlyList(
-        (event as InventoryEventDoing).inventoryBooks,
-        booksInList,
-      );
+      const uncheckedBooks = findUncheckedOnlyList(event.inventoryBooks, booksInList);
       const canChangeMissingAll = uncheckedBooks.length === 0;
       const books = ((e: InventoryEventDoing) => {
         switch (viewType) {

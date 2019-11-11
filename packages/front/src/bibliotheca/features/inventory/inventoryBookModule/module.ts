@@ -46,7 +46,7 @@ export const reducer = handle
     state.event = event;
   })
   .on(InventoryBookModuleActions.fetchBookListFullfilled, (state, { books }) => {
-    state.booksInList = books;
+    state.booksInList = books.filter(b => b.deletedAt == null);
   });
 
 // --- Module ---
