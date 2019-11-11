@@ -1,5 +1,9 @@
-import { firestore } from 'firebase';
+import 'firebase';
 
 declare module 'firebase' {
-  export interface MyFirestore extends firestore.Firestore {}
+  export namespace myFirestore {
+    export type Firestore = firestore.Firestore;
+    export type DocumentSnapshot = firestore.DocumentSnapshot;
+    export type DocumentReference = firestore.DocumentReference;
+  }
 }

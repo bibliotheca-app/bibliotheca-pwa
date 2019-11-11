@@ -1,1 +1,2 @@
-export const shared = '1';
+export * from './repositories';
+export * from './types';

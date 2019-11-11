@@ -15,5 +15,6 @@
     "types": ["webpack-env", "jest"],
     "isolatedModules": true
   },
-  "include": ["src"]
+  "include": ["src", "../shared/typings/browser/**/*"],
+  "references": [{ "path": "../shared/tsconfig.browser.json" }]
 }

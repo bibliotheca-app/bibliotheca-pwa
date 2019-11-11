@@ -1,5 +1,9 @@
 import { firestore as adminFirestore } from 'firebase-admin';
 
 declare module 'firebase' {
-  export interface MyFirestore extends adminFirestore.Firestore {}
+  export namespace myFirestore {
+    export type Firestore = adminFirestore.Firestore;
+    export type DocumentSnapshot = adminFirestore.DocumentSnapshot;
+    export type DocumentReference = adminFirestore.DocumentReference;
+  }
 }
