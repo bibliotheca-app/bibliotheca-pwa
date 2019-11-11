@@ -47,7 +47,13 @@ export interface BookEditData {
   title: string;
 }
 
-export type InventoryStatus = 'checked' | 'missing';
+export type InventoryStatus = 'checked' | 'missing' | 'unchecked';
+
+export const InventoryStatusText: { [K in InventoryStatus]: string } = {
+  checked: 'チェック済',
+  missing: '紛失',
+  unchecked: '未チェック',
+};
 
 export interface InventoryEventDone {
   status: typeof InventoryEventStatus.Done;

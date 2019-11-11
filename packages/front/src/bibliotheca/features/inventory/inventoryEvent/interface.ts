@@ -1,5 +1,6 @@
 import { createModule } from 'typeless';
 import { InventoryEventSymbol } from './symbol';
+import { Book, InventoryStatus } from 'bibliotheca/types';
 
 // --- Actions ---
 export const [handle, InventoryEventActions, getInventoryEventState] = createModule(
@@ -9,6 +10,9 @@ export const [handle, InventoryEventActions, getInventoryEventState] = createMod
     changeView: (type: ViewType) => ({ payload: { type } }),
     toMissingAll: null,
     submitInventory: null,
+    changeStatus: (book: Book, status: InventoryStatus) => ({
+      payload: { book, status },
+    }),
   })
   .withState<InventoryEventState>();
 

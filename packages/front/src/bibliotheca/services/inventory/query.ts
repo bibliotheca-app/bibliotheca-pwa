@@ -1,4 +1,4 @@
-import { InventoryBook, Book, InventoryStatus } from 'bibliotheca/types';
+import { Book, InventoryBook, InventoryStatus } from 'bibliotheca/types';
 
 export function findUncheckedOnlyList(inventoryBooks: InventoryBook[], booksInList: Book[]) {
   const checked = new Set(inventoryBooks.map(b => b.bookId));
