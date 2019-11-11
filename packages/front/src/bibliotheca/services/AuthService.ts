@@ -1,5 +1,5 @@
 import { auth, User as FirebaseUser } from 'firebase/app';
-import { gsuiteDomain } from 'bibliotheca/const';
+import { allowedDomain } from 'bibliotheca/const';
 
 export class AuthService {
   constructor(private firebaseAuth: auth.Auth) {}
@@ -8,7 +8,7 @@ export class AuthService {
     const provider = new auth.GoogleAuthProvider();
 
     provider.setCustomParameters({
-      hd: gsuiteDomain,
+      hd: allowedDomain,
     });
 
     return this.firebaseAuth.signInWithRedirect(provider);

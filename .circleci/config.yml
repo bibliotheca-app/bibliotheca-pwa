@@ -54,7 +54,7 @@ jobs:
     executor:
       name: default
     environment:
-      REACT_APP_GSUITE_DOMAIN: opt.ne.jp
+      REACT_APP_ALLOWED_DOMAIN: opt.ne.jp
     steps:
       - setup
       - run: yarn build:prod
