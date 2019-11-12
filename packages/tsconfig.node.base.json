@@ -1,0 +1,9 @@
+{
+  "compilerOptions": {
+    "incremental": true,
+    "module": "commonjs",
+    "target": "es2017",
+    "typeRoots": ["node_modules/@types"]
+  },
+  "extends": "./tsconfig.base.json"
+}

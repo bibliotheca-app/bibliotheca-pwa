@@ -1,14 +1,10 @@
 {
-  "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "module": "commonjs",
-    "rootDir": "src",
+    "noUnusedLocals": false,
     "outDir": "lib",
-    "typeRoots": ["node_modules/@types"],
-    "incremental": true,
-    "noUnusedLocals": false
+    "rootDir": "src"
   },
-  "compileOnSave": true,
+  "extends": "../tsconfig.node.base.json",
   "include": ["src", "../shared/typings/node"],
   "references": [{ "path": "../shared/tsconfig.node.json" }]
 }
