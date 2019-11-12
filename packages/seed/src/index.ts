@@ -1,5 +1,5 @@
 import * as admin from 'firebase-admin';
-import { writeAllBook } from 'functions/lib/bookList';
+import { BookRepositoryForBatch } from 'shared/lib/cjs';
 
 async function main() {
   const saPath = process.env.SEED_EXECUTOR_SA_PATH;
@@ -14,10 +14,11 @@ async function main() {
     databaseURL: 'https://bibliotheca-test.firebaseio.com',
   });
   const db = admin.firestore();
+  const bookRepository = new BookRepositoryForBatch(db);
   await insertInventoryEvent(db);
   await insertBooks(db);
   // await read(db);
-  await writeAllBook(db);
+  await bookRepository.writeAllBook();
   await insertInventoryEventLogs(db);
 }
 
