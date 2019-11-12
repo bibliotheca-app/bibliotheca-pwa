@@ -11,9 +11,7 @@
     "lerna": "^3.16.4"
   },
   "scripts": {
-    "clean": "lerna run clean",
-    "pretsc": "yarn run clean",
-    "tsc": "tsc -b ./packages/shared/tsconfig.browser.json ./packages/shared/tsconfig.node.json ./packages/front/tsconfig.build.json ./packages/functions packages/seed",
+    "tsc": "tsc -b packages/front/tsconfig.build.json packages/functions packages/seed",
     "tsc-w": "yarn tsc -w",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
