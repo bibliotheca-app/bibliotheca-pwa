@@ -1,7 +1,6 @@
 {
   "extends": "../tsconfig.base.json",
   "compilerOptions": {
-    "target": "es2017",
     "module": "commonjs",
     "rootDir": "src",
     "outDir": "lib",
@@ -10,5 +9,6 @@
     "noUnusedLocals": false
   },
   "compileOnSave": true,
-  "references": [{ "path": "../functions" }]
+  "include": ["src", "../shared/typings/node"],
+  "references": [{ "path": "../shared/tsconfig.node.json" }]
 }

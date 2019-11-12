@@ -33,10 +33,10 @@ const bookFromEntry = (entry: BookEntry): Book => {
 };
 
 export class BookRepository {
-  private collection = this.db.collection('books');
-  private bookListsCollection = this.db.collection('bookLists');
+  protected collection = this.db.collection('books');
+  protected bookListsCollection = this.db.collection('bookLists');
 
-  constructor(private db: myFirestore.Firestore) {}
+  constructor(protected db: myFirestore.Firestore) {}
 
   // todo: filter deletedAt
   findAllCachedBooks = async (): Promise<Book[]> => {
