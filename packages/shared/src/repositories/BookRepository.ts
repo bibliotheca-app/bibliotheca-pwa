@@ -1,7 +1,7 @@
-import { Book, BookData, BookEditData } from 'bibliotheca/types';
-import { firestore } from 'firebase';
+import { myFirestore } from 'firebase';
+import { Book, BookData, BookEditData } from '../types';
 
-const bookFromDoc = (doc: firestore.DocumentSnapshot): Book => {
+const bookFromDoc = (doc: myFirestore.DocumentSnapshot): Book => {
   const data = doc.data()!;
 
   return {
@@ -33,10 +33,10 @@ const bookFromEntry = (entry: BookEntry): Book => {
 };
 
 export class BookRepository {
-  private collection = this.db.collection('books');
-  private bookListsCollection = this.db.collection('bookLists');
+  protected collection = this.db.collection('books');
+  protected bookListsCollection = this.db.collection('bookLists');
 
-  constructor(private db: firestore.Firestore) {}
+  constructor(protected db: myFirestore.Firestore) {}
 
   // todo: filter deletedAt
   findAllCachedBooks = async (): Promise<Book[]> => {
@@ -83,7 +83,7 @@ export class BookRepository {
   };
 
   borrowBookById = async (id: string, userId: string): Promise<Book> => {
-    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+    const bookRef = await this.db.runTransaction<myFirestore.DocumentReference>(async tx => {
       const ref = this.mkBookRefById(id);
       const borrowableBook = await tx.get(ref).then(bookFromDoc);
 
@@ -99,7 +99,7 @@ export class BookRepository {
   };
 
   returnBookById = async (id: string, userId: string): Promise<Book> => {
-    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+    const bookRef = await this.db.runTransaction<myFirestore.DocumentReference>(async tx => {
       const ref = this.mkBookRefById(id);
       const borrowedBook = await tx.get(ref).then(bookFromDoc);
 
@@ -117,7 +117,7 @@ export class BookRepository {
   borrowBookByIsbn = async (isbn: string, userId: string): Promise<Book> => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books => books.map(book => book.id));
 
-    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+    const bookRef = await this.db.runTransaction<myFirestore.DocumentReference>(async tx => {
       const bookPromises = bookIds
         .map(this.mkBookRefById)
         .map(_ => tx.get(_))
@@ -144,7 +144,7 @@ export class BookRepository {
   returnBookByIsbn = async (isbn: string, userId: string): Promise<Book> => {
     const bookIds = await this.findBooksByIsbn(isbn).then(books => books.map(book => book.id));
 
-    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+    const bookRef = await this.db.runTransaction<myFirestore.DocumentReference>(async tx => {
       const bookPromises = bookIds
         .map(this.mkBookRefById)
         .map(_ => tx.get(_))
@@ -188,7 +188,7 @@ export class BookRepository {
   };
 
   editBookById = async (book: BookEditData): Promise<Book> => {
-    const bookRef = await this.db.runTransaction<firestore.DocumentReference>(async tx => {
+    const bookRef = await this.db.runTransaction<myFirestore.DocumentReference>(async tx => {
       const ref = this.mkBookRefById(book.id);
       tx.update(ref, { title: book.title, isbn: book.isbn, updatedAt: new Date() });
       return ref;
@@ -220,6 +220,5 @@ export class BookRepository {
     await batch.commit();
   };
 
-  private mkBookRefById = (bookId: string): firestore.DocumentReference =>
-    this.collection.doc(bookId);
+  private mkBookRefById = (bookId: string): myFirestore.DocumentReference => this.collection.doc(bookId);
 }

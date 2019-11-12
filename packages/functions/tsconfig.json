@@ -1,14 +1,9 @@
 {
-  "extends": "../tsconfig.base.json",
+  "extends": "../tsconfig.node.base.json",
   "compilerOptions": {
-    "target": "es2017",
-    "module": "commonjs",
-    "rootDir": "src",
     "outDir": "lib",
-    "typeRoots": ["node_modules/@types"],
-    "incremental": true
+    "rootDir": "src"
   },
-  "compileOnSave": true,
-  "include": ["src"],
-  "exclude": ["node_modules"]
+  "include": ["src", "../shared/typings/node"],
+  "references": [{ "path": "../shared/tsconfig.node.json" }]
 }

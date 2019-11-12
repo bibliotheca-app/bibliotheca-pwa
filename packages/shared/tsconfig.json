@@ -1,0 +1,4 @@
+{
+  // for editor support
+  "extends": "./tsconfig.node.json"
+}
