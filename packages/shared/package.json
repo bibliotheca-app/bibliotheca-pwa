@@ -1,0 +1,14 @@
+{
+  "name": "shared",
+  "version": "1.0.0",
+  "main": "lib/cjs/index.js",
+  "module": "lib/es/index.js",
+  "license": "MIT",
+  "devDependencies": {
+    "typescript": "^3.7.2"
+  },
+  "scripts": {
+    "clean": "rm -rf ./lib *.tsbuildinfo"
+  },
+  "dependencies": {}
+}
