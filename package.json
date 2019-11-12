@@ -17,6 +17,7 @@
     "tsc-w": "yarn tsc -w",
     "format-check": "lerna run format-check --stream",
     "build": "lerna run build --stream",
+    "prebuild:prod": "yarn tsc",
     "build:prod": "lerna run build:prod --stream",
     "test": "lerna run test --stream",
     "deploy": "lerna run deploy"
