@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.node.base.json",
   "compilerOptions": {
-    "outDir": "lib",
+    "outDir": "dist/functions/lib",
     "rootDir": "src"
   },
   "include": ["src", "../shared/typings/node"],

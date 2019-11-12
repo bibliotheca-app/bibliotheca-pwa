@@ -1,5 +1,6 @@
 build
 packages/*/lib
+packages/*/dist
 
 # Logs
 logs

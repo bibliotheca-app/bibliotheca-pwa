@@ -1,6 +1,6 @@
 import { DocumentSnapshot } from '@google-cloud/firestore';
 import { Change, EventContext } from 'firebase-functions';
-import { BookRepositoryForBatch } from 'shared/lib/cjs';
+import { BookRepositoryForBatch } from '../../../shared/lib/cjs';
 
 export function initOnBookWrite(bookRepository: BookRepositoryForBatch) {
   return async function onBookWrite(

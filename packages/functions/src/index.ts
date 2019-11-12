@@ -2,7 +2,7 @@ import * as functions from 'firebase-functions';
 import { initOnBookListUpdateTime, initOnBookWrite } from './bookList';
 import { onBookBorrowOrReturn } from './notify-slack';
 import * as admin from 'firebase-admin';
-import { BookRepositoryForBatch } from 'shared/src';
+import { BookRepositoryForBatch } from '../../shared/lib/cjs';
 
 admin.initializeApp();
 const db = admin.firestore();
