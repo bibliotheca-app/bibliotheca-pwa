@@ -1,11 +1,6 @@
-const ModuleScopePlugin = require('react-dev-utils/ModuleScopePlugin');
-
 module.exports = function override(config, env) {
   config.plugins = config.plugins.filter(plugin => {
-    const isIgnoringPlugin =
-      plugin.constructor.name === 'ForkTsCheckerWebpackPlugin' ||
-      plugin instanceof ModuleScopePlugin;
-    return !isIgnoringPlugin;
+    return plugin.constructor.name !== 'ForkTsCheckerWebpackPlugin';
   });
   config.module.rules.some(rule => {
     if (Array.isArray(rule.use)) {

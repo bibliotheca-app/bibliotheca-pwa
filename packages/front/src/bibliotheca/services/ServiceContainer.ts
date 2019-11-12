@@ -1,5 +1,5 @@
-import { BookRepository } from 'shared/lib/es';
 import { AuthService } from './AuthService';
+import { BookRepository } from './BookRepository';
 import { firebase } from './firebase';
 import { InventoryEventRepository } from './InventoryEventRepository';
 import { InventoryLogRepository } from './InventoryLogRepository';
