@@ -4,7 +4,7 @@ module.exports = {
     'prettier/@typescript-eslint',
     'plugin:prettier/recommended',
   ],
-  plugins: ['@typescript-eslint'],
+  plugins: ['@typescript-eslint', 'eslint-plugin-import'],
   parser: '@typescript-eslint/parser',
   parserOptions: {
     sourceType: 'module',
@@ -27,5 +27,10 @@ module.exports = {
     '@typescript-eslint/no-parameter-properties': 'off',
     '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 'off',
+    'import/no-restricted-paths': [
+      'error',
+      { zones: [{ target: './src', from: '../shared/lib/es' }] },
+    ],
+    'import/no-extraneous-dependencies': 2,
   },
 };

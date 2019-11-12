@@ -1,10 +1,10 @@
-import { DocumentSnapshot } from '@google-cloud/firestore';
+import { firestore } from 'firebase-admin';
 import { Change, EventContext } from 'firebase-functions';
 import { BookRepositoryForBatch } from '../../../shared/lib/cjs';
 
 export function initOnBookWrite(bookRepository: BookRepositoryForBatch) {
   return async function onBookWrite(
-    change: Change<DocumentSnapshot>,
+    change: Change<firestore.DocumentSnapshot>,
     context: EventContext,
   ): Promise<void> {
     const bookId: string = context.params.bookId;

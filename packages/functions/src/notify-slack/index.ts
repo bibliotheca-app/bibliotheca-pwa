@@ -1,4 +1,4 @@
-import { DocumentSnapshot } from '@google-cloud/firestore';
+import { firestore } from 'firebase-admin';
 import axios from 'axios';
 import { Change, EventContext, config as firebaseConfig } from 'firebase-functions';
 import { SlackClient } from './slack-client';
@@ -57,7 +57,7 @@ async function getUserId(slackClient: SlackClient, email: string): Promise<strin
 type Book = { borrowedBy: string | undefined; createdAt: Date; title: string };
 
 export async function onBookBorrowOrReturn(
-  change: Change<DocumentSnapshot>,
+  change: Change<firestore.DocumentSnapshot>,
   context: EventContext,
 ): Promise<void> {
   const bookId: string = context.params.bookId;
