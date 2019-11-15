@@ -1,5 +1,6 @@
 import * as admin from 'firebase-admin';
 import { BookRepositoryForBatch } from 'shared/lib/cjs';
+import { execSync } from 'child_process';
 
 async function main() {
   const saPath = process.env.SEED_EXECUTOR_SA_PATH;
@@ -13,6 +14,9 @@ async function main() {
     credential: admin.credential.cert(serviceAccount),
     databaseURL: 'https://bibliotheca-test.firebaseio.com',
   });
+
+  console.log(execSync('yarn firebase firestore:delete --all-collections -y').toString());
+
   const db = admin.firestore();
   const bookRepository = new BookRepositoryForBatch(db);
   await insertInventoryEvent(db);
@@ -24,7 +28,6 @@ async function main() {
 
 async function insertInventoryEvent(db: FirebaseFirestore.Firestore) {
   const ref = db.collection('inventoryEvent').doc('event');
-  await ref.delete();
   await ref.set({ status: 'done' });
 }
 
@@ -59,12 +62,6 @@ async function read(db: FirebaseFirestore.Firestore) {
 }
 async function insertBooks(db: FirebaseFirestore.Firestore) {
   const collection = db.collection('books');
-  {
-    const batch = db.batch();
-    const books = await collection.get();
-    books.docs.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
-  }
 
   const chunkedArray = <T>(array: T[], chunkSize: number): T[][] =>
     Array(Math.ceil(array.length / chunkSize))
@@ -85,12 +82,6 @@ async function insertBooks(db: FirebaseFirestore.Firestore) {
 async function insertInventoryEventLogs(db: FirebaseFirestore.Firestore) {
   // todo: insert seed data
   const collection = db.collection('inventoryEventLogs');
-  {
-    const batch = db.batch();
-    const logs = await collection.get();
-    logs.docs.forEach(doc => batch.delete(doc.ref));
-    await batch.commit();
-  }
 }
 
 main().catch(e => console.log(e));
