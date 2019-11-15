@@ -1,6 +1,6 @@
 import { myFirestore } from 'firebase';
 import { DeletedBook, BookData, BookEditData, DeletedBookEntry, Book } from '../types';
-import { BookRepository } from './BookRepository';
+import { BookRepository, bookFromDoc } from './BookRepository';
 
 const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
   const data = doc.data()! as DeletedBookEntry;
@@ -20,19 +20,41 @@ export class DeletedBookRepository {
 
   constructor(protected db: myFirestore.Firestore, private bookRepository: BookRepository) {}
 
+  deleteById = async (bookId: string) => {
+    return this.db.runTransaction(async tx => {
+      const bookRef = this.bookRepository.mkBookRefById(bookId);
+      const target = await tx.get(bookRef).then(bookFromDoc);
+      const { id, createdAt: _, updatedAt: _1, ...body } = target;
+
+      const deletedBookRef = this.mkDeletedBookRefById(bookId);
+
+      tx.delete(bookRef);
+      const now = new Date();
+      const deletedBookData: Omit<DeletedBook, 'id'> = {
+        ...body,
+        createdAt: now,
+        updatedAt: now,
+        deletedAt: now,
+      };
+      tx.set(deletedBookRef, deletedBookData);
+      return target;
+    });
+  };
+
   bulkDelete = async (books: Book[]) => {
     await this.db.runTransaction(async tx => {
       books.forEach(book => {
-        const { id, createdAt: _, updatedAt: _1, deletedAt: _2, ...body } = book;
+        const { id, createdAt: _, updatedAt: _1, ...body } = book;
         const bookRef = this.bookRepository.mkBookRefById(id);
-        tx.delete(bookRef);
-
         const deletedBookRef = this.mkDeletedBookRefById(id);
+
+        tx.delete(bookRef);
+        const now = new Date();
         const deletedBookData: Omit<DeletedBook, 'id'> = {
           ...body,
-          createdAt: new Date(),
-          updatedAt: new Date(),
-          deletedAt: new Date(),
+          createdAt: now,
+          updatedAt: now,
+          deletedAt: now,
         };
         tx.set(deletedBookRef, deletedBookData);
       });

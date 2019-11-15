@@ -23,7 +23,6 @@ export interface Book {
   borrowedBy: string | null;
   updatedAt: Date;
   createdAt: Date;
-  deletedAt?: Date;
 }
 
 export const isBook = (book: any): book is Book => {
@@ -80,6 +79,7 @@ export type InventoryEventStatus = typeof InventoryEventStatus[keyof typeof Inve
 export const isDoneEvent = (e: InventoryEvent): e is InventoryEventDone =>
   e.status === InventoryEventStatus.Done;
 
+// todo: Book型に代入できちゃう構造なのを直したい
 interface InventoriedBook extends Book {
   status: InventoryStatus;
 }

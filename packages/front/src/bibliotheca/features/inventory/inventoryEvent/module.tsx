@@ -67,7 +67,7 @@ export const epic = handle
 
       const missingBooks = inventoriedBooks
         .filter(ib => ib.status === 'missing')
-        .map(b => ({ ...b, deletedAt: new Date() }));
+        .map(({ status: _, ...b }) => ({ ...b }));
 
       // todo: validate submit if unchecked book exists
       await inventoryLogRepository.add({ date, status: 'done', books: inventoriedBooks });

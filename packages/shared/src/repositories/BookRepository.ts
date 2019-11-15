@@ -1,7 +1,7 @@
 import { myFirestore } from 'firebase';
 import { Book, BookData, BookEditData } from '../types';
 
-const bookFromDoc = (doc: myFirestore.DocumentSnapshot): Book => {
+export const bookFromDoc = (doc: myFirestore.DocumentSnapshot): Book => {
   const data = doc.data()!;
 
   return {
@@ -28,7 +28,6 @@ const bookFromEntry = (entry: BookEntry): Book => {
     borrowedBy: data.borrowedBy,
     updatedAt: data.updatedAt.toDate(),
     createdAt: data.createdAt.toDate(),
-    ...(data.deletedAt ? { deletedAt: data.deletedAt.toDate() } : {}),
   };
 };
 
@@ -38,7 +37,6 @@ export class BookRepository {
 
   constructor(protected db: myFirestore.Firestore) {}
 
-  // todo: filter deletedAt
   findAllCachedBooks = async (): Promise<Book[]> => {
     const querySnapshot = await this.bookListsCollection.get();
 
@@ -47,7 +45,6 @@ export class BookRepository {
     }, [] as Book[]);
   };
 
-  // todo: filter deletedAt
   findAllBooks = async (): Promise<Book[]> => {
     const querySnapshot = await this.collection.get();
 
@@ -176,14 +173,6 @@ export class BookRepository {
     return bookRef.get().then(bookFromDoc);
   };
 
-  // 取扱注意
-  deleteBookById = async (bookId: string): Promise<Book> => {
-    const bookRef = this.mkBookRefById(bookId);
-    const book = await bookRef.get().then(bookFromDoc);
-    await bookRef.delete();
-    return book;
-  };
-
   editBookById = async (book: BookEditData): Promise<Book> => {
     const bookRef = await this.db.runTransaction<myFirestore.DocumentReference>(async tx => {
       const ref = this.mkBookRefById(book.id);
@@ -200,14 +189,13 @@ export class BookRepository {
     books.forEach(({ id, ...bookBody }) => {
       const targetDoc = before.docs.find(doc => doc.id === id);
       if (targetDoc !== undefined) {
-        const { isbn, title, borrowedBy, createdAt, deletedAt } = bookBody;
+        const { isbn, title, borrowedBy, createdAt } = bookBody;
         const updateData = Object.entries({
           isbn,
           title,
           borrowedBy,
           updatedAt: new Date(),
           createdAt,
-          deletedAt,
         })
           .filter(([_, v]) => v !== undefined)
           .reduce((acc, [key, value]) => ({ ...acc, [key]: value }), {} as Partial<Book>);

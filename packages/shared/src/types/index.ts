@@ -7,7 +7,6 @@ export interface Book {
   borrowedBy: string | null;
   updatedAt: Date;
   createdAt: Date;
-  deletedAt?: Date;
 }
 
 export type BookData = Omit<Book, 'id'>;
