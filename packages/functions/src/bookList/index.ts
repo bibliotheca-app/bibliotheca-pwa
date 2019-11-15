@@ -2,6 +2,10 @@ import { firestore } from 'firebase-admin';
 import { Change, EventContext } from 'firebase-functions';
 import { BookRepositoryForBatch } from '../../../shared/lib/cjs';
 
+/**
+ * NOTE: max document size: 1,048,576 bytes
+ * https://firebase.google.com/docs/firestore/quotas
+ */
 export function initOnBookWrite(bookRepository: BookRepositoryForBatch) {
   return async function onBookWrite(
     change: Change<firestore.DocumentSnapshot>,
@@ -9,37 +13,15 @@ export function initOnBookWrite(bookRepository: BookRepositoryForBatch) {
   ): Promise<void> {
     const bookId: string = context.params.bookId;
 
-    // console.log(`change: ${JSON.stringify(change)}`);
-    // console.log(`context: ${JSON.stringify(context)}`);
-
-    // https://firebase.google.com/docs/firestore/quotas
-    // max document size: 1,048,576 bytes
-
-    const cachedBookEntries = await bookRepository.fetchCachedBookEntriesMapAsync();
-
     if (!change.before.exists) {
       console.log(`作成: ${bookId}`);
-      await bookRepository.writeBookEntries([
-        ...cachedBookEntries,
-        { id: bookId, data: change.after.data() as any },
-      ]);
+      await bookRepository.addBookToChach({ id: bookId, data: change.after.data() as any });
     } else if (!change.after.exists) {
       console.log(`削除: ${bookId}`);
-      await bookRepository.writeBookEntries(
-        cachedBookEntries.filter(entry => {
-          return entry.id !== bookId;
-        }),
-      );
+      await bookRepository.deleteBookFromCache(bookId);
     } else {
       console.log(`更新/上書き: ${bookId}`);
-      await bookRepository.writeBookEntries(
-        cachedBookEntries.map(entry => {
-          if (entry.id !== bookId) {
-            return entry;
-          }
-          return { id: bookId, data: change.after.data() as any };
-        }),
-      );
+      await bookRepository.editBookInCache({ id: bookId, data: change.after.data() as any });
     }
   };
 }
