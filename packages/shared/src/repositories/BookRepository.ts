@@ -33,7 +33,7 @@ const bookFromEntry = (entry: BookEntry): Book => {
 };
 
 export class BookRepository {
-  protected collection = this.db.collection('books');
+  readonly collection = this.db.collection('books');
   protected bookListsCollection = this.db.collection('bookLists');
 
   constructor(protected db: myFirestore.Firestore) {}
@@ -42,12 +42,9 @@ export class BookRepository {
   findAllCachedBooks = async (): Promise<Book[]> => {
     const querySnapshot = await this.bookListsCollection.get();
 
-    return querySnapshot.docs.reduce(
-      (acc, doc) => {
-        return [...acc, ...(doc.data() as any).entries.map(bookFromEntry)];
-      },
-      [] as Book[],
-    );
+    return querySnapshot.docs.reduce((acc, doc) => {
+      return [...acc, ...(doc.data() as any).entries.map(bookFromEntry)];
+    }, [] as Book[]);
   };
 
   // todo: filter deletedAt
@@ -220,5 +217,5 @@ export class BookRepository {
     await batch.commit();
   };
 
-  private mkBookRefById = (bookId: string): myFirestore.DocumentReference => this.collection.doc(bookId);
+  mkBookRefById = (bookId: string): myFirestore.DocumentReference => this.collection.doc(bookId);
 }

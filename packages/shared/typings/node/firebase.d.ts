@@ -5,5 +5,6 @@ declare module 'firebase' {
     export type Firestore = adminFirestore.Firestore;
     export type DocumentSnapshot = adminFirestore.DocumentSnapshot;
     export type DocumentReference = adminFirestore.DocumentReference;
+    export type Timestamp = adminFirestore.Timestamp;
   }
 }
