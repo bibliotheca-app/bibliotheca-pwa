@@ -15,7 +15,7 @@ export function initOnBookWrite(bookRepository: BookRepositoryForBatch) {
 
     if (!change.before.exists) {
       console.log(`作成: ${bookId}`);
-      await bookRepository.addBookToChach({ id: bookId, data: change.after.data() as any });
+      await bookRepository.addBookToCache({ id: bookId, data: change.after.data() as any });
     } else if (!change.after.exists) {
       console.log(`削除: ${bookId}`);
       await bookRepository.deleteBookFromCache(bookId);

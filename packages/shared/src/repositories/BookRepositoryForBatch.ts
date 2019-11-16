@@ -25,7 +25,7 @@ export class BookRepositoryForBatch extends BookRepository {
     return this.writeBookEntries(bookEntries);
   };
 
-  addBookToChach = async (book: BookEntry) => {
+  addBookToCache = async (book: BookEntry) => {
     await this.db.runTransaction(async tx => {
       const cacheRef = this.bookListsCollection.doc('0');
       const cachedBooksDoc = await tx.get(cacheRef);
