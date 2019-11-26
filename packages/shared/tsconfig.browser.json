@@ -4,5 +4,6 @@
     "outDir": "./lib/es"
   },
   "extends": "./tsconfig.base.json",
-  "include": ["typings/browser/**/*", "src/**/*"]
+  "include": ["typings/browser/**/*", "src/**/*"],
+  "exclude": ["src/**/*.test.ts"]
 }

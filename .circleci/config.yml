@@ -17,7 +17,7 @@ executors:
     working_directory: ~/repo
 
     docker:
-      - image: node:8
+      - image: circleci/node:8-browsers
 commands:
   setup:
     steps:
@@ -27,10 +27,10 @@ commands:
           command: cp .firebaserc.example .firebaserc
       - restore_cache:
           keys:
-            - bibliotheca-pwa-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - bibliotheca-pwa-v1-{{ .Branch }}
-            - bibliotheca-pwa-v1-master
-            - bibliotheca-pwa-v1-
+            - bibliotheca-pwa-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - bibliotheca-pwa-v2-{{ .Branch }}
+            - bibliotheca-pwa-v2-master
+            - bibliotheca-pwa-v2-
       - run: yarn install
 
 jobs:
@@ -43,7 +43,7 @@ jobs:
       - save_cache:
           paths:
             - node_modules/
-          key: bibliotheca-pwa-v1-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: bibliotheca-pwa-v2-{{ .Branch }}-{{ checksum "yarn.lock" }}
       - run: git diff --exit-code # check yarn.lock diff
       - run: yarn format-check
       - run: yarn tsc

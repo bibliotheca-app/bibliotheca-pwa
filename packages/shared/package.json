@@ -5,10 +5,18 @@
   "module": "lib/es/index.js",
   "license": "MIT",
   "devDependencies": {
+    "@firebase/testing": "^0.15.1",
+    "@types/jest": "^24.0.23",
+    "jest": "24.8.0",
+    "ts-jest": "^24.1.0",
     "typescript": "^3.7.2"
   },
   "scripts": {
-    "clean": "rm -rf ./lib *.tsbuildinfo"
+    "clean": "rm -rf ./lib *.tsbuildinfo",
+    "emulator": "firebase emulators:start --only firestore",
+    "jest": "jest --verbose false --maxWorkers 8",
+    "test": "firebase emulators:exec --only firestore 'yarn run jest'",
+    "test-watch": "firebase emulators:exec --only firestore 'yarn run jest --watch'"
   },
   "dependencies": {}
 }
