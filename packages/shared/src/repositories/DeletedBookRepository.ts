@@ -1,6 +1,6 @@
 import { myFirestore } from 'firebase';
-import { DeletedBook, BookData, BookEditData, DeletedBookEntry, Book } from '../types';
-import { BookRepository, bookFromDoc } from './BookRepository';
+import { Book, DeletedBook, DeletedBookEntry } from '../types';
+import { bookFromDoc, BookRepository } from './BookRepository';
 
 const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
   const data = doc.data()! as DeletedBookEntry;
@@ -11,7 +11,6 @@ const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
     title: data.title,
     updatedAt: data.updatedAt.toDate(),
     createdAt: data.createdAt.toDate(),
-    deletedAt: data.deletedAt.toDate(),
   };
 };
 
@@ -34,7 +33,6 @@ export class DeletedBookRepository {
         ...body,
         createdAt: now,
         updatedAt: now,
-        deletedAt: now,
       };
       tx.set(deletedBookRef, deletedBookData);
       return target;
@@ -54,7 +52,6 @@ export class DeletedBookRepository {
           ...body,
           createdAt: now,
           updatedAt: now,
-          deletedAt: now,
         };
         tx.set(deletedBookRef, deletedBookData);
       });
