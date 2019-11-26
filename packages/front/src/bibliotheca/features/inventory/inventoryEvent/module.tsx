@@ -1,9 +1,9 @@
 import { NotificationActions } from 'bibliotheca/features/notification/interface';
 import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 import {
-  bookRepository,
   inventoryEventRepository,
   inventoryLogRepository,
+  deletedBookRepository,
 } from 'bibliotheca/services/ServiceContainer';
 import { InventoryEventDoing, InventoryStatusText } from 'bibliotheca/types';
 import React from 'react';
@@ -67,12 +67,12 @@ export const epic = handle
 
       const missingBooks = inventoriedBooks
         .filter(ib => ib.status === 'missing')
-        .map(b => ({ ...b, deletedAt: new Date() }));
+        .map(({ status: _, ...b }) => ({ ...b }));
 
       // todo: validate submit if unchecked book exists
       await inventoryLogRepository.add({ date, status: 'done', books: inventoriedBooks });
       await inventoryEventRepository.close();
-      await bookRepository.bulkUpdate(missingBooks);
+      await deletedBookRepository.bulkDelete(missingBooks);
       return NotificationActions.notifyMessage('棚卸しを完了しました');
     } else {
       return null;

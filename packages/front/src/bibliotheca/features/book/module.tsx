@@ -1,5 +1,5 @@
 import * as Rx from 'bibliotheca/rx';
-import { bookRepository } from 'bibliotheca/services/ServiceContainer';
+import { bookRepository, deletedBookRepository } from 'bibliotheca/services/ServiceContainer';
 import { userIdQuery } from '../global/query';
 import { BookActions, handle } from './interface';
 import { getGlobalState } from '../global/interface';
@@ -37,7 +37,7 @@ export const epic = handle
     );
   })
   .on(BookActions.deleteBookById, ({ bookId }) => {
-    return Rx.from(bookRepository.deleteBookById(bookId)).pipe(
+    return Rx.from(deletedBookRepository.deleteById(bookId)).pipe(
       Rx.map(BookActions.deleteBookByIdFulfilled),
     );
   })

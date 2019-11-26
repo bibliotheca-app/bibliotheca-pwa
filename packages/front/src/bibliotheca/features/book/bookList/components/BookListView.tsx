@@ -36,7 +36,7 @@ export const BookListView = () => {
       <StyledDataTable
         size={groupBy ? '' : 'large'} // groupBy の際にこの項目が指定されていると適切に表を表示するために各セルの width を自前で調整する必要が出てきてしまう
         primaryKey="id"
-        data={books.filter(b => b.deletedAt == null)}
+        data={books}
         groupBy={groupBy}
         columns={[
           {
