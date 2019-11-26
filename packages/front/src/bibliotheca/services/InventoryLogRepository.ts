@@ -1,5 +1,5 @@
 import { InventoryEventLog, InventoryEventLogBody } from 'bibliotheca/types';
-import { firestore } from 'firebase';
+import { firestore, myFirestore } from 'firebase';
 
 const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEventLog => {
   const data = doc.data()!;
@@ -8,7 +8,12 @@ const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEventL
     id: doc.id,
     date: data.date.toDate(),
     status: data.status,
-    books: data.books,
+    books: data.books.map((b: any) => ({
+      ...b,
+      inventoriedAt: b.inventoriedAt ? b.inventoriedAt.toDate() : null,
+      updatedAt: b.updatedAt ? b.updatedAt.toDate() : null,
+      createdAt: b.createdAt ? b.createdAt.toDate() : null,
+    })),
   };
 };
 
@@ -22,8 +27,16 @@ export class InventoryLogRepository {
     return querySnapshot.docs.map(inventoryEventFromDoc);
   };
 
+  findById = async (id: string): Promise<InventoryEventLog> => {
+    return this.mkRefById(id)
+      .get()
+      .then(inventoryEventFromDoc);
+  };
+
   add = async (log: InventoryEventLogBody) => {
     const ref = await this.collection.add(log);
     return ref.get().then(inventoryEventFromDoc);
   };
+
+  private mkRefById = (id: string): myFirestore.DocumentReference => this.collection.doc(id);
 }

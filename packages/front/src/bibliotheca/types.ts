@@ -80,8 +80,10 @@ export const isDoneEvent = (e: InventoryEvent): e is InventoryEventDone =>
   e.status === InventoryEventStatus.Done;
 
 // todo: Book型に代入できちゃう構造なのを直したい
-interface InventoriedBook extends Book {
+export interface InventoriedBook extends Book {
   status: InventoryStatus;
+  inventoriedAt: Date;
+  inventoriedBy: string;
 }
 export interface InventoryEventLog extends InventoryEventLogBody {
   id: string;
