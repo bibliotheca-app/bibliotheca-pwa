@@ -43,15 +43,5 @@
     "prettier": "^1.19.1",
     "typescript": "^3.7.2"
   },
-  "prettier": {
-    "printWidth": 100,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": true,
-    "arrowParens": "avoid"
-  },
   "private": true
 }
