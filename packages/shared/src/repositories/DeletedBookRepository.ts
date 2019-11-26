@@ -19,6 +19,10 @@ export class DeletedBookRepository {
 
   constructor(protected db: myFirestore.Firestore, private bookRepository: BookRepository) {}
 
+  findAll = async (): Promise<DeletedBook[]> => {
+    return this.collection.get().then(snapshot => snapshot.docs.map(deletedBookFromDoc));
+  };
+
   deleteById = async (bookId: string) => {
     return this.db.runTransaction(async tx => {
       const bookRef = this.bookRepository.mkBookRefById(bookId);
