@@ -19,6 +19,7 @@ export const InventoryEventView = () => {
 
       const uncheckedBooks = findUncheckedOnlyList(event.inventoryBooks, booksInList);
       const canChangeMissingAll = uncheckedBooks.length === 0;
+      const canEndInventory = booksInList.length === event.inventoryBooks.length;
       const books = ((e: InventoryEventDoing) => {
         switch (viewType) {
           case 'checkedOnly':
@@ -47,6 +48,7 @@ export const InventoryEventView = () => {
         viewType,
         books: books.map((b, i) => ({ ...b, key: i })),
         canChangeMissingAll,
+        canEndInventory,
       };
     },
   );

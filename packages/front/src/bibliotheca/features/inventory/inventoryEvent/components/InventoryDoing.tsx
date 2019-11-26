@@ -6,22 +6,23 @@ import { FormCheckmark as FormCheckmarkIcon, FormClose as FormCloseIcon } from '
 import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions, ViewType } from '../interface';
+import { InventorySubmitButton } from './InventorySubmitButton';
 
 type BookForTable = Book & { status: InventoryStatus; key: number };
 type InventoryEventDoingProps = {
   canChangeMissingAll: boolean;
+  canEndInventory: boolean;
   books: BookForTable[];
   viewType: ViewType;
 };
 
 export const InventoryDoing = ({
   canChangeMissingAll,
+  canEndInventory,
   viewType,
   books,
 }: InventoryEventDoingProps) => {
-  const { changeView, toMissingAll, submitInventory, changeStatus } = useActions(
-    InventoryEventActions,
-  );
+  const { changeView, toMissingAll, changeStatus } = useActions(InventoryEventActions);
 
   return (
     <>
@@ -33,7 +34,7 @@ export const InventoryDoing = ({
         disabled={canChangeMissingAll}
         onClick={toMissingAll}
       />
-      <Button label="棚卸しを完了する" onClick={submitInventory} />
+      <InventorySubmitButton canEndInventory={canEndInventory}></InventorySubmitButton>
       <RadioButton
         label="棚卸し済のみ"
         name="viewType"
