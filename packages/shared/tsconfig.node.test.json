@@ -1,8 +1,9 @@
 {
   "compilerOptions": {
     "module": "commonjs",
-    "outDir": "./lib/cjs"
+    "noEmit": true,
+    "rootDir": "./"
   },
   "extends": "./tsconfig.base.json",
-  "include": ["typings/node", "src"]
+  "include": ["typings/node", "src", "test"]
 }
