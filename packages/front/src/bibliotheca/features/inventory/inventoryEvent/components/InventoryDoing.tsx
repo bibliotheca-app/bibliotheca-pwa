@@ -7,8 +7,14 @@ import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions, ViewType } from '../interface';
 import { InventorySubmitButton } from './InventorySubmitButton';
+import format from 'date-fns/format';
 
-type BookForTable = Book & { status: InventoryStatus; key: number };
+export type BookForTable = Book & {
+  status: InventoryStatus;
+  inventoriedBy?: string;
+  inventoriedAt?: Date;
+  key: number;
+};
 type InventoryEventDoingProps = {
   canChangeMissingAll: boolean;
   canEndInventory: boolean;
@@ -111,6 +117,20 @@ export const InventoryDoing = ({
             property: 'borrowedBy',
             header: '借りてる人',
             render: (book: Partial<Book>) => book.borrowedBy,
+          },
+          {
+            property: 'inventoriedBy',
+            header: '棚卸した人',
+            render: (book: Partial<BookForTable>) => {
+              return book.inventoriedBy;
+            },
+          },
+          {
+            property: 'inventoriedAt',
+            header: '棚卸した日時',
+            render: (book: Partial<BookForTable>) => {
+              return book.inventoriedAt ? format(book.inventoriedAt, 'YYYY/MM/DD hh:mm') : '-';
+            },
           },
         ]}
         sortable
