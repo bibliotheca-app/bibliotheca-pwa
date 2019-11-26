@@ -13,6 +13,8 @@ import {
   RegisterInventoryBookActions,
   RegisterInventoryBookState,
 } from './interface';
+import { userIdQuery } from 'bibliotheca/features/global/query';
+import { getGlobalState } from 'bibliotheca/features/global/interface';
 
 // --- Epic ---
 
@@ -43,10 +45,13 @@ export const epic = handle
   .epic()
   .on(BarcodeLoaderActions.emitBarcode, onEmitBarcode)
   .on(RegisterInventoryBookActions.submit, async () => {
+    const userId = userIdQuery(getGlobalState());
     const { registerBook } = getRegisterInventoryBookState();
     await inventoryEventRepository.addInventoryBook({
       status: 'checked',
       bookId: registerBook!.id,
+      inventoriedAt: new Date(),
+      inventoriedBy: userId,
     });
     return NotificationActions.notifyMessage('登録しました');
   });

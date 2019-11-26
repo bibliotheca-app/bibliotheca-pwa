@@ -60,8 +60,8 @@ export interface InventoryEventDone {
 export interface InventoryBook {
   status: InventoryStatus;
   bookId: string;
-  // inventoriedAt: Date; // todo: implement this field
-  // inventoriedBy: string;
+  inventoriedAt: Date;
+  inventoriedBy: string;
 }
 export interface InventoryEventDoing {
   date: Date;

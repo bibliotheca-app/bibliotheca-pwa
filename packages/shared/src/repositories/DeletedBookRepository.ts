@@ -1,5 +1,5 @@
 import { myFirestore } from 'firebase';
-import { Book, DeletedBook, DeletedBookEntry } from '../types';
+import { DeletedBook, DeletedBookEntry } from '../types';
 import { bookFromDoc, BookRepository } from './BookRepository';
 
 const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
@@ -9,6 +9,7 @@ const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
     id: doc.id,
     isbn: data.isbn,
     title: data.title,
+    deletedBy: data.deletedBy,
     updatedAt: data.updatedAt.toDate(),
     createdAt: data.createdAt.toDate(),
   };
@@ -23,7 +24,7 @@ export class DeletedBookRepository {
     return this.collection.get().then(snapshot => snapshot.docs.map(deletedBookFromDoc));
   };
 
-  deleteById = async (bookId: string) => {
+  deleteById = async (bookId: string, deletedBy: string) => {
     return this.db.runTransaction(async tx => {
       const bookRef = this.bookRepository.mkBookRefById(bookId);
       const target = await tx.get(bookRef).then(bookFromDoc);
@@ -35,6 +36,7 @@ export class DeletedBookRepository {
       const now = new Date();
       const deletedBookData: Omit<DeletedBook, 'id'> = {
         ...body,
+        deletedBy,
         createdAt: now,
         updatedAt: now,
       };
@@ -43,10 +45,10 @@ export class DeletedBookRepository {
     });
   };
 
-  bulkDelete = async (books: Book[]) => {
+  bulkDelete = async (books: Omit<DeletedBook, 'createdAt' | 'updatedAt'>[]) => {
     await this.db.runTransaction(async tx => {
       books.forEach(book => {
-        const { id, createdAt: _, updatedAt: _1, ...body } = book;
+        const { id, ...body } = book;
         const bookRef = this.bookRepository.mkBookRefById(id);
         const deletedBookRef = this.mkDeletedBookRefById(id);
 
