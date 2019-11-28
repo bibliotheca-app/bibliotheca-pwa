@@ -7,6 +7,8 @@ import { ManagementSymbol } from './symbol';
 export const [handle, ManagementActions] = createModule(ManagementSymbol).withActions({
   downloadBookListAsCsv: null,
   downloadBookListAsCsvFulfilled: null,
+  downloadDeletedBookListAsCsv: null,
+  downloadDeletedBookListAsCsvFulfilled: null,
 });
 
 // --- Routing ---

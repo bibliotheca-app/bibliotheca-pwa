@@ -1,6 +1,6 @@
 import { myFirestore } from 'firebase';
-import { DeletedBook, BookData, BookEditData, DeletedBookEntry, Book } from '../types';
-import { BookRepository, bookFromDoc } from './BookRepository';
+import { DeletedBook, DeletedBookEntry } from '../types';
+import { bookFromDoc, BookRepository } from './BookRepository';
 
 const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
   const data = doc.data()! as DeletedBookEntry;
@@ -9,9 +9,9 @@ const deletedBookFromDoc = (doc: myFirestore.DocumentSnapshot): DeletedBook => {
     id: doc.id,
     isbn: data.isbn,
     title: data.title,
+    deletedBy: data.deletedBy,
     updatedAt: data.updatedAt.toDate(),
     createdAt: data.createdAt.toDate(),
-    deletedAt: data.deletedAt.toDate(),
   };
 };
 
@@ -20,7 +20,11 @@ export class DeletedBookRepository {
 
   constructor(protected db: myFirestore.Firestore, private bookRepository: BookRepository) {}
 
-  deleteById = async (bookId: string) => {
+  findAll = async (): Promise<DeletedBook[]> => {
+    return this.collection.get().then(snapshot => snapshot.docs.map(deletedBookFromDoc));
+  };
+
+  deleteById = async (bookId: string, deletedBy: string) => {
     return this.db.runTransaction(async tx => {
       const bookRef = this.bookRepository.mkBookRefById(bookId);
       const target = await tx.get(bookRef).then(bookFromDoc);
@@ -32,19 +36,19 @@ export class DeletedBookRepository {
       const now = new Date();
       const deletedBookData: Omit<DeletedBook, 'id'> = {
         ...body,
+        deletedBy,
         createdAt: now,
         updatedAt: now,
-        deletedAt: now,
       };
       tx.set(deletedBookRef, deletedBookData);
       return target;
     });
   };
 
-  bulkDelete = async (books: Book[]) => {
+  bulkDelete = async (books: Omit<DeletedBook, 'createdAt' | 'updatedAt'>[]) => {
     await this.db.runTransaction(async tx => {
       books.forEach(book => {
-        const { id, createdAt: _, updatedAt: _1, ...body } = book;
+        const { id, ...body } = book;
         const bookRef = this.bookRepository.mkBookRefById(id);
         const deletedBookRef = this.mkDeletedBookRefById(id);
 
@@ -54,7 +58,6 @@ export class DeletedBookRepository {
           ...body,
           createdAt: now,
           updatedAt: now,
-          deletedAt: now,
         };
         tx.set(deletedBookRef, deletedBookData);
       });

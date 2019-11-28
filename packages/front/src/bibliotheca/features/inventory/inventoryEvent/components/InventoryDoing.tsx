@@ -6,22 +6,29 @@ import { FormCheckmark as FormCheckmarkIcon, FormClose as FormCloseIcon } from '
 import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions, ViewType } from '../interface';
+import { InventorySubmitButton } from './InventorySubmitButton';
+import format from 'date-fns/format';
 
-type BookForTable = Book & { status: InventoryStatus; key: number };
+export type BookForTable = Book & {
+  status: InventoryStatus;
+  inventoriedBy?: string;
+  inventoriedAt?: Date;
+  key: number;
+};
 type InventoryEventDoingProps = {
   canChangeMissingAll: boolean;
+  canEndInventory: boolean;
   books: BookForTable[];
   viewType: ViewType;
 };
 
 export const InventoryDoing = ({
   canChangeMissingAll,
+  canEndInventory,
   viewType,
   books,
 }: InventoryEventDoingProps) => {
-  const { changeView, toMissingAll, submitInventory, changeStatus } = useActions(
-    InventoryEventActions,
-  );
+  const { changeView, toMissingAll, changeStatus } = useActions(InventoryEventActions);
 
   return (
     <>
@@ -33,7 +40,7 @@ export const InventoryDoing = ({
         disabled={canChangeMissingAll}
         onClick={toMissingAll}
       />
-      <Button label="棚卸しを完了する" onClick={submitInventory} />
+      <InventorySubmitButton canEndInventory={canEndInventory}></InventorySubmitButton>
       <RadioButton
         label="棚卸し済のみ"
         name="viewType"
@@ -110,6 +117,20 @@ export const InventoryDoing = ({
             property: 'borrowedBy',
             header: '借りてる人',
             render: (book: Partial<Book>) => book.borrowedBy,
+          },
+          {
+            property: 'inventoriedBy',
+            header: '棚卸した人',
+            render: (book: Partial<BookForTable>) => {
+              return book.inventoriedBy;
+            },
+          },
+          {
+            property: 'inventoriedAt',
+            header: '棚卸した日時',
+            render: (book: Partial<BookForTable>) => {
+              return book.inventoriedAt ? format(book.inventoriedAt, 'YYYY/MM/DD hh:mm') : '-';
+            },
           },
         ]}
         sortable

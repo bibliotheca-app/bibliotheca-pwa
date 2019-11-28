@@ -55,7 +55,14 @@ describe('registerInventoryBook module', () => {
             inventoryBookModule.reducer({
               booksInList: [book],
               event: {
-                inventoryBooks: [{ bookId: book.id, status: 'checked' }],
+                inventoryBooks: [
+                  {
+                    bookId: book.id,
+                    status: 'checked',
+                    inventoriedAt: new Date(),
+                    inventoriedBy: '',
+                  },
+                ],
                 date: new Date(),
                 status: 'doing',
               },
@@ -83,7 +90,14 @@ describe('registerInventoryBook module', () => {
             inventoryBookModule.reducer({
               booksInList: books,
               event: {
-                inventoryBooks: [{ bookId: books[0].id, status: 'checked' }],
+                inventoryBooks: [
+                  {
+                    bookId: books[0].id,
+                    status: 'checked',
+                    inventoriedAt: new Date(),
+                    inventoriedBy: '',
+                  },
+                ],
                 date: new Date(),
                 status: 'doing',
               },

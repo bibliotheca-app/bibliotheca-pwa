@@ -60,8 +60,8 @@ export interface InventoryEventDone {
 export interface InventoryBook {
   status: InventoryStatus;
   bookId: string;
-  // inventoriedAt: Date; // todo: implement this field
-  // inventoriedBy: string;
+  inventoriedAt: Date;
+  inventoriedBy: string;
 }
 export interface InventoryEventDoing {
   date: Date;
@@ -80,8 +80,10 @@ export const isDoneEvent = (e: InventoryEvent): e is InventoryEventDone =>
   e.status === InventoryEventStatus.Done;
 
 // todo: Book型に代入できちゃう構造なのを直したい
-interface InventoriedBook extends Book {
+export interface InventoriedBook extends Book {
   status: InventoryStatus;
+  inventoriedAt: Date;
+  inventoriedBy: string;
 }
 export interface InventoryEventLog extends InventoryEventLogBody {
   id: string;

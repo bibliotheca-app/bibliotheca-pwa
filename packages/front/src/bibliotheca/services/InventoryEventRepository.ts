@@ -17,7 +17,10 @@ const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent 
       return {
         date: data.date.toDate(),
         status: InventoryEventStatus.Doing,
-        inventoryBooks: data.inventoryBooks,
+        inventoryBooks: data.inventoryBooks.map((b: any) => ({
+          ...b,
+          inventoriedAt: b.inventoriedAt ? b.inventoriedAt.toDate() : null,
+        })),
       };
 
     default:

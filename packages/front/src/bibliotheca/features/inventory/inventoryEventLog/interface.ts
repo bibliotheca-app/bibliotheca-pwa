@@ -11,6 +11,7 @@ export const [handle, InventoryEventLogActions, getInventoryEventLogState] = cre
     fetchEventListFullfilled: (inventoryEvents: InventoryEventLog[]) => ({
       payload: { inventoryEvents },
     }),
+    downloadCsv: (id: string) => ({ payload: { id } }),
   })
   .withState<InventoryEventLogState>();
 

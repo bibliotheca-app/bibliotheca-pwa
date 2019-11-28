@@ -37,7 +37,8 @@ export const epic = handle
     );
   })
   .on(BookActions.deleteBookById, ({ bookId }) => {
-    return Rx.from(deletedBookRepository.deleteById(bookId)).pipe(
+    const userId = userIdQuery(getGlobalState());
+    return Rx.from(deletedBookRepository.deleteById(bookId, userId)).pipe(
       Rx.map(BookActions.deleteBookByIdFulfilled),
     );
   })

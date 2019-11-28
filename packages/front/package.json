@@ -63,16 +63,6 @@
       "no-use-before-define": "off"
     }
   },
-  "prettier": {
-    "printWidth": 100,
-    "tabWidth": 2,
-    "useTabs": false,
-    "semi": true,
-    "singleQuote": true,
-    "trailingComma": "all",
-    "bracketSpacing": true,
-    "arrowParens": "avoid"
-  },
   "devDependencies": {
     "babel-plugin-require-context-hook": "^1.0.0",
     "date-fns": "^1.30.1",

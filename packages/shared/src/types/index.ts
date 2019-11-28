@@ -15,16 +15,18 @@ export interface DeletedBook {
   id: string;
   isbn: string | null;
   title: string;
+  deletedBy: string;
+  borrowedBy?: string | null;
   updatedAt: Date;
   createdAt: Date;
-  deletedAt: Date;
 }
 export interface DeletedBookEntry {
   isbn: string | null;
   title: string;
+  deletedBy: string;
+  borrowedBy?: string;
   updatedAt: myFirestore.Timestamp;
   createdAt: myFirestore.Timestamp;
-  deletedAt: myFirestore.Timestamp;
 }
 
 export interface BookEditData {
