@@ -1,3 +1,4 @@
+import React from 'react';
 import { AppContext, RouteEntry } from 'bibliotheca/types';
 import { createBrowserNavigation, map, Matcher, mount, Navigation, redirect } from 'navi';
 import { getGlobalState } from './features/global/interface';
@@ -9,6 +10,7 @@ import {
 
 import loadable, { LoadableComponent } from '@loadable/component';
 import { Merge, ToUnion, ToStringObject } from 'bibliotheca/types';
+import { Redirect } from 'react-router-dom';
 
 const staticRoute: Record<string, Matcher<any>> = {
   '/': redirect(getDefaultRoute()),
@@ -58,7 +60,7 @@ export const withRedirectIfLoggedIn = (matcher: Matcher<any, any>) => {
 type RouteDefinitionsBase = {
   [key: string]: {
     readonly path: string | readonly string[];
-    readonly title: string;
+    readonly title?: string;
     readonly params?: readonly string[];
     readonly queryParams?: readonly string[];
     readonly requiresAuth: boolean;
@@ -68,6 +70,13 @@ type RouteDefinitionsBase = {
 
 export const appRouteDefinitions = {
   home: {
+    path: '/',
+    requiresAuth: true,
+    Component: loadable(() =>
+      Promise.resolve({ default: () => <Redirect to={getDefaultRoute()}></Redirect> }),
+    ),
+  },
+  bookLists: {
     path: '/books',
     title: '書籍一覧 - Bibliotheca',
     requiresAuth: true,
@@ -80,7 +89,7 @@ export const appRouteDefinitions = {
   login: {
     path: '/login',
     title: 'ログイン - Bibliotheca',
-    queryParams: ['from'],
+    queryParams: ['redirectTo'],
     requiresAuth: false,
     Component: loadable(() =>
       import('bibliotheca/features/login/module').then(m => ({ default: m.LoginModule })),
