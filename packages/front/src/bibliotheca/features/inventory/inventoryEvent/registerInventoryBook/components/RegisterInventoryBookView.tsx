@@ -1,4 +1,4 @@
-import { Link } from 'bibliotheca/components/Link';
+import { LinkOld } from 'bibliotheca/components/Link';
 import { getInventoryBookModuleState } from 'bibliotheca/features/inventory/inventoryBookModule/interface';
 import { InventoryEventStatus } from 'bibliotheca/types';
 import { Box, Button } from 'grommet';
@@ -39,9 +39,9 @@ export const RegisterInventoryBookView = () => {
 
   return (
     <>
-      <Link href="/inventory-event">
+      <LinkOld href="/inventory-event">
         <Button label="戻る"></Button>
-      </Link>
+      </LinkOld>
       <Box>棚卸し</Box>
 
       {component}

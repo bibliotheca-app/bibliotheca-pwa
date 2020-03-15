@@ -6,7 +6,7 @@ interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {
   //
 }
 
-export const Link = (props: LinkProps) => {
+export const LinkOld = (props: LinkProps) => {
   const { href, onClick, children } = props;
   const { navigate } = useActions(RouterActions);
 

@@ -1,4 +1,4 @@
-import { Link } from 'bibliotheca/components/Link';
+import { LinkOld } from 'bibliotheca/components/Link';
 import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 import { InventoryEventDoing, InventoryEventStatus, InventoryStatus } from 'bibliotheca/types';
 import React from 'react';
@@ -78,7 +78,7 @@ export const InventoryEventView = () => {
   }
   return (
     <>
-      <Link href="/inventory-event/logs">過去の棚卸し履歴</Link>
+      <LinkOld href="/inventory-event/logs">過去の棚卸し履歴</LinkOld>
       {component}
     </>
   );

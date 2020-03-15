@@ -1,4 +1,4 @@
-import { Link } from 'bibliotheca/components/Link';
+import { LinkOld } from 'bibliotheca/components/Link';
 import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { Book, InventoryStatus, InventoryStatusText } from 'bibliotheca/types';
 import { Box, Button, RadioButton, Text } from 'grommet';
@@ -32,9 +32,9 @@ export const InventoryDoing = ({
 
   return (
     <>
-      <Link href={`/inventory-event/register-book`}>
+      <LinkOld href={`/inventory-event/register-book`}>
         <Button label="本を棚卸す" />
-      </Link>
+      </LinkOld>
       <Button
         label="未チェックを全て紛失ステータスへ変更する"
         disabled={canChangeMissingAll}
@@ -73,9 +73,9 @@ export const InventoryDoing = ({
             search: true,
             render: (book: BookForTable) => {
               return (
-                <Link href={`/books/${book.id}`}>
+                <LinkOld href={`/books/${book.id}`}>
                   <Text>{book.title}</Text>
-                </Link>
+                </LinkOld>
               );
             },
           },
