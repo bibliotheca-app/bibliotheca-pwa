@@ -1,0 +1,19 @@
+{
+  "folders": [
+    {
+      "path": "packages/front"
+    },
+    {
+      "path": "packages/functions"
+    },
+    {
+      "path": "packages/seed"
+    },
+    {
+      "path": "packages/shared"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true
+  }
+}
