@@ -1,20 +1,22 @@
+import { AppPaths, GetOptionFromPath } from 'bibliotheca/routes';
+import { LocationSource, LocationOption } from 'bibliotheca/types';
 import { createBrowserHistory, History, LocationState } from 'history';
-import { AppRoutePaths } from 'bibliotheca/routes';
 import { generatePath } from 'react-router-dom';
-import { PushOption } from 'bibliotheca/types';
 
 class AppHistory {
   constructor(private history: History<LocationState>) {}
 
-  push(option: PushOption): void;
-  push<T extends keyof AppRoutePaths>(identity: T, option: AppRoutePaths[T]): void;
+  push(option: LocationSource): void;
+  push<T extends AppPaths>(path: T, option?: GetOptionFromPath<T>): void;
 
-  push(...[idOrOption, option]: [PushOption] | [string, PushOption]) {
-    const href = this.createHref(typeof idOrOption === 'string' ? option! : idOrOption);
+  push(...[idOrOption, option]: [LocationSource] | [string, LocationOption]) {
+    const href = this.createHref(
+      typeof idOrOption === 'string' ? { path: idOrOption, ...option } : idOrOption,
+    );
     this.history.push(href);
   }
 
-  createHref({ path: pathSource, params, queryParams }: PushOption): string {
+  createHref({ path: pathSource, params, queryParams }: LocationSource): string {
     const path = params ? generatePath(pathSource, params) : pathSource;
     const search = queryParams ? `?${new URLSearchParams(queryParams).toString()}` : '';
     return `${path}${search}`;

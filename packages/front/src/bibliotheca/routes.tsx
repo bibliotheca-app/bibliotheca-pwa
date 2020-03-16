@@ -106,35 +106,30 @@ export const appRouteDefinitions = {
   },
 } as const;
 
-type RouteDefinitions = typeof appRouteDefinitions;
+// route definition type
+type RD = typeof appRouteDefinitions;
 type Paths = {
-  [K in keyof RouteDefinitions]: { path: ToUnion<RouteDefinitions[K]['path']> };
+  [K in keyof RD]: { path: ToUnion<RD[K]['path']> };
 };
 type Params = {
-  [K in keyof RouteDefinitions]: RouteDefinitions[K] extends { params: infer V }
-    ? { params: ToStringObject<ToUnion<V>> }
-    : {};
+  [K in keyof RD]: RD[K] extends { params: infer V } ? { params: ToStringObject<ToUnion<V>> } : {};
 };
 type QueryParams = {
-  [K in keyof RouteDefinitions]: RouteDefinitions[K] extends { queryParams: infer W }
+  [K in keyof RD]: RD[K] extends { queryParams: infer W }
     ? { queryParams: Partial<ToStringObject<ToUnion<W>>> }
     : {};
 };
 
-type ARP = {
-  [K in keyof RouteDefinitions]: Paths[K] & Params[K] & QueryParams[K];
-};
-// path,param,query paramの型生成.interfaceにしているのはtypeのままだと型情報が展開されて見にくいため
-export interface AppRoutePaths extends ARP {}
-
 export type AppPaths = Paths[keyof Paths]['path'];
+export type GetSourceFromPath<T extends AppPaths> = {
+  [K in keyof RD]: RD[K] extends { path: T } ? Paths[K] & Params[K] & QueryParams[K] : never;
+}[keyof RD];
 export type GetOptionFromPath<T extends AppPaths> = {
-  [K in keyof ARP]: ARP[K] extends { path: T } ? Paths[K] & Params[K] & QueryParams[K] : never;
-}[keyof ARP];
-
-type ValidateRouteDefinitions = RouteDefinitions extends RouteDefinitionsBase ? true : never;
+  [K in keyof RD]: RD[K] extends { path: T } ? Params[K] & QueryParams[K] : never;
+}[keyof RD];
 
 // note: this is checking type of `RouteDefinitions`
+type ValidateRouteDefinitions = RD extends RouteDefinitionsBase ? true : never;
 export function validateRouteDefinitions(): ValidateRouteDefinitions {
   return true;
 }
