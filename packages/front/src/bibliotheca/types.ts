@@ -132,3 +132,8 @@ export type Merge<T extends object, U extends object, V extends object> = { [K i
 
 export type ToUnion<T> = T extends readonly string[] ? T[number] : T;
 export type ToStringObject<T> = T extends string ? { [P in T]: string } : never;
+export type PushOption = {
+  path: string;
+  params?: { [paramName: string]: string | number | boolean | undefined } | undefined;
+  queryParams?: Record<string, string>;
+};

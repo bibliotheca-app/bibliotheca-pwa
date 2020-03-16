@@ -1,16 +1,14 @@
-import React from 'react';
-import { AppContext, RouteEntry } from 'bibliotheca/types';
+import loadable, { LoadableComponent } from '@loadable/component';
+import { AppContext, RouteEntry, ToStringObject, ToUnion } from 'bibliotheca/types';
 import { createBrowserNavigation, map, Matcher, mount, Navigation, redirect } from 'navi';
+import React from 'react';
+import { Redirect } from 'react-router-dom';
 import { getGlobalState } from './features/global/interface';
 import {
   decideRedirectUrlFromRequest,
   getDefaultRoute,
   makeLoginUrlForRedirectFromRequest,
 } from './features/router/helper';
-
-import loadable, { LoadableComponent } from '@loadable/component';
-import { Merge, ToUnion, ToStringObject } from 'bibliotheca/types';
-import { Redirect } from 'react-router-dom';
 
 const staticRoute: Record<string, Matcher<any>> = {
   '/': redirect(getDefaultRoute()),
@@ -86,6 +84,17 @@ export const appRouteDefinitions = {
       })),
     ) as LoadableComponent<unknown>,
   },
+  bookDetail: {
+    path: '/books/:bookId',
+    params: ['bookId'],
+    title: '書籍詳細 - Bibliotheca',
+    requiresAuth: true,
+    Component: loadable(() =>
+      import('bibliotheca/features/book/detail/module').then(m => ({
+        default: m.BookDetailModule,
+      })),
+    ) as LoadableComponent<unknown>,
+  },
   login: {
     path: '/login',
     title: 'ログイン - Bibliotheca',
@@ -98,17 +107,30 @@ export const appRouteDefinitions = {
 } as const;
 
 type RouteDefinitions = typeof appRouteDefinitions;
-export type AppRoutePaths = {
-  [K in keyof RouteDefinitions]: Merge<
-    { path: ToUnion<RouteDefinitions[K]['path']> },
-    RouteDefinitions[K] extends { params: infer V }
-      ? { params: ToStringObject<ToUnion<V>> }
-      : { params?: never },
-    RouteDefinitions[K] extends { queryParams: infer W }
-      ? { queryParams: Partial<ToStringObject<ToUnion<W>>> }
-      : { queryParams?: never }
-  >;
+type Paths = {
+  [K in keyof RouteDefinitions]: { path: ToUnion<RouteDefinitions[K]['path']> };
 };
+type Params = {
+  [K in keyof RouteDefinitions]: RouteDefinitions[K] extends { params: infer V }
+    ? { params: ToStringObject<ToUnion<V>> }
+    : {};
+};
+type QueryParams = {
+  [K in keyof RouteDefinitions]: RouteDefinitions[K] extends { queryParams: infer W }
+    ? { queryParams: Partial<ToStringObject<ToUnion<W>>> }
+    : {};
+};
+
+type ARP = {
+  [K in keyof RouteDefinitions]: Paths[K] & Params[K] & QueryParams[K];
+};
+// path,param,query paramの型生成.interfaceにしているのはtypeのままだと型情報が展開されて見にくいため
+export interface AppRoutePaths extends ARP {}
+
+export type AppPaths = Paths[keyof Paths]['path'];
+export type GetOptionFromPath<T extends AppPaths> = {
+  [K in keyof ARP]: ARP[K] extends { path: T } ? Paths[K] & Params[K] & QueryParams[K] : never;
+}[keyof ARP];
 
 type ValidateRouteDefinitions = RouteDefinitions extends RouteDefinitionsBase ? true : never;
 

@@ -18,12 +18,12 @@ export default withAuthentication(
         </Dashboard>
       ),
     }),
-    '/:bookId': route(async req => {
+    '/:bookId': route(async () => {
       return {
         title: '書籍詳細 - Bibliotheca',
         view: (
           <Dashboard>
-            <BookDetailModule bookId={req.params.bookId} />
+            <BookDetailModule />
           </Dashboard>
         ),
       };

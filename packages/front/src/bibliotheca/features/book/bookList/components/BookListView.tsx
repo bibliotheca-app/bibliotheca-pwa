@@ -44,11 +44,11 @@ export const BookListView = () => {
             header: 'タイトル',
             search: true,
             render: (book: Partial<Book>) =>
-              isBook(book) && (
-                <Link href={`/books/${book.id}`}>
+              isBook(book) ? (
+                <Link path="/books/:bookId" params={{ bookId: book.id }}>
                   <Text>{book.title}</Text>
                 </Link>
-              ),
+              ) : null,
           },
           { property: 'isbn', header: 'ISBN' },
           {

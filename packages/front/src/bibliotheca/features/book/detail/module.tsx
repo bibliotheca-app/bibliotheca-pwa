@@ -8,6 +8,7 @@ import React from 'react';
 import { BookDetailView } from './components/BookDetailView';
 import { BookDetailActions, BookDetailState, handle } from './interface';
 import { useActions } from 'typeless';
+import { useRouter } from 'bibliotheca/hooks/useRouter';
 
 // --- Epic ---
 export const epic = handle
@@ -68,11 +69,14 @@ export const reducer = handle
   );
 
 // --- Module ---
-export const BookDetailModule = ({ bookId }: { bookId: string }) => {
+export const BookDetailModule = () => {
   handle();
 
+  const { params } = useRouter<{ bookId: string }>();
   const { init } = useActions(BookDetailActions);
-  init(bookId);
+  React.useEffect(() => {
+    init(params.bookId);
+  }, [init, params.bookId]);
 
   return <BookDetailView />;
 };
