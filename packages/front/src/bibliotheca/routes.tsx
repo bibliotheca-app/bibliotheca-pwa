@@ -84,6 +84,16 @@ export const appRouteDefinitions = {
       })),
     ) as LoadableComponent<unknown>,
   },
+  bookRegister: {
+    path: '/books/register',
+    title: '書籍登録 - Bibliotheca',
+    requiresAuth: true,
+    Component: loadable(() =>
+      import('bibliotheca/features/book/register/module').then(m => ({
+        default: m.BookRegisterModule,
+      })),
+    ) as LoadableComponent<unknown>,
+  },
   bookDetail: {
     path: '/books/:bookId',
     params: ['bookId'],

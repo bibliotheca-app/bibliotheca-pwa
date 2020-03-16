@@ -130,7 +130,7 @@ export const Dashboard2 = (props: DashboardProps) => {
 export const Dashboard: React.FC = ({ children }) => {
   const { logout } = useActions(GlobalActions);
   const { navigate } = useActions(RouterActions);
-  const { location } = useRouter();
+  const { location, history } = useRouter();
   const { user } = getGlobalState.useState();
   const userId = user == null ? '' : user.email;
 
@@ -139,7 +139,8 @@ export const Dashboard: React.FC = ({ children }) => {
     { link: '/borrow-or-return', title: '貸出/返却' },
   ];
   const onActive = (index: number) => {
-    navigate(links[index].link);
+    // todo: resolve type
+    history.push({ path: links[index].link });
   };
   const activeIndex = links.findIndex(({ link }) => link.startsWith(location.pathname));
 
@@ -147,7 +148,7 @@ export const Dashboard: React.FC = ({ children }) => {
     {
       icon: <AddIcon />,
       label: '書籍登録',
-      onClick: () => navigate('/books/register'),
+      onClick: () => history.push('/books/register'),
     },
     {
       icon: <ListIcon />,
