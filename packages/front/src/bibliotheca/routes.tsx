@@ -105,6 +105,16 @@ export const appRouteDefinitions = {
       })),
     ) as LoadableComponent<unknown>,
   },
+  borrowOrReturn: {
+    path: '/borrow-or-return',
+    title: '貸出/返却 - Bibliotheca',
+    requiresAuth: true,
+    Component: loadable(() =>
+      import('bibliotheca/features/borrowOrReturn/module').then(m => ({
+        default: m.BorrowOrReturnModule,
+      })),
+    ) as LoadableComponent<unknown>,
+  },
   login: {
     path: '/login',
     title: 'ログイン - Bibliotheca',
