@@ -4,13 +4,17 @@ workflows:
   main:
     jobs:
       - test
-      - deploy:
+      - deploy-approval:
+          type: approval
           requires:
             - test
           filters:
             branches:
               only:
                 - master
+      - deploy:
+          requires:
+            - deploy-approval
 
 executors:
   default:
