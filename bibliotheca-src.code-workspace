@@ -11,7 +11,8 @@
     },
     {
       "path": "packages/shared"
-    }
+    },
+    { "path": "." }
   ],
   "settings": {
     "editor.formatOnSave": true
