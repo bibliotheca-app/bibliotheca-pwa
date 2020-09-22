@@ -1,6 +1,5 @@
 import { authService } from 'bibliotheca/services/ServiceContainer';
 import * as Rx from 'typeless/rx';
-import { RouterActions } from '../router/interface';
 import { GlobalActions, GlobalState, handle } from './interface';
 
 // --- Epic ---
@@ -14,12 +13,10 @@ export const epic = handle
       });
     });
   })
-  .on(GlobalActions.logout, () => {
+  .on(GlobalActions.logout, async () => {
     if (subscribe) subscribe();
-    return Rx.concatObs(
-      Rx.from(authService.logout()).pipe(Rx.ignoreElements()),
-      Rx.of(RouterActions.navigate('/login')),
-    );
+    await authService.logout();
+    return null;
   });
 
 // --- Reducer ---

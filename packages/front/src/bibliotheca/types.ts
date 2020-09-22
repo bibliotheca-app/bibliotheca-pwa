@@ -125,3 +125,19 @@ export function isBookInformation(res: unknown): res is [BookInformation] {
   return body && body.summary && body.summary.isbn && body.summary.title;
 }
 export type OpenBDBookResponse = OpenBDBookItem[];
+
+export type Merge<T extends object, U extends object, V extends object> = { [K in keyof T]: T[K] } &
+  { [K in keyof U]: U[K] } &
+  { [K in keyof V]: V[K] };
+
+export type ToUnion<T> = T extends readonly string[] ? T[number] : T;
+export type ToStringObject<T> = T extends string ? { [P in T]: string } : never;
+export type LocationSource = {
+  path: string;
+  params?: { [paramName: string]: string | number | boolean | undefined } | undefined;
+  queryParams?: Record<string, string> | undefined;
+};
+export type LocationOption = {
+  params?: { [paramName: string]: string | number | boolean | undefined } | undefined;
+  queryParams?: Record<string, string> | undefined;
+};

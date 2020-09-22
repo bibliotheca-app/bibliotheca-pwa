@@ -1,4 +1,5 @@
-import { GlobalState } from './interface';
+import { GlobalState, getGlobalState } from './interface';
+import { createSelector } from 'typeless';
 
 // TODO: 綺麗にかけるかも
 export const userIdQuery = (state: GlobalState): string => {
@@ -8,3 +9,8 @@ export const userIdQuery = (state: GlobalState): string => {
   }
   return user.firebaseAuth.email || '';
 };
+
+export const isLoggedInQuery = createSelector(
+  [getGlobalState, state => state.user],
+  user => user !== null,
+);
