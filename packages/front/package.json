@@ -6,7 +6,6 @@
   "keywords": [],
   "dependencies": {
     "@material/react-linear-progress": "^0.15.0",
-    "@types/history": "^4.7.2",
     "@types/jest": "^24.0.17",
     "@types/papaparse": "^5.0.1",
     "@types/react": "16.9.1",
@@ -17,7 +16,6 @@
     "firebase-tools": "^7.2.2",
     "grommet": "^2.7.5",
     "grommet-icons": "^4.3.0",
-    "history": "^4.9.0",
     "navi": "^0.13.3",
     "papaparse": "^5.0.1",
     "prettier": "^1.18.2",
@@ -27,9 +25,6 @@
     "react-dom": "16.9.0",
     "react-navi": "^0.13.5",
     "react-scripts": "3.1.0",
-    "redux": "4.0.4",
-    "redux-logger": "^3.0.6",
-    "remeda": "^0.0.11",
     "rxjs": "^6.5.2",
     "styled-components": "^4.3.2",
     "typeless": "^1.2.0"
