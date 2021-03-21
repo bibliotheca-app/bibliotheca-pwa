@@ -75,6 +75,7 @@ export const InventoryEventStatus = {
   Done: 'done',
 } as const;
 
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InventoryEventStatus = typeof InventoryEventStatus[keyof typeof InventoryEventStatus];
 export const isDoneEvent = (e: InventoryEvent): e is InventoryEventDone =>
   e.status === InventoryEventStatus.Done;
@@ -98,10 +99,7 @@ export interface InventoryEventLogBody {
   books: InventoriedBook[];
 }
 
-export type Omit<T, K> = Pick<T, Exclude<keyof T, K>>;
 export type Nullable<T> = T | null;
-export type Parameters<T> = T extends (...args: infer T) => any ? T : never;
-export type ReturnType<T> = T extends (...args: any[]) => infer T ? T : never;
 
 export type GrommetFormEvent<T> = React.FormEvent<HTMLFormElement> & {
   value: T;

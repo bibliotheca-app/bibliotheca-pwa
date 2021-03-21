@@ -4,7 +4,7 @@ import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { useConfirm } from 'bibliotheca/hooks/useConfirm';
 import { useConfirmWithData } from 'bibliotheca/hooks/useConfirmWithData';
-import { Book, BookEditData, Omit } from 'bibliotheca/types';
+import { Book, BookEditData } from 'bibliotheca/types';
 import { Box, Button, Form } from 'grommet';
 import {
   Close as CloseIcon,

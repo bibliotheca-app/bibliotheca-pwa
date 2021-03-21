@@ -24,7 +24,7 @@
     "react-content-loader": "^4.2.2",
     "react-dom": "16.9.0",
     "react-navi": "^0.13.5",
-    "react-scripts": "3.1.0",
+    "react-scripts": "4.0.3",
     "rxjs": "^6.5.2",
     "styled-components": "^5.2.1",
     "typeless": "^1.2.0"
@@ -52,7 +52,10 @@
     "not op_mini all"
   ],
   "eslintConfig": {
-    "extends": "react-app",
+    "extends": [
+      "react-app",
+      "react-app/jest"
+    ],
     "rules": {
       "no-useless-constructor": "off",
       "no-use-before-define": "off"

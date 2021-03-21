@@ -1,5 +1,4 @@
 import { Size, StyledLayer } from 'bibliotheca/components/StyledLayer';
-import { Omit } from 'bibliotheca/types';
 import { Box, Button, Text } from 'grommet';
 import React, { useState } from 'react';
 
