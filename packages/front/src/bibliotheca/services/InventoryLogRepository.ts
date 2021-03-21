@@ -1,7 +1,7 @@
 import { InventoryEventLog, InventoryEventLogBody } from 'bibliotheca/types';
-import { firestore, myFirestore } from 'firebase';
+import firebase, { myFirestore } from 'firebase/app';
 
-const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEventLog => {
+const inventoryEventFromDoc = (doc: firebase.firestore.DocumentSnapshot): InventoryEventLog => {
   const data = doc.data()!;
 
   return {
@@ -20,7 +20,7 @@ const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEventL
 export class InventoryLogRepository {
   private collection = this.db.collection('inventoryEventLogs');
 
-  constructor(private db: firestore.Firestore) {}
+  constructor(private db: firebase.firestore.Firestore) {}
 
   findAllEvents = async (): Promise<InventoryEventLog[]> => {
     const querySnapshot = await this.collection.get();

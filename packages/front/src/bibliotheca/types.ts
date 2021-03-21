@@ -1,4 +1,4 @@
-import { User as FirebaseUser } from 'firebase/app';
+import firebase from 'firebase/app';
 import { Matcher } from 'navi';
 import React from 'react';
 
@@ -12,7 +12,7 @@ export interface AppContext {
 }
 
 export interface User {
-  firebaseAuth: FirebaseUser;
+  firebaseAuth: firebase.User;
   email: string;
 }
 
