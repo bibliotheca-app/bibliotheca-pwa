@@ -1,5 +1,5 @@
 import { RouterActions } from 'bibliotheca/features/router/interface';
-import React from 'react';
+import * as React from 'react';
 import { useActions } from 'typeless';
 
 interface LinkProps extends React.AnchorHTMLAttributes<HTMLAnchorElement> {

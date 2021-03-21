@@ -32,10 +32,10 @@ const Media = Object.entries(BREAK_POINTS).reduce((acc, [size, width]) => {
   return {
     ...acc,
     [size]: (...args: Parameters<typeof css>) => css`
-        @media only screen and (${size === 'large' ? 'max' : 'min'}-width: ${width}) {
-          ${css(...args)}
-        }
-      `,
+      @media only screen and (${size === 'large' ? 'max' : 'min'}-width: ${width}) {
+        ${css(...args)}
+      }
+    `,
   };
 }, {} as Record<DisplaySize, typeof css>);
 

@@ -2,7 +2,6 @@ import { Download as DownloadIcon } from 'grommet-icons';
 import { InventoryEventLog } from 'bibliotheca/types';
 import { format } from 'date-fns';
 import { DataTable, Text, Button } from 'grommet';
-import React from 'react';
 import { getInventoryEventLogState, InventoryEventLogActions } from '../interface';
 import { useActions } from 'typeless';
 

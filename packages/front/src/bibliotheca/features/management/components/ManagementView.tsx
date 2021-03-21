@@ -1,6 +1,5 @@
 import { Button, Text, Box } from 'grommet';
 import { Download as DownloadIcon } from 'grommet-icons';
-import React from 'react';
 import { useActions } from 'typeless';
 import { ManagementActions } from '../interface';
 

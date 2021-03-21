@@ -1,5 +1,4 @@
 import { authService } from 'bibliotheca/services/ServiceContainer';
-import React from 'react';
 import { LoginView } from './components/LoginView';
 import { handle, LoginActions } from './interface';
 

@@ -28,9 +28,7 @@ export class InventoryLogRepository {
   };
 
   findById = async (id: string): Promise<InventoryEventLog> => {
-    return this.mkRefById(id)
-      .get()
-      .then(inventoryEventFromDoc);
+    return this.mkRefById(id).get().then(inventoryEventFromDoc);
   };
 
   add = async (log: InventoryEventLogBody) => {

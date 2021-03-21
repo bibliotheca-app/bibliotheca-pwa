@@ -1,7 +1,6 @@
 import { SimpleTable } from 'bibliotheca/components/SimpleTable';
 import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 import { Box, Button, Form, FormField, Image } from 'grommet';
-import React from 'react';
 import { useActions } from 'typeless';
 import { BookRegisterActions, getBookRegisterState } from '../interface';
 import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';

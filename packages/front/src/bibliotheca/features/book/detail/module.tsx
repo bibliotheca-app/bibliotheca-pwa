@@ -4,7 +4,6 @@ import { NotificationActions } from 'bibliotheca/features/notification/interface
 import { RouterActions } from 'bibliotheca/features/router/interface';
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
-import React from 'react';
 import { BookDetailView } from './components/BookDetailView';
 import { BookDetailActions, BookDetailState, handle } from './interface';
 import { useActions } from 'typeless';

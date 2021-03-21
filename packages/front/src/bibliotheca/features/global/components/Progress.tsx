@@ -1,7 +1,6 @@
 import LinearProgress from '@material/react-linear-progress';
 import '@material/react-linear-progress/dist/linear-progress.css';
 import { Delay } from 'bibliotheca/components/Delay';
-import React from 'react';
 import { useLoadingRoute } from 'react-navi';
 import { getGlobalState } from '../interface';
 

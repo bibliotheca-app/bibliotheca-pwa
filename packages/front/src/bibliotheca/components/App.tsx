@@ -4,7 +4,7 @@ import { useNotificationModule } from 'bibliotheca/features/notification/module'
 import { useRouterModule } from 'bibliotheca/features/router/module';
 import { getNavigation } from 'bibliotheca/routes';
 import { NotFoundError } from 'navi';
-import React, { Suspense } from 'react';
+import { useRef, Suspense } from 'react';
 import { NotFoundBoundary, Router, View } from 'react-navi';
 import { FullScreenSpinner } from './FullScreenSpinner';
 import { getGlobalState } from 'bibliotheca/features/global/interface';
@@ -30,7 +30,7 @@ export const App = () => {
 
   const { isLoaded } = getGlobalState.useState();
 
-  const isLoadedAsyncRef = React.useRef<Deffered<void>>(defer());
+  const isLoadedAsyncRef = useRef<Deffered<void>>(defer());
   if (isLoaded) {
     isLoadedAsyncRef.current.resolve();
   }

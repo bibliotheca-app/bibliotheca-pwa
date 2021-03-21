@@ -1,6 +1,6 @@
 import firebase from 'firebase/app';
 import { Matcher } from 'navi';
-import React from 'react';
+import * as React from 'react';
 
 export interface RouteEntry {
   path: string;

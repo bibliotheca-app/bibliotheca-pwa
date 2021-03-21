@@ -1,6 +1,7 @@
 import { BookData } from 'bibliotheca/types';
 import { FormField, Image } from 'grommet';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 import { SimpleTable } from './SimpleTable';
 import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
 

@@ -16,9 +16,11 @@ describe('registerInventoryBook module', () => {
       it('should return NotifyMessage: nothing book', async () => {
         mocked(bookRepository).findBooksByIsbn.mockResolvedValue([]);
 
-        const actual = await (onEmitBarcode({ barcode: '' }, null as any, null as any) as Promise<
-          ActionLike
-        >);
+        const actual = await (onEmitBarcode(
+          { barcode: '' },
+          null as any,
+          null as any,
+        ) as Promise<ActionLike>);
 
         expect(actual).toEqual(NotificationActions.notifyMessage('蔵書に存在しない本です'));
       });
@@ -38,9 +40,11 @@ describe('registerInventoryBook module', () => {
             return null;
           });
 
-          const actual = await (onEmitBarcode({ barcode: '' }, null as any, null as any) as Promise<
-            ActionLike
-          >);
+          const actual = await (onEmitBarcode(
+            { barcode: '' },
+            null as any,
+            null as any,
+          ) as Promise<ActionLike>);
           expect(actual).toStrictEqual(
             RegisterInventoryBookActions.fetchBookFullfilled(book, false),
           );

@@ -1,5 +1,4 @@
 import { Button } from 'grommet';
-import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions } from '../interface';
 

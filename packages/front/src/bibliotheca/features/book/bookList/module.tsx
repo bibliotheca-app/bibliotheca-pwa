@@ -1,7 +1,6 @@
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
 import { Book } from 'bibliotheca/types';
-import React from 'react';
 import { BookActions } from '../interface';
 import { BookListView } from './components/BookListView';
 import { BookListActions, BookListState, handle } from './interface';

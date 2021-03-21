@@ -6,7 +6,6 @@ import {
   deletedBookRepository,
 } from 'bibliotheca/services/ServiceContainer';
 import { InventoryEventDoing, InventoryStatusText } from 'bibliotheca/types';
-import React from 'react';
 import { getInventoryBookModuleState } from '../inventoryBookModule/interface';
 import { useInventoryBookModule } from '../inventoryBookModule/module';
 import { InventoryEventView } from './components/InventoryEventView';

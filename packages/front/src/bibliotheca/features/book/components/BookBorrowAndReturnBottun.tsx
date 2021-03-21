@@ -2,7 +2,7 @@ import { Book } from 'bibliotheca/types';
 import { Button, Text } from 'grommet';
 import { Link } from 'react-navi';
 import { User as UserIcon } from 'grommet-icons';
-import React from 'react';
+import * as React from 'react';
 
 const extractName = (email: string): string => email.split('@')[0];
 

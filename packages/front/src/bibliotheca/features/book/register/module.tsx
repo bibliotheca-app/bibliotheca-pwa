@@ -2,7 +2,7 @@ import { BarcodeLoaderActions } from 'bibliotheca/features/barcodeLoader/interfa
 import { NotificationActions } from 'bibliotheca/features/notification/interface';
 import { openBdRepository } from 'bibliotheca/services/OpenBdRepository';
 import { isBookInformation } from 'bibliotheca/types';
-import React from 'react';
+import { createRef } from 'react';
 import * as Rx from 'typeless/rx';
 import { BookActions } from '../interface';
 import { BookRegisterView } from './components/BookRegisterView';
@@ -73,7 +73,7 @@ export const epic = handle
 const initialState: BookRegisterState = {
   isProcessingBook: false,
   bookData: {},
-  resetButtonRef: React.createRef(),
+  resetButtonRef: createRef(),
 };
 
 export const reducer = handle

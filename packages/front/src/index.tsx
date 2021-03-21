@@ -1,5 +1,4 @@
 import { register } from 'bibliotheca/serviceWorker';
-import React from 'react';
 import ReactDOM from 'react-dom';
 import { startHmr, Hmr, DefaultTypelessProvider } from 'typeless';
 

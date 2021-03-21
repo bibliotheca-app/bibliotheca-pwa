@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 import { UseConfirmIn, useConfirm } from './useConfirm';
 
 type UseConfirmWithDataIn<Data extends object> = Omit<UseConfirmIn, 'onCancel' | 'onConfirm'> & {

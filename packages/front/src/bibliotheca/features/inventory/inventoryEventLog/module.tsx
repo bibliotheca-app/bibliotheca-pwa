@@ -1,6 +1,5 @@
 import { InventoriedBook } from 'bibliotheca/types';
 import { inventoryLogRepository } from 'bibliotheca/services/ServiceContainer';
-import React from 'react';
 import * as Papa from 'papaparse';
 import * as Rx from 'typeless/rx';
 import { InventoryEventLogView } from './components/InventoryEventLogView';

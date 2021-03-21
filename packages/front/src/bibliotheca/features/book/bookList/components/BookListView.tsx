@@ -6,7 +6,7 @@ import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book, isBook } from 'bibliotheca/types';
 import { Box, CheckBox, ResponsiveContext, Text } from 'grommet';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useActions } from 'typeless';
 import { getBookListState } from '../interface';
 

@@ -1,7 +1,6 @@
 import { Link } from 'bibliotheca/components/Link';
 import { findUncheckedOnlyList } from 'bibliotheca/services/inventory/query';
 import { InventoryEventDoing, InventoryEventStatus, InventoryStatus } from 'bibliotheca/types';
-import React from 'react';
 import { useMappedState } from 'typeless';
 import { getInventoryBookModuleState } from '../../inventoryBookModule/interface';
 import { getInventoryEventState } from '../interface';

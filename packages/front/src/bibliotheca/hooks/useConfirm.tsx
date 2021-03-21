@@ -1,6 +1,7 @@
 import { Size, StyledLayer } from 'bibliotheca/components/StyledLayer';
 import { Box, Button, Text } from 'grommet';
-import React, { useState } from 'react';
+import { useState } from 'react';
+import * as React from 'react';
 
 interface Props {
   cancelButton: string;

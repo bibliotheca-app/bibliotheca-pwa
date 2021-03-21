@@ -3,7 +3,6 @@ import { getBarcodeLoaderState } from 'bibliotheca/features/barcodeLoader/interf
 import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Box } from 'grommet';
-import React from 'react';
 import { useMappedState } from 'typeless';
 import { getBorrowOrReturnState } from '../interface';
 import { TargetBook } from './TargetBook';

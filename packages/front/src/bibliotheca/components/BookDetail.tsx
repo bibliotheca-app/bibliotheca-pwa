@@ -12,7 +12,7 @@ import {
   Save as SaveIcon,
   Trash as DeleteIcon,
 } from 'grommet-icons';
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useActions } from 'typeless';
 import { BookDataEditTable, BookDataViewTable } from './BookDataTable';
 
