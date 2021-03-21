@@ -12,8 +12,8 @@
     "postseed": "firebase deploy --only functions:updateBookList"
   },
   "dependencies": {
-    "firebase": "^6.3.5",
-    "firebase-admin": "^8.3.0"
+    "firebase": "^8.3.1",
+    "firebase-admin": "^9.5.0"
   },
   "devDependencies": {
     "@types/node": "^12.7.1",
