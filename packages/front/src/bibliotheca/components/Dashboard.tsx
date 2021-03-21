@@ -38,6 +38,10 @@ const AppBar = (props: { children: any }) => (
   />
 );
 
+type MenuItem = ButtonProps & {
+  onClick: () => void;
+};
+
 export const Dashboard = (props: DashboardProps) => {
   const { children } = props;
   const { logout } = useActions(GlobalActions);
@@ -55,7 +59,7 @@ export const Dashboard = (props: DashboardProps) => {
   };
   const activeIndex = links.findIndex(({ link }) => link.startsWith(route.url.pathname));
 
-  const menuItems: ButtonProps[] = [
+  const menuItems: MenuItem[] = [
     {
       icon: <AddIcon />,
       label: '書籍登録',

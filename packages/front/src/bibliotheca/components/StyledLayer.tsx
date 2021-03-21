@@ -28,19 +28,16 @@ const BASE_WIDTH: Record<DisplaySize, string> = {
 
 const DisplaySizes: DisplaySize[] = Object.keys(BASE_WIDTH) as any;
 
-const Media = Object.entries(BREAK_POINTS).reduce(
-  (acc, [size, width]) => {
-    return {
-      ...acc,
-      [size]: (...args: Parameters<typeof css>) => css`
+const Media = Object.entries(BREAK_POINTS).reduce((acc, [size, width]) => {
+  return {
+    ...acc,
+    [size]: (...args: Parameters<typeof css>) => css`
         @media only screen and (${size === 'large' ? 'max' : 'min'}-width: ${width}) {
           ${css(...args)}
         }
       `,
-    };
-  },
-  {} as Record<DisplaySize, typeof css>,
-);
+  };
+}, {} as Record<DisplaySize, typeof css>);
 
 export const StyledLayer = styled(Layer)`
   ${(props: { size: Size }) =>
