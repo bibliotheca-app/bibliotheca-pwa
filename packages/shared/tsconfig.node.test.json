@@ -2,7 +2,8 @@
   "compilerOptions": {
     "module": "commonjs",
     "noEmit": true,
-    "rootDir": "./"
+    "rootDir": "./",
+    "types": ["node", "@types/jest"]
   },
   "extends": "./tsconfig.base.json",
   "include": ["typings/node", "src", "test"]
