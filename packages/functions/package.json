@@ -23,9 +23,6 @@
     "deploy": "firebase deploy --only functions"
   },
   "main": "dist/functions/lib/index.js",
-  "engines": {
-    "node": "14"
-  },
   "dependencies": {
     "@slack/web-api": "^6.1.0",
     "axios": "^0.21.1",

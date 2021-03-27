@@ -4,7 +4,8 @@
     "indexes": "firestore.indexes.json"
   },
   "functions": {
-    "source": "packages/functions"
+    "source": "packages/functions",
+    "runtime": "nodejs14"
   },
   "hosting": {
     "target": "bibliotheca-site",
