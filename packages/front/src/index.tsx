@@ -1,6 +1,10 @@
 import { register } from 'bibliotheca/serviceWorker';
 import ReactDOM from 'react-dom';
 import { startHmr, Hmr, DefaultTypelessProvider } from 'typeless';
+import { setAutoFreeze } from 'immer';
+
+// avoid breaking React's runtime
+setAutoFreeze(false);
 
 const MOUNT_NODE = document.getElementById('app');
 
