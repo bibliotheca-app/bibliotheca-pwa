@@ -116,7 +116,6 @@ export const Dashboard = (props: DashboardProps) => {
               <Menu
                 items={menuItems}
                 dropProps={{
-                  target: {},
                   align: { top: 'bottom', right: 'right' },
                 }}
               />
