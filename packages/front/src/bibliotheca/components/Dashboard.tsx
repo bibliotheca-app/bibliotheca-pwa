@@ -2,6 +2,8 @@ import { Progress } from 'bibliotheca/features/global/components/Progress';
 import { getGlobalState, GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
 import { Box, ButtonProps, Heading, Menu, ResponsiveContext, Tab, Tabs, Grommet } from 'grommet';
+import { deepMerge } from 'grommet/utils';
+import { base as baseTheme } from 'grommet/themes';
 import {
   Add as AddIcon,
   Configure as ManagementIcon,
@@ -14,6 +16,15 @@ import { useCurrentRoute } from 'react-navi';
 import styled from 'styled-components';
 import { useActions } from 'typeless';
 import icon from './bookshelf-64.png';
+
+const theme = deepMerge(baseTheme, {
+  global: {
+    drop: {
+      // Menuの背景が黒になるのを無効化
+      background: 'white',
+    },
+  },
+});
 
 const Main = styled.main`
   padding: 20px;
@@ -101,7 +112,7 @@ export const Dashboard = (props: DashboardProps) => {
   return (
     <ResponsiveContext.Consumer>
       {size => (
-        <Grommet plain>
+        <Grommet theme={theme} plain>
           <Progress />
           <AppBar>
             <Heading level="3" margin="none">
