@@ -6,12 +6,24 @@ import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book, isBook } from 'bibliotheca/types';
 import { Box, CheckBox, ResponsiveContext, Text } from 'grommet';
-import { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useActions } from 'typeless';
 import { getBookListState } from '../interface';
+import { BORROWABLE } from '../../book';
 
 export const BookListView = () => {
-  const { books, isProcessingBook } = getBookListState.useState();
+  const { books: rawBooks, isProcessingBook } = getBookListState.useState();
+  console.log({ rawBooks });
+  const books = useMemo(
+    () =>
+      rawBooks.map(book => {
+        return {
+          ...book,
+          borrowedBy: book.borrowedBy ?? BORROWABLE, // groupByにnullを渡すとエラーになるのを回避
+        };
+      }),
+    [rawBooks],
+  );
   const userId = userIdQuery(getGlobalState.useState());
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
