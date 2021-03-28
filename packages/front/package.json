@@ -29,17 +29,17 @@
     "typeless": "^1.7.0"
   },
   "scripts": {
-    "_prettier": "prettier \"src/**/*.{ts,tsx}\"",
+    "_prettier": "prettier \"src/**/*.{ts,tsx}\" *.js",
     "prettier-format": "yarn _prettier --write",
     "prettier-check": "yarn _prettier --list-different",
     "lint": "eslint --ext ts,tsx src",
     "lint-fix": "yarn lint --fix",
     "format": "yarn prettier-format && yarn lint-fix",
     "format-check": "yarn prettier-check && yarn lint",
-    "start": "react-scripts start",
-    "build": "REACT_APP_BRANCH=$(git rev-parse --abbrev-ref HEAD) REACT_APP_VERSION=$(git rev-parse --short=10 HEAD) react-scripts build",
+    "start": "craco start",
+    "build": "REACT_APP_BRANCH=$(git rev-parse --abbrev-ref HEAD) REACT_APP_VERSION=$(git rev-parse --short=10 HEAD) craco build",
     "build:prod": "REACT_APP_TARGET=prod yarn run build",
-    "test": "react-scripts test",
+    "test": "craco test",
     "deploy": "firebase deploy --only hosting:bibliotheca-site",
     "g": "plop feature"
   },
@@ -60,6 +60,7 @@
     }
   },
   "devDependencies": {
+    "@craco/craco": "^6.1.1",
     "babel-plugin-require-context-hook": "^1.0.0",
     "date-fns": "^2.19.0",
     "firebase": "^8.3.1",
