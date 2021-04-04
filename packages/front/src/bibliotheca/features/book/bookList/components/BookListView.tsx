@@ -13,7 +13,6 @@ import { BORROWABLE } from '../../book';
 
 export const BookListView = () => {
   const { books: rawBooks, isProcessingBook } = getBookListState.useState();
-  console.log({ rawBooks });
   const books = useMemo(
     () =>
       rawBooks.map(book => {
