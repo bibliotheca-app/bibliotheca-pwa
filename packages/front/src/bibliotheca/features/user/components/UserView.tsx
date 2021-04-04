@@ -1,5 +1,4 @@
 import { BookActions } from 'bibliotheca/features/book/interface';
-import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { Box, Heading, Button } from 'grommet';
 import { Link } from 'react-navi';

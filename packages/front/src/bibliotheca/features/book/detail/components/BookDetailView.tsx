@@ -1,7 +1,6 @@
 import { BookDetail } from 'bibliotheca/components/BookDetail';
 import { Delay } from 'bibliotheca/components/Delay';
 import { NotFoundError } from 'navi';
-import React from 'react';
 import { Instagram } from 'react-content-loader';
 import { useCurrentRoute } from 'react-navi';
 import { getBookDetailState } from '../interface';

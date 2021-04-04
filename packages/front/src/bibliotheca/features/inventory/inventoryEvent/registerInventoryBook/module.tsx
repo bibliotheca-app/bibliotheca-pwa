@@ -1,7 +1,6 @@
 import { NotificationActions } from 'bibliotheca/features/notification/interface';
 import { bookRepository, inventoryEventRepository } from 'bibliotheca/services/ServiceContainer';
 import { InventoryEventDoing } from 'bibliotheca/types';
-import React from 'react';
 import { EpicHandler } from 'typeless';
 import { BarcodeLoaderActions } from '../../../barcodeLoader/interface';
 import { getInventoryBookModuleState } from '../../inventoryBookModule/interface';

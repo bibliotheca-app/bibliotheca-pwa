@@ -1,5 +1,5 @@
 import { User } from 'bibliotheca/types';
-import { User as FirebaseUser } from 'firebase/app';
+import firebase from 'firebase/app';
 import { createModule } from 'typeless';
 import { GlobalSymbol } from './symbol';
 
@@ -8,7 +8,7 @@ export const [handle, GlobalActions, getGlobalState] = createModule(GlobalSymbol
   .withActions({
     $mounted: null,
     logout: null,
-    loggedIn: (user: FirebaseUser | null) => ({ payload: { user } }),
+    loggedIn: (user: firebase.User | null) => ({ payload: { user } }),
     progressShow: null,
     progressHide: null,
   })

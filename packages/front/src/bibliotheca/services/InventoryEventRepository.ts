@@ -5,9 +5,9 @@ import {
   InventoryEventStatus,
   isDoneEvent,
 } from 'bibliotheca/types';
-import { firestore } from 'firebase';
+import firebase from 'firebase/app';
 
-const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent => {
+const inventoryEventFromDoc = (doc: firebase.firestore.DocumentSnapshot): InventoryEvent => {
   const data = doc.data()!;
   switch (data.status) {
     case InventoryEventStatus.Done:
@@ -31,7 +31,7 @@ const inventoryEventFromDoc = (doc: firestore.DocumentSnapshot): InventoryEvent 
 export class InventoryEventRepository {
   private collection = this.db.collection('inventoryEvent');
   private eventRef = this.collection.doc('event');
-  constructor(private db: firestore.Firestore) {}
+  constructor(private db: firebase.firestore.Firestore) {}
 
   get = async (): Promise<InventoryEvent> => {
     return this.eventRef.get().then(inventoryEventFromDoc);

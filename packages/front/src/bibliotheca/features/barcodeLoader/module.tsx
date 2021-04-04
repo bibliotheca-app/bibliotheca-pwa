@@ -1,5 +1,4 @@
 import { cameraRepository } from 'bibliotheca/services/CameraRepository';
-import React from 'react';
 import * as Rx from 'typeless/rx';
 import {
   BarcodeLoaderActions,

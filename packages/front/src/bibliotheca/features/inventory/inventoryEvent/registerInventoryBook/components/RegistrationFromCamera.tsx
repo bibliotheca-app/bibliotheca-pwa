@@ -2,7 +2,6 @@ import { BookDataViewTable } from 'bibliotheca/components/BookDataTable';
 import { BarcodeLoaderModule } from 'bibliotheca/features/barcodeLoader/module';
 import { Book } from 'bibliotheca/types';
 import { Button } from 'grommet';
-import React from 'react';
 
 export const RegistrationFromCamera = (props: {
   targetBook?: Book;

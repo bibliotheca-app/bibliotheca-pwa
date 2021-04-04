@@ -1,5 +1,4 @@
 import { Box, Grommet, Heading } from 'grommet';
-import React from 'react';
 import { useActions } from 'typeless';
 import { LoginActions } from '../interface';
 import SigninButton from './btn_google_signin.png';

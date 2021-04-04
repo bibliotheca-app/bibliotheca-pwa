@@ -1,6 +1,5 @@
 import { BookBorrowAndReturnButton } from 'bibliotheca/features/book/components/BookBorrowAndReturnBottun';
 import { BookActions } from 'bibliotheca/features/book/interface';
-import React from 'react';
 import { useActions } from 'typeless';
 import { BarcodeProcessTarget } from '../interface';
 import { BookDataViewTable } from 'bibliotheca/components/BookDataTable';

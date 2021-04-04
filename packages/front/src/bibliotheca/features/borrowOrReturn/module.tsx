@@ -1,5 +1,4 @@
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
-import React from 'react';
 import * as Rx from 'typeless/rx';
 import { BarcodeLoaderActions } from '../barcodeLoader/interface';
 import { BookActions } from '../book/interface';

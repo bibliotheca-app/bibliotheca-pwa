@@ -3,7 +3,6 @@ import { StyledDataTable } from 'bibliotheca/components/StyledDataTable';
 import { Book, InventoryStatus, InventoryStatusText } from 'bibliotheca/types';
 import { Box, Button, RadioButton, Text } from 'grommet';
 import { FormCheckmark as FormCheckmarkIcon, FormClose as FormCloseIcon } from 'grommet-icons';
-import React from 'react';
 import { useActions } from 'typeless';
 import { InventoryEventActions, ViewType } from '../interface';
 import { InventorySubmitButton } from './InventorySubmitButton';

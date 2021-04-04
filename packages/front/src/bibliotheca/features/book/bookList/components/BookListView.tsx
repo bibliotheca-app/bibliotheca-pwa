@@ -6,12 +6,23 @@ import { getGlobalState } from 'bibliotheca/features/global/interface';
 import { userIdQuery } from 'bibliotheca/features/global/query';
 import { Book, isBook } from 'bibliotheca/types';
 import { Box, CheckBox, ResponsiveContext, Text } from 'grommet';
-import React, { useState } from 'react';
+import { useState, useMemo } from 'react';
 import { useActions } from 'typeless';
 import { getBookListState } from '../interface';
+import { BORROWABLE } from '../../book';
 
 export const BookListView = () => {
-  const { books, isProcessingBook } = getBookListState.useState();
+  const { books: rawBooks, isProcessingBook } = getBookListState.useState();
+  const books = useMemo(
+    () =>
+      rawBooks.map(book => {
+        return {
+          ...book,
+          borrowedBy: book.borrowedBy ?? BORROWABLE, // groupByにnullを渡すとエラーになるのを回避
+        };
+      }),
+    [rawBooks],
+  );
   const userId = userIdQuery(getGlobalState.useState());
   const { borrowBookById, returnBookById } = useActions(BookActions);
 
@@ -37,6 +48,7 @@ export const BookListView = () => {
         size={groupBy ? '' : 'large'} // groupBy の際にこの項目が指定されていると適切に表を表示するために各セルの width を自前で調整する必要が出てきてしまう
         primaryKey="id"
         data={books}
+        key={groupBy ?? 'not-group-by'} // TODO: Grommet側で修正されたら消す
         groupBy={groupBy}
         columns={[
           {

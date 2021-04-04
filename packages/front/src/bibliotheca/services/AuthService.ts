@@ -1,11 +1,11 @@
-import { auth, User as FirebaseUser } from 'firebase/app';
+import firebase from 'firebase/app';
 import { allowedDomain } from 'bibliotheca/const';
 
 export class AuthService {
-  constructor(private firebaseAuth: auth.Auth) {}
+  constructor(private firebaseAuth: firebase.auth.Auth) {}
 
   async login(): Promise<void> {
-    const provider = new auth.GoogleAuthProvider();
+    const provider = new firebase.auth.GoogleAuthProvider();
 
     provider.setCustomParameters({
       hd: allowedDomain,
@@ -18,11 +18,11 @@ export class AuthService {
     return this.firebaseAuth.signOut();
   }
 
-  getCurrentUser(): FirebaseUser | null {
+  getCurrentUser(): firebase.User | null {
     return this.firebaseAuth.currentUser;
   }
 
-  subscribe(callback: (v: FirebaseUser | null) => void) {
+  subscribe(callback: (v: firebase.User | null) => void) {
     return this.firebaseAuth.onAuthStateChanged(callback);
   }
 }

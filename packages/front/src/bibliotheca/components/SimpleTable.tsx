@@ -1,5 +1,5 @@
 import { Table, TableBody, TableCell, TableRow, Text, Box } from 'grommet';
-import React from 'react';
+import * as React from 'react';
 
 interface SimpleTableProps {
   rows: Array<{

@@ -2,7 +2,6 @@ import { Dashboard } from 'bibliotheca/components/Dashboard';
 import { withAuthentication } from 'bibliotheca/routes';
 import { AppContext } from 'bibliotheca/types';
 import { mount, route } from 'navi';
-import React from 'react';
 import { InventoryEventModule } from './inventoryEvent/module';
 import { RegisterInventoryBookModule } from './inventoryEvent/registerInventoryBook/module';
 import { InventoryEventLogModule } from './inventoryEventLog/module';

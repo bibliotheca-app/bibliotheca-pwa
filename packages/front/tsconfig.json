@@ -4,17 +4,30 @@
     "baseUrl": "src",
     "esModuleInterop": true,
     "isolatedModules": true,
-    "jsx": "preserve",
-    "lib": ["dom", "es2017"],
+    "jsx": "react-jsx",
+    "lib": [
+      "dom",
+      "es2017"
+    ],
     "module": "esnext",
     "moduleResolution": "node",
     "noEmit": true,
     "skipLibCheck": true,
     "strictFunctionTypes": false,
     "target": "es5",
-    "types": ["webpack-env", "jest"]
+    "types": [
+      "webpack-env",
+      "jest"
+    ]
   },
   "extends": "../tsconfig.base.json",
-  "include": ["src", "../shared/typings/browser/**/*"],
-  "references": [{ "path": "../shared/tsconfig.browser.json" }]
+  "include": [
+    "src",
+    "../shared/typings/browser/**/*"
+  ],
+  "references": [
+    {
+      "path": "../shared/tsconfig.browser.json"
+    }
+  ]
 }

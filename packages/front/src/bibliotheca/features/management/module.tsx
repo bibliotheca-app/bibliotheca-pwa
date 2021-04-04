@@ -1,7 +1,6 @@
 import { bookRepository, deletedBookRepository } from 'bibliotheca/services/ServiceContainer';
 import { Book } from 'bibliotheca/types';
 import * as Papa from 'papaparse';
-import React from 'react';
 import * as Rx from 'typeless/rx';
 import { ManagementView } from './components/ManagementView';
 import { handle, ManagementActions } from './interface';

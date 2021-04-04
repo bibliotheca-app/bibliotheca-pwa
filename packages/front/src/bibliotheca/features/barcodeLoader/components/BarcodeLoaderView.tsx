@@ -1,6 +1,6 @@
 import { Box, Button } from 'grommet';
 import { Clear } from 'grommet-icons';
-import React, { Suspense } from 'react';
+import { Suspense } from 'react';
 import { ArrowDown, Camera } from 'react-feather';
 import { useActions } from 'typeless';
 import { BarcodeLoaderActions, getBarcodeLoaderState } from '../interface';

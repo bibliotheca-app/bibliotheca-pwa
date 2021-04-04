@@ -3,7 +3,7 @@ import { GlobalActions } from 'bibliotheca/features/global/interface';
 import { RouterActions } from 'bibliotheca/features/router/interface';
 import * as Rx from 'bibliotheca/rx';
 import { bookRepository } from 'bibliotheca/services/ServiceContainer';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import { useActions } from 'typeless';
 import { UserView } from './components/UserView';
 import { handle, UserActions, UserState } from './interface';

@@ -2,7 +2,6 @@ import { Link } from 'bibliotheca/components/Link';
 import { getInventoryBookModuleState } from 'bibliotheca/features/inventory/inventoryBookModule/interface';
 import { InventoryEventStatus } from 'bibliotheca/types';
 import { Box, Button } from 'grommet';
-import React from 'react';
 import { useActions, useMappedState } from 'typeless';
 import { getRegisterInventoryBookState, RegisterInventoryBookActions } from '../interface';
 import { RegistrationFromCamera } from './RegistrationFromCamera';
