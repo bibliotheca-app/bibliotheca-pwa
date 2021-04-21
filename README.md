@@ -18,7 +18,7 @@ GSuite のドメイン単位で蔵書を管理するためのウェブアプリ 
 
 ## Requirements
 
-- Node.js 8.x (Cloud Functions for Firebase のため)
+- Node.js 14.x (Cloud Functions for Firebase のため)
 - yarn
 
 ## Development
