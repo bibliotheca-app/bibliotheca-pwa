@@ -6,6 +6,6 @@ service cloud.firestore {
   }
 
   function isValidUser() {
-    return request.auth.uid != null && request.auth.token.email.matches('.*@opt.ne.jp');
+    return request.auth.uid != null && request.auth.token.email.matches('.*@[YOUR GSUITE DOMAIN]');
   }
 }

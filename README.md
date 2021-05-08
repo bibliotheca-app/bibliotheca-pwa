@@ -52,11 +52,6 @@ $ yarn build
 $ yarn deploy
 ```
 
-## Links
-
-- 本番: https://bibliotheca-pwa.firebaseapp.com
-- テスト: https://bibliotheca-test.firebaseapp.com
-
 ## 初期構築
 
 ### gcloud コマンドのインストール & 認証
@@ -66,7 +61,7 @@ gcloud auth login
 gcloud auth application-default login
 ```
 
-### リポジトリの依存解決&firebase 認証
+### リポジトリの依存解決&firebase 認証&firebase 系設定の構築
 
 ```bash
 cd path/to/bibliotheca-pwa
@@ -75,6 +70,10 @@ yarn firebase login
 cp .firebaserc{.example,}
 cp .envrc{.example,}
 cp firebase-config.json{.example,}
+cp firestore.rules{.example,}
+cp packages/functions/config.{example,test}.json
+cp packages/functions/config.{example,prod}.json
+# 各種設定ファイルを各自の環境に合わせて更新する
 ```
 
 以下の手順で取得した認証情報を firebase-config.json に保存する
