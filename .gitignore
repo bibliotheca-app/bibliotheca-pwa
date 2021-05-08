@@ -65,6 +65,7 @@ jspm_packages/
 
 .firebase
 .firebaserc
+firestore.rules
 
 # direnv file
 .envrc

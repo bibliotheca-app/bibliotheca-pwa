@@ -1,2 +1,2 @@
 export REACT_APP_FIREBASE_CONFIG="$(cat ./firebase-config.json)"
-export REACT_APP_ALLOWED_DOMAIN="opt.ne.jp"
+export REACT_APP_ALLOWED_DOMAIN="[YOUR GSUITE DOMAIN]"

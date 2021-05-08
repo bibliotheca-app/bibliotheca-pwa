@@ -4,17 +4,6 @@ workflows:
   main:
     jobs:
       - test
-      - deploy-approval:
-          type: approval
-          requires:
-            - test
-          filters:
-            branches:
-              only:
-                - master
-      - deploy:
-          requires:
-            - deploy-approval
 
 executors:
   default:
@@ -53,14 +42,3 @@ jobs:
       - run: yarn tsc
       - run: yarn build
       - run: yarn test
-
-  deploy:
-    executor:
-      name: default
-    environment:
-      REACT_APP_ALLOWED_DOMAIN: opt.ne.jp
-    steps:
-      - setup
-      - run: yarn build:prod
-      - run: yarn run firebase use prod
-      - run: yarn deploy

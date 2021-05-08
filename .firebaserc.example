@@ -1,20 +1,20 @@
 {
   "projects": {
-    "prod": "bibliotheca-238406",
-    "test": "bibliotheca-test"
+    "prod": "[prod-firebase-project-id]",
+    "test": "[test-firebase-project-id]"
   },
   "targets": {
-    "bibliotheca-238406": {
+    "[prod-firebase-project-id]": {
       "hosting": {
         "bibliotheca-site": [
-          "bibliotheca-pwa"
+          "[prod-sub-domain]"
         ]
       }
     },
-    "bibliotheca-test": {
+    "[test-firebase-project-id]": {
       "hosting": {
         "bibliotheca-site": [
-          "bibliotheca-test"
+          "[test-sub-domain]"
         ]
       }
     }
